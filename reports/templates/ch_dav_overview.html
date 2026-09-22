@@ -304,6 +304,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <li><a href="#conditions">Conditions</a></li>
     <li><a href="#record">Yearly closure</a></li>
     <li><a href="#diurnal">Daily cycle</a></li>
+    <li><a href="#budget">Error budget</a></li>
     <li><a href="#wind">Wind direction</a></li>
     <li><a href="#terrain">Terrain and lake</a></li>
     <li><a href="#instruments">Instruments</a></li>
@@ -472,6 +473,60 @@ footer b { color: var(--ink-2); font-weight: 600; }
   </div>
 </section>
 
+<section class="block" id="budget">
+  <div class="sec-head">
+    <div class="eyebrow">CH-Dav, 2020 to 2024, sensor-level data</div>
+    <h2>Error budget of the available energy</h2>
+    <p>Could the gap come from a single term of the available energy, for example from the soil heat flux, which varies strongly from place to place under a forest? The soil heat flux explains at most about 7 % of the missing energy. Even if all terms were wrong in the same direction at the same time, about half of the missing energy would remain.</p>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><h3>What was done</h3></div></div>
+    <ul class="did">
+      <li>Used the five soil plots separately: a heat flux plate at 5 to 6 cm, soil temperature at 2 to 5 cm and soil water content at each plot (ICOS L2 sensor data).</li>
+      <li>Calculated the heat stored in the soil layer above each plate from the temperature change and the soil water content. The bulk density of the topsoil is not measured; a range of 0.5 to 1.2 g cm⁻³ was used.</li>
+      <li>Calculated closure with the mean of the plates, with each plate, and with the highest and lowest plate, on the same 13 766 daytime half-hours.</li>
+      <li>Estimated how large the error of each term could be: the difference between the soil plots, the unknown bulk density, air storage from the profile or a single point, biomass storage twice as large, the difference between two pyranometers and the net radiation corrections of Nicolini et al. (2026).</li>
+    </ul>
+  </div>
+  <div class="grid-3-2">
+    <div class="card">
+      <div class="card-head">
+        <div><h3>Possible error of each term</h3><p class="sub">Compared with the missing energy. Bars show the absolute size of each possible error.</p></div>
+        <div class="ctl">
+          <div class="seg" id="ctl-budget">
+            <button type="button" data-v="summer" aria-pressed="true">Summer midday</button>
+            <button type="button" data-v="day">Daytime, all year</button>
+          </div>
+          <button class="tbl-btn" type="button" data-table="c-budget" aria-pressed="false">Table</button>
+        </div>
+      </div>
+      <div class="legend" id="lg-budget"></div>
+      <div class="chart" id="c-budget"></div>
+      <p class="note" id="budget-note"></p>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div><h3>Soil heat flux of the five plots</h3><p class="sub">Mean daily cycle in summer.</p></div>
+        <div class="ctl">
+          <div class="seg" id="ctl-plates">
+            <button type="button" data-v="G" aria-pressed="true">Plate</button>
+            <button type="button" data-v="Gs">Plate + storage above</button>
+          </div>
+          <button class="tbl-btn" type="button" data-table="c-plates" aria-pressed="false">Table</button>
+        </div>
+      </div>
+      <div class="legend" id="lg-plates"></div>
+      <div class="chart" id="c-plates"></div>
+      <p class="note">Plot 4 reaches up to 19 W m⁻² in the afternoon, the other plots 4 to 7 W m⁻²; it probably lies in a gap of the canopy.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><h3>Closure with each version of the soil heat flux</h3><p class="sub">Daytime, same half-hours for all versions. G + S_G: plate flux plus storage above the plate.</p></div></div>
+    <div class="table-view" id="t-gvariants" style="max-height:none"></div>
+    <p class="note">Using the highest plot instead of the mean raises the slope only from 0.51 to 0.52. Adding air and biomass storage raises it to 0.55.</p>
+  </div>
+</section>
+
 <section class="block" id="wind">
   <div class="sec-head">
     <div class="eyebrow">CH-Dav, daytime, 1998 to 2024</div>
@@ -634,9 +689,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
       </div>
     </article>
     <article class="hyp">
-      <div><h3>Heat storage in the forest</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Partial</span><div class="share">Measured effect: +0.04 in slope</div></div>
+      <div><h3>Heat storage and soil heat flux</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Partial</span><div class="share">Measured effect: +0.04 in slope</div></div>
       <div>
         <ul>
+          <li>The soil heat flux is small under the dense canopy (6 W m⁻² at summer midday, plus 8 W m⁻² stored above the plates). The five soil plots differ by up to 20 W m⁻², which is at most about 7 % of the missing energy.</li>
+          <li>Even with every plausible error of the available-energy terms in the same direction, about half of the missing energy remains (see the error budget).</li>
           <li>Biomass heat storage and photosynthesis increase the slope from 0.50 to 0.54. Published values for tall spruce forests are 5 to 10 % of Rn at midday.</li>
           <li>Biomass heat storage is estimated from air temperature, not tree temperature, and is probably underestimated. In the network, the imbalance increases with biomass. CH-Dav (62 kg m⁻²) is well above this relationship.</li>
           <li>The residual peaks at noon and does not become negative in the evening. Storage cannot cause this pattern.</li>
@@ -680,6 +737,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <ul class="step-list">
         <li><span class="t">Daily closure by wind direction</span><span class="d">If days with northerly wind also have low closure in daily sums, the missing heat is carried away by advection and not stored.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
         <li><span class="t">Lake, open ground and forest in the footprint (done)</span><span class="d">With the ICOS footprint distances the lake contributes about 3 % and does not change closure within the northern sector. Next: 2D footprints with the crosswind spread (V_SIGMA in the ICOS data), and a footprint model that accounts for the slope.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">ICOS L2 fluxes</span></span></li>
+        <li><span class="t">Canopy above the soil plots</span><span class="d">Check with the canopy height map whether plot 4 lies in a gap, and whether five plots represent the mix of closed canopy, gaps and stems in the footprint.</span><span class="tags"><span class="tag">plot coordinates</span><span class="tag">terrain and canopy maps</span></span></li>
         <li><span class="t">Lake surface temperature</span><span class="d">Compare lake and forest temperatures on days with northerly wind to estimate the heat taken up by lake air over the forest.</span><span class="tags"><span class="tag">lake temperature data</span></span></li>
         <li><span class="t">Tilt angles, mean vertical wind and σw/u* per sector</span><span class="d">Shows whether the flow at the sensor is tilted or distorted.</span><span class="tags"><span class="tag">EddyPro full output</span></span></li>
         <li><span class="t">Ogives and longer averaging periods per sector</span><span class="d">Estimates the flux carried by air motions slower than 30 minutes.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
@@ -735,6 +793,7 @@ const GLOSS = [
     ["Rn", "Net radiation", "Incoming minus outgoing radiation from sun and sky."],
     ["G", "Soil heat flux", "Heat flowing into or out of the soil, measured with plates a few cm deep."],
     ["Ssoil", "Soil heat storage", "Heat stored in the soil layer above the soil heat flux plates.", "S soil"],
+    ["S_G", "Soil heat storage above a plate", "Heat stored in the soil layer above one heat flux plate, from the change of soil temperature."],
     ["Sair", "Air heat storage", "Heat and water vapour stored in the air below the sensors.", "S air"],
     ["Sbio", "Biomass heat storage", "Heat stored in stems, branches and needles.", "S bio"],
     ["Spho", "Photosynthesis energy", "Energy that plants store in sugars during photosynthesis.", "S pho"],
@@ -966,7 +1025,7 @@ const SITES = NET.sites;
 const DAVSITE = SITES.find(s => s.site === "CH-Dav");
 const CONTRAST = "IT-Ren";
 const FORESTS = new Set(["ENF", "DBF", "EBF", "MF"]);
-const state = { ae: "AE6u", net: "all", pft: "all", attr: "slope", strat: "atm_strat", season: "JJA", map: "valley", fp: true };
+const state = { ae: "AE6u", net: "all", pft: "all", attr: "slope", strat: "atm_strat", season: "JJA", map: "valley", fp: true, budget: "summer", plates: "G" };
 const AE_STEPS = ["AE1", "AE2", "AE3", "AE4", "AE5", "AE6", "AE6u"];
 const AE_LABEL = { AE1: "Rn", AE2: "−G", AE3: "−S soil", AE4: "−S air", AE5: "−S pho", AE6: "−S bio", AE6u: "u* filter" };
 const AE_LONG = {
@@ -1431,6 +1490,82 @@ function renderEvents() {
   glossify(node);
 }
 
+/* ---------- error budget ---------- */
+const BUD = DATA.budget;
+function renderBudget(node) {
+  const per = state.budget;
+  const rows = BUD.rows;
+  const narrow = true;  // labels above the bars: they are too long to fit beside them
+  const m = { l: narrow ? 12 : 300, r: 110, t: 8, b: 26 };
+  const rowH = narrow ? 44 : 30;
+  const f = frame(node, m.t + m.b + rows.length * rowH, m);
+  const max = Math.max(...rows.map(r => r[per] ?? 0));
+  const x = scale(0, max * 1.02, f.m.l, f.w - f.m.r);
+  for (const tv of ticks(0, max, 5)) {
+    el("line", { x1: x(tv), x2: x(tv), y1: f.m.t, y2: f.h - f.m.b, class: "grid-line" }, f.svg);
+    text(f.svg, x(tv), f.h - 8, String(tv), { "text-anchor": "middle" });
+  }
+  text(f.svg, f.w - f.m.r + 4, f.h - 8, "W m⁻²", {});
+  const color = { residual: "var(--net)", term: "var(--s1)", bound: "var(--ink)" };
+  rows.forEach((r, i) => {
+    const y0 = f.m.t + i * rowH;
+    const barY = narrow ? y0 + 18 : y0 + 6, barH = narrow ? 16 : rowH - 12;
+    const v = r[per] ?? 0, w = Math.max(1, x(v) - x(0)), rr = Math.min(4, w / 2, barH / 2);
+    el("path", { d: `M${x(0)},${barY}H${x(0) + w - rr}Q${x(0) + w},${barY} ${x(0) + w},${barY + rr}V${barY + barH - rr}Q${x(0) + w},${barY + barH} ${x(0) + w - rr},${barY + barH}H${x(0)}Z`, fill: color[r.kind] }, f.svg);
+    text(f.svg, narrow ? f.m.l : f.m.l - 10, narrow ? y0 + 13 : barY + barH / 2 + 4, r.label, { "text-anchor": narrow ? "start" : "end", class: r.kind === "term" ? "" : "lbl-strong" });
+    text(f.svg, x(0) + w + 6, barY + barH / 2 + 4, `${fmt(v, 0)} (${fmt(r[per + "_pct"], 0)} %)`, { class: "lbl-strong" });
+  });
+  const hit = el("rect", { x: 0, y: 0, width: f.w, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const rc = f.svg.getBoundingClientRect(), sy = (ev.clientY - rc.top) * f.h / rc.height;
+    const r = rows[Math.floor((sy - f.m.t) / rowH)]; if (!r) return hideTip();
+    showTip(`<b>${r.label}</b>` + row("summer midday", `${fmt(r.summer, 0)} W m⁻² (${fmt(r.summer_pct, 0)} %)`) + row("daytime, all year", `${fmt(r.day, 0)} W m⁻² (${fmt(r.day_pct, 0)} %)`), ev);
+  });
+  hit.addEventListener("pointerleave", hideTip);
+  legend("lg-budget", [["missing energy", "var(--net)", "box"], ["possible error of one term", "var(--s1)", "box"], ["sum of all possible errors", "var(--ink)", "box"]]);
+  const c = BUD.context[per];
+  $("#budget-note").textContent = `${per === "summer" ? "Summer midday (June to August, 11:00 to 13:30)" : "All daytime half-hours"}, n = ${fmt(c.n, 0)}. For comparison: soil heat flux of the five plates ${fmt(c.G, 1)} W m⁻², storage above the plates ${fmt(c.SG, 1)} W m⁻², standard error of the plate mean ${fmt(c.G_se, 1)} W m⁻².`;
+  glossify($("#budget-note"));
+  setTable(node, [{ key: "label", label: "Term" }, { key: "summer", label: "Summer midday (W m⁻²)", n: 1, d: 0 }, { key: "summer_pct", label: "% of gap", n: 1, d: 0 },
+    { key: "day", label: "Daytime (W m⁻²)", n: 1, d: 0 }, { key: "day_pct", label: "% of gap", n: 1, d: 0 }], rows);
+}
+const PLOT_COLORS = ["var(--s1)", "var(--s2)", "var(--s3)", "var(--s4)", "var(--s5)"];
+function renderPlates(node) {
+  const key = state.plates, rows = BUD.diurnal;
+  const f = frame(node, 260, { l: 40, r: 16, t: 12, b: 30 });
+  const vals = rows.flatMap(r => [1, 2, 3, 4, 5].map(p => r[`${key}${p}`])).filter(v => v != null);
+  const lo = Math.floor(Math.min(-5, ...vals) / 5) * 5, hi = Math.ceil(Math.max(10, ...vals) / 5) * 5;
+  const x = scale(0, 23.5, f.m.l, f.w - f.m.r), y = scale(lo, hi, f.h - f.m.b, f.m.t);
+  yAxis(f, y, ticks(lo, hi, 6), v => String(v));
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(0), y2: y(0), class: "base-line" }, f.svg);
+  for (const tv of [0, 6, 12, 18]) text(f.svg, x(tv), f.h - 10, `${String(tv).padStart(2, "0")}:00`, { "text-anchor": "middle" });
+  text(f.svg, f.m.l - 34, f.m.t + 4, "W m⁻²", {});
+  [1, 2, 3, 4, 5].forEach((p, i) => el("path", { d: rows.map((r, j) => `${j ? "L" : "M"}${x(r.hour)},${y(r[`${key}${p}`])}`).join(""), fill: "none", stroke: PLOT_COLORS[i], "stroke-width": 2, "stroke-linejoin": "round" }, f.svg));
+  legend("lg-plates", [1, 2, 3, 4, 5].map((p, i) => [`plot ${p}`, PLOT_COLORS[i]]));
+  const guide = el("line", { y1: f.m.t, y2: f.h - f.m.b, stroke: "var(--axis)", visibility: "hidden" }, f.svg);
+  const hit = el("rect", { x: f.m.l, y: 0, width: f.iw, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const rc = f.svg.getBoundingClientRect(), sx = (ev.clientX - rc.left) * f.w / rc.width;
+    const h = Math.max(0, Math.min(23.5, Math.round(x.invert(sx) * 2) / 2));
+    const d = rows.find(q => q.hour === h); if (!d) return;
+    guide.setAttribute("x1", x(h)); guide.setAttribute("x2", x(h)); guide.setAttribute("visibility", "visible");
+    showTip(`<b>${String(Math.floor(h)).padStart(2, "0")}:${h % 1 ? "30" : "00"}</b>` + [1, 2, 3, 4, 5].map((p, i) => row(`plot ${p}`, fmt(d[`${key}${p}`], 1) + " W m⁻²", cssVar(PLOT_COLORS[i].slice(4, -1)))).join(""), ev);
+  });
+  hit.addEventListener("pointerleave", () => { hideTip(); guide.setAttribute("visibility", "hidden"); });
+  setTable(node, [{ key: "hour", label: "Hour", n: 1, d: 1 }, ...[1, 2, 3, 4, 5].map(p => ({ key: `${key}${p}`, label: `Plot ${p} (W m⁻²)`, n: 1, d: 1 }))], rows);
+}
+function renderGVariants() {
+  const names = {
+    "Rn - G (FLUXNET)": "Rn − G, FLUXNET product", "Rn - mean G (5 plates)": "Rn − mean G of the 5 plates", "Rn - mean (G + S_G)": "Rn − mean (G + S_G)",
+    "Rn - highest plot (G + S_G)": "Rn − highest plot (G + S_G)", "Rn - lowest plot (G + S_G)": "Rn − lowest plot (G + S_G)",
+    "all terms, mean (G + S_G)": "All terms, mean (G + S_G)", "all terms, highest plot": "All terms, highest plot",
+  };
+  const rows = BUD.closure.map(r => ({ v: names[r.variant] || r.variant.replace("Rn - (G + S_G), plot", "Rn − (G + S_G), plot").replace("Rn -", "Rn −"), slope: r.ols_slope, ebr: r.ebr, res: r.mean_res }));
+  const node = $("#t-gvariants");
+  node.innerHTML = tableHTML({ cols: [{ key: "v", label: "Available energy" }, { key: "slope", label: "OLS slope", n: 1 }, { key: "ebr", label: "EBR", n: 1 }, { key: "res", label: "Mean residual (W m⁻²)", n: 1, d: 0 }], rows });
+  glossify(node);
+}
+
 /* ---------- terrain and lake ---------- */
 const TER = DATA.terrain;
 const SECTOR_NAMES = { 0: "N", 30: "NNE", 60: "ENE", 90: "E", 120: "ESE", 150: "SSE", 180: "S", 210: "SSW", 240: "WSW", 270: "W", 300: "WNW", 330: "NNW" };
@@ -1581,6 +1716,9 @@ const renderHeats = () => {
 renderHeats();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderHeats);
 new MutationObserver(renderHeats).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+register("c-budget", renderBudget);
+register("c-plates", renderPlates);
+renderGVariants();
 register("c-map", renderMap);
 register("c-profiles", renderProfiles);
 renderSectorTable();
@@ -1596,6 +1734,8 @@ segmented("ctl-strat", v => { state.strat = v; rerender("c-strat"); });
 segmented("ctl-season", v => { state.season = v; rerender("c-diurnal"); });
 segmented("ctl-map", v => { state.map = v; rerender("c-map"); });
 $("#ctl-fp").addEventListener("change", e => { state.fp = e.target.checked; rerender("c-map"); });
+segmented("ctl-budget", v => { state.budget = v; rerender("c-budget"); });
+segmented("ctl-plates", v => { state.plates = v; rerender("c-plates"); });
 
 /* active section in the navigation */
 const navLinks = $$("nav.toc a");

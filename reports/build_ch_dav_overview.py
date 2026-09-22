@@ -5,7 +5,8 @@ analyses (analyses/ch_dav_01..07, outputs in processed/CH-Dav/) into one JSON
 payload and injects it into reports/templates/ch_dav_overview.html.
 
 Terrain maps and lake data come from analyses 08-10 (swisstopo data, see
-scripts/download_ch_dav_terrain.py); footprint distances from analysis 12.
+scripts/download_ch_dav_terrain.py); footprint distances from analysis 12;
+error budget of the available-energy terms from analysis 13.
 
 Run the analyses first, then:
     uv run python reports/build_ch_dav_overview.py [--fragment PATH]
@@ -212,6 +213,38 @@ STANDALONE_HEAD = """<!doctype html>
 """
 
 
+BUDGET_ROWS = [  # (row in 13_error_budget.csv, label in the report, kind, factor)
+    ("residual AE - TE (all terms)", "Missing energy (AE − TE, all terms)", "residual", 1.0),
+    ("G + S_G highest minus lowest plot", "Soil heat flux + storage: highest minus lowest plot", "term", 1.0),
+    ("S_G range for bulk density 500 to 1200", "Soil storage: unknown bulk density (0.5 to 1.2 g cm⁻³)", "term", 1.0),
+    ("S_air profile minus one point", "Air storage: profile minus single point", "term", 1.0),
+    ("S_bio + S_pho: extra if twice as large", "Biomass storage: if twice as large as estimated", "term", 1.0),
+    ("SW_IN difference between 2 pyranometers", "Net radiation: difference between two pyranometers", "term", 0.94),
+    ("NETRAD corrected minus measured (Nicolini)", "Net radiation: corrections of Nicolini et al. (2026)", "term", 1.0),
+    ("upper bound: all errors in the same direction", "Upper bound: all errors in the same direction", "bound", 1.0),
+]
+
+
+def budget_payload():
+    """Error budget of the available-energy terms (analysis 13)."""
+    p = CH_DAV_PROCESSED
+    b = pd.read_csv(p / "13_error_budget.csv", index_col=0)
+    periods = {"summer": "summer midday", "day": "daytime, all year"}
+    rows = []
+    for key, label, kind, factor in BUDGET_ROWS:
+        rows.append({"label": label, "kind": kind,
+                     **{k: clean(abs(b.loc[key, col]) * factor) for k, col in periods.items()},
+                     **{k + "_pct": clean(abs(b.loc[key, col]) * factor / b.loc["residual AE - TE (all terms)", col] * 100)
+                        for k, col in periods.items()}})
+    context = {k: {"G": clean(b.loc["G mean of 5 plates", col]), "SG": clean(b.loc["S_G mean (bulk density 800)", col]),
+                   "G_se": clean(b.loc["G standard error of the 5-plate mean", col]),
+                   "n": clean(b.loc["n half-hours", col])} for k, col in periods.items()}
+    closure = pd.read_csv(p / "13_closure_by_G_variant.csv", index_col=0)
+    closure = closure[["n", "ols_slope", "ebr", "mean_res"]].reset_index(names="variant")
+    diurnal = pd.read_csv(p / "13_soil_plates_diurnal_summer.csv")
+    return {"rows": rows, "context": context, "closure": records(closure), "diurnal": records(diurnal)}
+
+
 def terrain_payload():
     """Maps (embedded JPEGs), lake outline and sector properties from analyses 08-10."""
     p = CH_DAV_PROCESSED
@@ -258,6 +291,7 @@ def main(argv=None):
         "network": network_payload(),
         "dav": dav_payload(),
         "terrain": terrain_payload(),
+        "budget": budget_payload(),
     }
     text = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     for pattern in (r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",):  # no IP addresses in the page
