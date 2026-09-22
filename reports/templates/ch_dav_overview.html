@@ -1,0 +1,1229 @@
+<title>Davos Energy Gap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root {
+  --ground: #f3f6f5;
+  --surface: #ffffff;
+  --surface-2: #eaf0ee;
+  --ink: #0f1c19;
+  --ink-2: #46554f;
+  --muted: #7b8884;
+  --hair: #dce4e1;
+  --axis: #b9c4c0;
+  --brand: #1d5c4f;
+  --brand-soft: #d8e9e3;
+  --dav: #eb6834;
+  --dav-soft: rgba(235, 104, 52, 0.14);
+  --net: #9aa6a2;
+  --band: rgba(70, 85, 79, 0.13);
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4;
+  --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
+  --good-ink: #006300; --serious-ink: #a8431a; --critical-ink: #b02a2a; --warning-ink: #8a5a00;
+  --q1: #cde2fb; --q2: #9ec5f4; --q3: #6da7ec; --q4: #3987e5; --q5: #256abf; --q6: #184f95;
+  --shadow: 0 1px 2px rgba(15, 28, 25, 0.06), 0 8px 24px rgba(15, 28, 25, 0.05);
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0d1312; --surface: #141c1a; --surface-2: #1b2522;
+    --ink: #edf3f1; --ink-2: #b6c3bf; --muted: #7f8c88; --hair: #24302d; --axis: #3a4743;
+    --brand: #6cc1a8; --brand-soft: #1d3a33;
+    --dav: #f07a47; --dav-soft: rgba(240, 122, 71, 0.18);
+    --net: #6b7874; --band: rgba(182, 195, 191, 0.12);
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181;
+    --good-ink: #3fcf3f; --serious-ink: #f09a74; --critical-ink: #f07b7b; --warning-ink: #f5c04a;
+    --q1: #184f95; --q2: #1c5cab; --q3: #256abf; --q4: #3987e5; --q5: #6da7ec; --q6: #9ec5f4;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0d1312; --surface: #141c1a; --surface-2: #1b2522;
+  --ink: #edf3f1; --ink-2: #b6c3bf; --muted: #7f8c88; --hair: #24302d; --axis: #3a4743;
+  --brand: #6cc1a8; --brand-soft: #1d3a33;
+  --dav: #f07a47; --dav-soft: rgba(240, 122, 71, 0.18);
+  --net: #6b7874; --band: rgba(182, 195, 191, 0.12);
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181;
+  --good-ink: #3fcf3f; --serious-ink: #f09a74; --critical-ink: #f07b7b; --warning-ink: #f5c04a;
+  --q1: #184f95; --q2: #1c5cab; --q3: #256abf; --q4: #3987e5; --q5: #6da7ec; --q6: #9ec5f4;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font: 15px/1.6 var(--f-body);
+  padding-inline: 16px;
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1180px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: var(--brand); text-underline-offset: 2px; }
+.mono { font-family: var(--f-mono); }
+.num { font-variant-numeric: tabular-nums; }
+.eyebrow {
+  font: 500 12px/1.3 var(--f-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+
+/* Header */
+header.site { padding-block: 40px 20px; display: grid; gap: 28px; }
+.title-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: end; }
+.title-row h1 { font-size: clamp(36px, 5.2vw, 64px); line-height: 1.02; font-weight: 700; }
+.title-row h1 em { font-style: normal; color: var(--dav); }
+.lede { color: var(--ink-2); font-size: 17px; max-width: 62ch; margin-top: 14px; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--hair); }
+.facts div { padding: 9px 0; border-bottom: 1px solid var(--hair); display: grid; gap: 1px; }
+.facts div:nth-child(odd) { padding-right: 12px; }
+.facts dt { font: 500 11px/1.3 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font: 500 14px/1.35 var(--f-mono); color: var(--ink); }
+
+.hero { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 22px 22px 14px; display: grid; gap: 14px; }
+.hero-head { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; justify-content: space-between; }
+.hero-head h2 { font-size: 20px; font-weight: 600; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--hair); }
+.stat { padding: 14px 16px 6px 0; display: grid; gap: 2px; align-content: start; }
+.stat + .stat { padding-left: 16px; border-left: 1px solid var(--hair); }
+.stat b { font: 600 30px/1.1 var(--f-display); color: var(--ink); }
+.stat b.dav { color: var(--dav); }
+.stat span { font-size: 13px; color: var(--ink-2); line-height: 1.4; }
+
+/* Nav */
+nav.toc {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--hair);
+  margin-inline: -16px; padding-inline: 16px;
+}
+nav.toc ul { list-style: none; margin: 0 auto; padding: 0; max-width: 1180px; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+nav.toc a { display: block; padding: 11px 10px; font: 500 13px/1 var(--f-body); color: var(--ink-2); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; }
+nav.toc a:hover { color: var(--ink); }
+nav.toc a.active { color: var(--brand); border-bottom-color: var(--brand); }
+
+/* Sections */
+section.block { padding-top: 56px; scroll-margin-top: 48px; display: grid; gap: 18px; }
+.sec-head { display: grid; gap: 6px; max-width: 78ch; }
+.sec-head h2 { font-size: clamp(26px, 3vw, 34px); font-weight: 700; line-height: 1.1; }
+.sec-head p { color: var(--ink-2); }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.grid-3-2 { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 18px; }
+
+.card { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); padding: 18px 18px 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.card-head { display: flex; gap: 10px 16px; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; }
+.card-head h3 { font-size: 17px; font-weight: 600; line-height: 1.25; }
+.card-head .sub { font-size: 13px; color: var(--ink-2); margin-top: 3px; max-width: 70ch; }
+.note { font-size: 13px; color: var(--ink-2); }
+.note b { color: var(--ink); font-weight: 600; }
+
+/* Controls */
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 12px 14px; background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); }
+.ctl { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ctl > label, .ctl > .lab { font: 500 11px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 8px; padding: 2px; flex-wrap: wrap; }
+.seg button {
+  font: 500 13px/1 var(--f-body); color: var(--ink-2); background: transparent; border: 0;
+  padding: 7px 10px; border-radius: 6px; cursor: pointer;
+}
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.12); }
+select {
+  font: 500 13px/1 var(--f-body); color: var(--ink); background: var(--surface-2); border: 0;
+  border-radius: 8px; padding: 8px 28px 8px 10px; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(135deg, var(--ink-2) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 52%, calc(100% - 9px) 52%;
+  background-size: 5px 5px; background-repeat: no-repeat;
+}
+.tbl-btn { font: 500 12px/1 var(--f-mono); color: var(--ink-2); background: transparent; border: 1px solid var(--hair); border-radius: 6px; padding: 6px 8px; cursor: pointer; white-space: nowrap; }
+.tbl-btn:hover { color: var(--ink); border-color: var(--axis); }
+.tbl-btn[aria-pressed="true"] { background: var(--brand-soft); color: var(--brand); border-color: transparent; }
+
+/* Charts */
+.chart { width: 100%; position: relative; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.chart text { font-family: var(--f-mono); font-size: 11px; fill: var(--muted); }
+.chart .lbl-strong { fill: var(--ink); font-weight: 500; }
+.chart .lbl-dav { fill: var(--dav); font-weight: 600; font-size: 12px; }
+.grid-line { stroke: var(--hair); stroke-width: 1; }
+.base-line { stroke: var(--axis); stroke-width: 1; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.5px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.legend i.dot { width: 9px; height: 9px; border-radius: 50%; }
+.legend i.box { width: 12px; height: 10px; border-radius: 2px; }
+
+.tip {
+  position: fixed; z-index: 50; pointer-events: none; background: var(--surface); color: var(--ink);
+  border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 12px 32px rgba(0,0,0,0.14);
+  padding: 9px 11px; font-size: 12.5px; line-height: 1.45; max-width: 300px; border: 1px solid var(--hair);
+}
+.tip b { font-weight: 600; }
+.tip .row { display: flex; justify-content: space-between; gap: 14px; }
+.tip .row span:last-child { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.tip .sw { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+
+.table-view { overflow-x: auto; max-height: 420px; overflow-y: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--hair); white-space: nowrap; }
+th { font: 500 11px/1.3 var(--f-mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); position: sticky; top: 0; background: var(--surface); }
+td.n, th.n { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+tr.is-dav td { color: var(--dav); font-weight: 600; }
+
+.heat { overflow-x: auto; }
+.heat table td.cell { text-align: center; font: 500 13px/1 var(--f-mono); font-variant-numeric: tabular-nums; padding: 10px 8px; border: 2px solid var(--surface); border-radius: 6px; }
+.heat table th { position: static; }
+
+/* Timeline list */
+.events { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.events li { display: grid; grid-template-columns: 96px 92px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--hair); font-size: 13.5px; }
+.events time { font: 500 12.5px/1.5 var(--f-mono); color: var(--ink-2); }
+.kind { font: 500 11px/1.9 var(--f-mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+
+/* Explanations */
+.expl { display: grid; gap: 14px; }
+.hyp { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); padding: 18px 20px; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 18px; }
+.hyp h3 { font-size: 19px; font-weight: 600; line-height: 1.2; }
+.verdict { display: inline-flex; align-items: center; gap: 7px; font: 500 12px/1 var(--f-mono); padding: 6px 9px; border-radius: 999px; margin-top: 10px; background: var(--surface-2); color: var(--ink-2); }
+.verdict svg { width: 12px; height: 12px; flex: none; }
+.verdict.lead { color: var(--critical-ink); }
+.verdict.part { color: var(--serious-ink); }
+.verdict.minor { color: var(--good-ink); }
+.verdict.open { color: var(--warning-ink); }
+.share { font: 500 12px/1.4 var(--f-mono); color: var(--muted); margin-top: 8px; }
+.hyp ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; font-size: 14px; color: var(--ink-2); }
+.hyp ul b { color: var(--ink); font-weight: 600; }
+.hyp .refs { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+
+/* Next steps */
+.steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.step-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.step-list li { padding: 12px 0; border-bottom: 1px solid var(--hair); display: grid; gap: 4px; }
+.step-list li:last-child { border-bottom: 0; }
+.step-list .t { font-weight: 600; font-size: 14.5px; }
+.step-list .d { font-size: 13.5px; color: var(--ink-2); }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font: 500 11px/1 var(--f-mono); padding: 4px 7px; border-radius: 5px; background: var(--surface-2); color: var(--ink-2); }
+.tag.hh { background: var(--brand-soft); color: var(--brand); }
+
+footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--hair); display: grid; gap: 8px; font-size: 12.5px; color: var(--muted); max-width: 100ch; }
+footer b { color: var(--ink-2); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .title-row, .grid-2, .grid-3-2, .steps { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat:nth-child(3) { padding-left: 0; border-left: 0; }
+  .stat:nth-child(n+3) { border-top: 1px solid var(--hair); }
+  .hyp { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+  .facts div:nth-child(odd) { padding-right: 0; }
+  .events li { grid-template-columns: 88px minmax(0, 1fr); }
+  .events .kind { display: none; }
+  .stat b { font-size: 24px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+</style>
+
+<div class="wrap">
+<header class="site">
+  <div class="title-row">
+    <div>
+      <div class="eyebrow">ICOS ecosystem station · CH-Dav · Davos Seehornwald</div>
+      <h1 style="margin-top:10px">Where does <em>half</em> the energy go?</h1>
+      <p class="lede">At the Davos spruce forest, the measured turbulent fluxes H + LE add up to only about half of the available energy: every year since 1998, with every instrument generation. This page compares CH-Dav with the 84 ICOS and NEON sites of Nicolini et al. (2026), shows what the 27-year record tells us, and lists the explanations that remain.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Location</dt><dd>46.815° N · 9.856° E</dd></div>
+      <div><dt>Elevation</dt><dd>1639 m a.s.l.</dd></div>
+      <div><dt>Forest</dt><dd>Norway spruce · 19 m</dd></div>
+      <div><dt>EC height</dt><dd>35 m · boom west</dd></div>
+      <div><dt>Terrain</dt><dd>16° slope · WNW aspect</dd></div>
+      <div><dt>Record</dt><dd>1997 – 2024</dd></div>
+    </dl>
+  </div>
+
+  <div class="hero">
+    <div class="hero-head">
+      <h2>Closure at 80 flux sites, best available energy accounting</h2>
+      <span class="note">RMA slope of H + LE against Rn − G − storage − photosynthesis, u*-filtered, 30 min</span>
+    </div>
+    <div class="chart" id="hero-chart" role="img" aria-label="Strip chart of energy balance closure at 80 sites with CH-Dav highlighted"></div>
+    <div class="stats" id="hero-stats"></div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <ul>
+    <li><a href="#network">Network</a></li>
+    <li><a href="#timescales">Time scales</a></li>
+    <li><a href="#conditions">Conditions</a></li>
+    <li><a href="#record">27 years</a></li>
+    <li><a href="#diurnal">Daily cycle</a></li>
+    <li><a href="#wind">Wind</a></li>
+    <li><a href="#instruments">Instruments</a></li>
+    <li><a href="#explanations">Explanations</a></li>
+    <li><a href="#nextsteps">Next steps</a></li>
+  </ul>
+</nav>
+
+<main>
+<section class="block" id="network">
+  <div class="sec-head">
+    <div class="eyebrow">Network comparison · Nicolini et al. 2026 dataset</div>
+    <h2>CH-Dav sits at the bottom of the network</h2>
+    <p>Adding soil, air, biomass and photosynthesis terms lifts the median site from about 0.68 to 0.86. At CH-Dav the same steps only move closure from 0.51 to 0.62. Filter the network and change the available-energy formulation to compare.</p>
+  </div>
+  <div class="controls" role="group" aria-label="Network filters">
+    <div class="ctl"><span class="lab">Available energy</span>
+      <div class="seg" id="ctl-ae">
+        <button type="button" data-v="AE1">Rn</button>
+        <button type="button" data-v="AE2">−G</button>
+        <button type="button" data-v="AE3">−S<sub>soil</sub></button>
+        <button type="button" data-v="AE4">−S<sub>air</sub></button>
+        <button type="button" data-v="AE5">−S<sub>pho</sub></button>
+        <button type="button" data-v="AE6">−S<sub>bio</sub></button>
+        <button type="button" data-v="AE6u" aria-pressed="true">+ u* filter</button>
+      </div>
+    </div>
+    <div class="ctl"><span class="lab">Network</span>
+      <div class="seg" id="ctl-net">
+        <button type="button" data-v="all" aria-pressed="true">All</button>
+        <button type="button" data-v="ICOS">ICOS</button>
+        <button type="button" data-v="NEON">NEON</button>
+      </div>
+    </div>
+    <div class="ctl"><label for="ctl-pft">Ecosystem</label>
+      <select id="ctl-pft">
+        <option value="all">All types</option>
+        <option value="forest">Forests (ENF, DBF, EBF, MF)</option>
+        <option value="ENF">Evergreen needleleaf (ENF)</option>
+        <option value="short">Short vegetation</option>
+      </select>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div><h3>Every site, ranked by closure</h3><p class="sub">CH-Dav in orange; IT-Ren, the other alpine spruce forest on a slope, outlined for contrast. Hover a mark for the site.</p></div>
+      <button class="tbl-btn" type="button" data-table="c-rank" aria-pressed="false">Table</button>
+    </div>
+    <div class="chart" id="c-rank"></div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">
+        <div><h3>Closure against a site attribute</h3><p class="sub">Is CH-Dav unusual in its setting?</p></div>
+        <div class="ctl">
+          <select id="ctl-attr" aria-label="Site attribute on the x axis">
+            <option value="slope">Terrain slope (°)</option>
+            <option value="bio">Above-ground biomass (kg m⁻²)</option>
+            <option value="hc">Canopy height (m)</option>
+            <option value="ec_h">EC height (m)</option>
+            <option value="elev">Elevation (m)</option>
+            <option value="lai">Leaf area index</option>
+          </select>
+          <button class="tbl-btn" type="button" data-table="c-scatter" aria-pressed="false">Table</button>
+        </div>
+      </div>
+      <div class="chart" id="c-scatter"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div><h3>Step by step: what each term adds</h3><p class="sub">CH-Dav against the median and interquartile range of the filtered sites.</p></div>
+        <button class="tbl-btn" type="button" data-table="c-steps" aria-pressed="false">Table</button>
+      </div>
+      <div class="legend" id="lg-compare-1"></div>
+      <div class="chart" id="c-steps"></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="timescales">
+  <div class="sec-head">
+    <div class="eyebrow">Aggregation</div>
+    <h2>Longer sums do not rescue it</h2>
+    <p>For most sites the bulk ratio ΣTE / ΣAE climbs towards one as fluxes are summed over days, months and years, because storage and phase effects cancel. CH-Dav stays below 0.5 at every time scale: the missing energy is systematic, not a timing problem.</p>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div><h3>Energy balance ratio by aggregation period</h3><p class="sub">Gap-filled fluxes, full available energy (AE6), u*-filtered turbulent fluxes.</p></div>
+      <button class="tbl-btn" type="button" data-table="c-ts" aria-pressed="false">Table</button>
+    </div>
+    <div class="legend" id="lg-compare-2"></div>
+    <div class="chart" id="c-ts"></div>
+  </div>
+</section>
+
+<section class="block" id="conditions">
+  <div class="sec-head">
+    <div class="eyebrow">Conditions</div>
+    <h2>Low under every condition</h2>
+    <p>Split by atmospheric stability, sun elevation or humidity, CH-Dav runs below the network in nearly every class. The gap is not confined to a particular weather situation.</p>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div><h3>Closure by condition class</h3><p class="sub">RMA slope, full available energy (AE6), fully quality-filtered fluxes. Classes with fewer than 50 half-hours at CH-Dav are omitted.</p></div>
+      <div class="ctl">
+        <div class="seg" id="ctl-strat">
+          <button type="button" data-v="atm_strat" aria-pressed="true">Stability</button>
+          <button type="button" data-v="SEA_classes">Sun elevation</button>
+          <button type="button" data-v="RH_classes">Humidity</button>
+          <button type="button" data-v="twilight">Light</button>
+        </div>
+        <button class="tbl-btn" type="button" data-table="c-strat" aria-pressed="false">Table</button>
+      </div>
+    </div>
+    <div class="legend" id="lg-compare-3"></div>
+    <div class="chart" id="c-strat"></div>
+  </div>
+</section>
+
+<section class="block" id="record">
+  <div class="sec-head">
+    <div class="eyebrow">CH-Dav · ICOS FLUXNET product 1997–2024 · measured values only</div>
+    <h2>27 years, six instrument generations, one gap</h2>
+    <p>The closure slope has stayed between 0.38 and 0.58 since 1998. It did not jump with any change of sonic anemometer or gas analyser, so the cause lies beyond a single instrument. The shift in the energy balance ratio around 2014–2015 coincides with the new sonic and the new soil heat flux plates.</p>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div><h3>Closure per year</h3><p class="sub">OLS slope of half-hourly and daily-mean H + LE against Rn − G, and the half-hourly bulk ratio. Shaded bands mark instrument periods.</p></div>
+      <button class="tbl-btn" type="button" data-table="c-years" aria-pressed="false">Table</button>
+    </div>
+    <div class="legend" id="lg-years"></div>
+    <div class="chart" id="c-years"></div>
+    <p class="note">1997: flux calculation bug (slow eddies suppressed); 2012–2013: no measured soil heat flux. Daily slopes use only days with ≥ 40 measured half-hours of every term, hence few days after 2019.</p>
+  </div>
+</section>
+
+<section class="block" id="diurnal">
+  <div class="sec-head">
+    <div class="eyebrow">CH-Dav · 2019–2024 · with biomass storage and photosynthesis</div>
+    <h2>Half the energy is missing at every hour</h2>
+    <p>If heat were only stored in the trees, the gap would peak in the morning and reverse in the evening. Instead the residual follows available energy through the day and peaks at noon. Biomass storage and photosynthesis (green) are real but small: they raise the slope from 0.50 to 0.54.</p>
+  </div>
+  <div class="grid-3-2">
+    <div class="card">
+      <div class="card-head">
+        <div><h3>Mean diurnal cycle</h3><p class="sub">Local standard time. Residual = AE − TE.</p></div>
+        <div class="ctl">
+          <div class="seg" id="ctl-season">
+            <button type="button" data-v="DJF">Winter</button>
+            <button type="button" data-v="MAM">Spring</button>
+            <button type="button" data-v="JJA" aria-pressed="true">Summer</button>
+            <button type="button" data-v="SON">Autumn</button>
+          </div>
+          <button class="tbl-btn" type="button" data-table="c-diurnal" aria-pressed="false">Table</button>
+        </div>
+      </div>
+      <div class="legend" id="lg-diurnal"></div>
+      <div class="chart" id="c-diurnal"></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><h3>What storage buys</h3><p class="sub">OLS slope of TE against AE per season, without and with S<sub>bio</sub> + S<sub>pho</sub>.</p></div></div>
+      <div class="table-view" id="t-storage"></div>
+      <p class="note">Radiation checks show no sign of an overestimated Rn: SW_IN agrees with an independent PAR sensor (ratio 0.47–0.51 for 25 years), and Rn equals the sum of its four components since 2019. Midday Rn/SW_IN is 0.83–0.87, plausible for a dark conifer canopy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="wind">
+  <div class="sec-head">
+    <div class="eyebrow">CH-Dav · daytime · 1998–2024</div>
+    <h2>The gap follows the wind</h2>
+    <p>Almost two thirds of daytime air arrives from the north, along the valley. Exactly this flow closes worst. At the same friction velocity, northerly winds close at about 0.5, while southerly and westerly winds reach 0.75–1.0. The contrast holds in all six instrument periods and in clearly unstable conditions.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">
+        <div><h3>Energy balance ratio by wind direction</h3><p class="sub">30° sectors, AE ≥ 100 W m⁻². Radius = ΣTE / ΣAE; the outer ring is perfect closure.</p></div>
+        <button class="tbl-btn" type="button" data-table="c-polar" aria-pressed="false">Table</button>
+      </div>
+      <div class="legend" id="lg-polar"></div>
+      <div class="chart" id="c-polar"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div><h3>Share of daytime data by sector</h3><p class="sub">North and north-northeast carry 62 % of the record, with the fastest winds (median 3 m s⁻¹).</p></div>
+        <button class="tbl-btn" type="button" data-table="c-share" aria-pressed="false">Table</button>
+      </div>
+      <div class="chart" id="c-share"></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head"><div><h3>Direction against turbulence</h3><p class="sub">Daytime EBR by wind quadrant and friction velocity u* (m s⁻¹). More turbulence helps everywhere, but northerly flow stays low.</p></div></div>
+      <div class="heat" id="h-ustar"></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><h3>Direction against instrument period</h3><p class="sub">Daytime EBR by wind quadrant, u* 0.4–1.0 m s⁻¹. The northern deficit appears with every sonic and gas analyser.</p></div></div>
+      <div class="heat" id="h-period"></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="instruments">
+  <div class="sec-head">
+    <div class="eyebrow">Site history · fieldbook, metadata, labelling report</div>
+    <h2>What changed, and what did not</h2>
+    <p>Sonics, gas analysers, radiometers and soil heat flux plates were all replaced at least once. The tower, the westward boom and the terrain never changed, and neither did the gap.</p>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div><h3>Instrument timeline</h3><p class="sub">Bars: sonic anemometer and gas analyser generations. Ticks: documented events; hover for details.</p></div>
+    </div>
+    <div class="chart" id="c-timeline"></div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head"><div><h3>Closure per instrument period</h3><p class="sub">Daytime, measured data. In AE = a·H + b·LE + c, a coefficient above 1 means that flux would need scaling up (H and LE are correlated, so read with care).</p></div></div>
+      <div class="table-view" id="t-periods"></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><h3>Documented events</h3><p class="sub">Summarised and anonymised.</p></div></div>
+      <ul class="events" id="events"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="explanations">
+  <div class="sec-head">
+    <div class="eyebrow">Interpretation</div>
+    <h2>Possible explanations, weighed</h2>
+    <p>Ordered from most to least likely to explain the bulk of the gap at CH-Dav, based on the analyses above and the EBC literature. The verdicts are working assessments, not conclusions.</p>
+  </div>
+  <div class="expl" id="hyps">
+    <article class="hyp">
+      <div><h3>Terrain-driven advection in the along-valley flow</h3><span class="verdict lead"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1 11 10H1Z" fill="currentColor"/></svg>Leading candidate</span><div class="share">could explain: most of the north-sector deficit</div></div>
+      <div>
+        <ul>
+          <li><b>At equal u*, northerly winds close at ~0.5, S and W at 0.75–1.0</b>, in every instrument period since 1998 and for unstable conditions only.</li>
+          <li>North is the dominant daytime direction (62 % of data) and the fastest flow, so it dominates the site average.</li>
+          <li>CH-Dav is the steepest ICOS site in the network (16° by DEM). A beech slope forest shows the same pattern: 0.48–0.55 in the poor sectors vs 0.80, attributed to advection.</li>
+          <li>Horizontal and vertical advection are not measured by a single tower and would bypass the eddy covariance system.</li>
+        </ul>
+        <p class="refs">McGloin et al. 2018; Leuning et al. 2012; Foken 2008</p>
+      </div>
+    </article>
+    <article class="hyp">
+      <div><h3>Secondary circulations and low-frequency transport</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Likely contributor</span><div class="share">flat-terrain models: ~8–19 % of H</div></div>
+      <div>
+        <ul>
+          <li>Closure rises from 0.2 to 0.8 with u*, the classic signature of energy carried by organised motions that 30-min averages miss.</li>
+          <li>The LES-based model of Mauder et al. (2021) predicts about 8 % extra H for this tower height, at most ~19 %; topography is thought to amplify such circulations, but no slope model exists yet.</li>
+          <li>Over tall forest, 30-min fluxes were still growing at the end of the averaging window in 22 % (H) to 47 % (LE) of periods.</li>
+        </ul>
+        <p class="refs">Mauder et al. 2020, 2021, 2024; Wanner et al. 2022, 2024; Charuchittipan et al. 2014</p>
+      </div>
+    </article>
+    <article class="hyp">
+      <div><h3>Coordinate rotation and sonic set-up</h3><span class="verdict open"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1" fill="currentColor" transform="rotate(45 6 6)"/></svg>Open question</span><div class="share">sector-wise planar fit: +0.03–0.05 elsewhere</div></div>
+      <div>
+        <ul>
+          <li>On a 16° slope, streamlines tilt differently by wind sector; a misfit leaks horizontal flux into w'T' and w'q'.</li>
+          <li>The EC geometry is barely documented: the boom was found rotated in 2002, a wrong wind-direction configuration was fixed in 2019, and a transducer was found out of place in 2022.</li>
+          <li>Tilt angles and mean w per sector need EddyPro full output to check.</li>
+        </ul>
+        <p class="refs">McGloin et al. 2018; Leuning et al. 2012; ICOS labelling report 2019</p>
+      </div>
+    </article>
+    <article class="hyp">
+      <div><h3>Energy storage in the forest</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Partial</span><div class="share">measured effect: +0.04 in slope</div></div>
+      <div>
+        <ul>
+          <li>Biomass heat storage and photosynthesis raise the slope from 0.50 to 0.54; literature values for tall spruce forests are 5–10 % of midday Rn.</li>
+          <li>Storage uses air temperature as a proxy for stem temperature, which likely underestimates it. Across the network, imbalance grows with biomass, and CH-Dav (62 kg m⁻²) sits far above that trend.</li>
+          <li>The residual peaks at noon and does not reverse in the evening, which storage cannot produce.</li>
+        </ul>
+        <p class="refs">Nicolini et al. 2026; Lindroth et al. 2010; Moderow et al. 2009</p>
+      </div>
+    </article>
+    <article class="hyp">
+      <div><h3>Tower and boom flow distortion</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Sector-limited</span><div class="share">affects easterly winds (~4 % of data)</div></div>
+      <div>
+        <ul>
+          <li>With the boom pointing west, easterly air passes the 3 m lattice tower first. East sectors indeed close worst (0.26–0.47), matching a documented case with the same geometry.</li>
+          <li>Northerly flow reaches the sonic undisturbed by the tower, so this does not explain the main deficit.</li>
+        </ul>
+        <p class="refs">Kidston et al. 2010; Mauder &amp; Zeeman 2018</p>
+      </div>
+    </article>
+    <article class="hyp">
+      <div><h3>Instrument errors: sonic heads, gas analyser, radiometer</h3><span class="verdict minor"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" stroke-width="2"/></svg>Unlikely as main cause</span><div class="share">known effects: 3–10 %</div></div>
+      <div>
+        <ul>
+          <li>The gap persists with three sonic models, three gas analysers and two radiometers.</li>
+          <li>Known sonic head effects (transducer shadowing, angle of attack) are 3–10 % and only weakly direction-dependent; humidity-related LE damping appears with the open-path analyser too.</li>
+          <li>Radiation is internally consistent and matches an independent PAR sensor; net radiation corrections change closure by a few percent at most.</li>
+        </ul>
+        <p class="refs">Frank et al. 2013, 2016; Horst et al. 2015; Fratini et al. 2012; Nicolini et al. 2026</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="block" id="nextsteps">
+  <div class="sec-head">
+    <div class="eyebrow">Towards closing the gap</div>
+    <h2>Tests to run, corrections to try</h2>
+    <p>Tests discriminate between the explanations; corrections are only justified once the cause is known. In line with Nicolini et al. (2026), any residual should be reported as a bounded uncertainty rather than absorbed by a blanket closure correction.</p>
+  </div>
+  <div class="steps">
+    <div class="card">
+      <div class="card-head"><div><h3>Diagnostic tests</h3></div></div>
+      <ul class="step-list">
+        <li><span class="t">Daily closure by dominant wind direction</span><span class="d">If north-wind days also fail on daily sums, the loss is advective, not a phase or storage effect.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
+        <li><span class="t">Footprint against land cover per sector</span><span class="d">Map the northern footprint onto the 2006 clearing, the road and forest edges.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">land cover map</span></span></li>
+        <li><span class="t">Tilt angles, mean w and σw/u* per sector</span><span class="d">Reveals slope-induced streamline tilt and distorted flow at the sensor.</span><span class="tags"><span class="tag">EddyPro full output</span></span></li>
+        <li><span class="t">Ogives and longer averaging per sector</span><span class="d">Quantifies flux carried by eddies slower than 30 min, especially in northerly flow.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
+        <li><span class="t">Second sonic on another tower face or at a second height</span><span class="d">The decisive test for flow distortion and vertical flux divergence.</span><span class="tags"><span class="tag">field campaign</span></span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><h3>Candidate corrections</h3></div></div>
+      <ul class="step-list">
+        <li><span class="t">Sector-wise planar fit</span><span class="d">Rotate coordinates per wind sector on the sloping site; elsewhere worth +0.03 to +0.05 in slope.</span><span class="tags"><span class="tag">EddyPro reprocessing</span></span></li>
+        <li><span class="t">Extended averaging or ogive correction</span><span class="d">Recover low-frequency flux; 5–10 % of the residual in the literature, more over tall forest.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
+        <li><span class="t">Dispersive flux model</span><span class="d">Add modelled secondary-circulation flux (Mauder et al. 2021) using ERA5 boundary-layer height; expected +8 % of H on flat terrain.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">ERA5</span></span></li>
+        <li><span class="t">Measured biomass temperature for storage</span><span class="d">Use stem and branch temperatures instead of air temperature to bound biomass heat storage.</span><span class="tags"><span class="tag">bole temperature sensors</span></span></li>
+        <li><span class="t">Flag or exclude problem sectors</span><span class="d">Mark easterly (through-tower) data and report northerly flow separately until the cause is known.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p><b>Data.</b> Network results: Nicolini, G., Papale, D. (2026), EBC_data, Zenodo, doi:10.5281/zenodo.19608436 (CC BY 4.0). CH-Dav: ICOS FLUXNET product 1997–2024, release v1.3_r1, ICOS Carbon Portal (CC BY 4.0). Site history from the station fieldbook and ICOS labelling report, summarised.</p>
+  <p><b>Method notes.</b> Network slopes are RMA slopes as in Nicolini et al. (2026); AE1–AE6 follow their Table 2 (dataset codes NR, NR_G2, NR_G1, NR_G1_SH_SLE, …_Spho, …_Spho_Sbio), fully quality-filtered TE unless marked u*-filtered. CH-Dav analyses use measured (not gap-filled) Rn, G, H and LE with OLS slopes and bulk ratios ΣTE / ΣAE. The dataset's imbalance column behaves as AE − TE.</p>
+  <p id="gen"></p>
+</footer>
+</div>
+
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+
+/* ---------- helpers ---------- */
+const NS = "http://www.w3.org/2000/svg";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const fmt = (v, d = 2) => (v == null || !isFinite(v)) ? "–" : v.toFixed(d);
+const median = a => quantile(a, 0.5);
+function quantile(arr, q) {
+  const s = arr.filter(v => v != null && isFinite(v)).sort((a, b) => a - b);
+  if (!s.length) return null;
+  const pos = (s.length - 1) * q, lo = Math.floor(pos), hi = Math.ceil(pos);
+  return s[lo] + (s[hi] - s[lo]) * (pos - lo);
+}
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) if (v != null) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function text(parent, x, y, str, attrs = {}) {
+  const t = el("text", { x, y, ...attrs }, parent); t.textContent = str; return t;
+}
+function scale(d0, d1, r0, r1) {
+  const f = v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+  f.invert = p => d0 + (p - r0) / (r1 - r0) * (d1 - d0);
+  return f;
+}
+function ticks(a, b, n = 5) {
+  const step0 = (b - a) / n, mag = 10 ** Math.floor(Math.log10(step0)), err = step0 / mag;
+  const step = (err >= 7.5 ? 10 : err >= 3.5 ? 5 : err >= 1.5 ? 2 : 1) * mag;
+  const out = [];
+  for (let v = Math.ceil(a / step - 1e-9) * step; v <= b + 1e-9; v += step) out.push(+v.toFixed(10));
+  return out;
+}
+function frame(container, height, m) {
+  container.innerHTML = "";
+  const w = Math.max(280, container.clientWidth);
+  const svg = el("svg", { viewBox: `0 0 ${w} ${height}`, height }, container);
+  return { svg, w, h: height, m, iw: w - m.l - m.r, ih: height - m.t - m.b };
+}
+function yAxis(f, y, tv, fmtTick = v => v) {
+  for (const t of tv) {
+    el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(t), y2: y(t), class: "grid-line" }, f.svg);
+    text(f.svg, f.m.l - 8, y(t) + 4, fmtTick(t), { "text-anchor": "end" });
+  }
+}
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* tooltip */
+const tip = $("#tip");
+function showTip(html, ev) {
+  tip.innerHTML = html; tip.hidden = false;
+  const pad = 14, r = tip.getBoundingClientRect();
+  let x = ev.clientX + pad, y = ev.clientY + pad;
+  if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - pad;
+  if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - pad;
+  tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
+}
+const hideTip = () => { tip.hidden = true; };
+const row = (k, v, color) => `<div class="row"><span>${color ? `<i class="sw" style="background:${color}"></i>` : ""}${k}</span><span>${v}</span></div>`;
+
+/* chart registry: render on demand, re-render on resize, table views */
+const charts = new Map();
+function register(id, render) {
+  const node = document.getElementById(id);
+  charts.set(id, { node, render });
+  render(node);
+  new ResizeObserver(() => requestAnimationFrame(() => { if (!node.hidden) render(node); })).observe(node);
+}
+function rerender(...ids) { for (const id of ids) { const c = charts.get(id); if (c) { c.render(c.node); syncTable(id); } } }
+function setTable(node, cols, rows) { node._table = { cols, rows }; }
+function tableHTML({ cols, rows }, davKey) {
+  const head = cols.map(c => `<th class="${c.n ? "n" : ""}">${c.label}</th>`).join("");
+  const body = rows.map(r => `<tr class="${davKey && davKey(r) ? "is-dav" : ""}">${cols.map(c => {
+    const v = r[c.key];
+    return `<td class="${c.n ? "n" : ""}">${c.n ? fmt(v, c.d ?? 2) : (v ?? "–")}</td>`;
+  }).join("")}</tr>`).join("");
+  return `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+}
+function syncTable(id) {
+  const btn = $(`.tbl-btn[data-table="${id}"]`); if (!btn) return;
+  const node = document.getElementById(id);
+  let tv = node.nextElementSibling?.classList?.contains("table-view") ? node.nextElementSibling : null;
+  const on = btn.getAttribute("aria-pressed") === "true";
+  if (on) {
+    if (!tv) { tv = document.createElement("div"); tv.className = "table-view"; node.after(tv); }
+    tv.innerHTML = node._table ? tableHTML(node._table, r => r.site === "CH-Dav" || r.who === "CH-Dav") : "";
+    tv.hidden = false; node.hidden = true;
+  } else {
+    if (tv) tv.hidden = true;
+    node.hidden = false; charts.get(id)?.render(node);
+  }
+}
+$$(".tbl-btn").forEach(b => b.addEventListener("click", () => {
+  b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") === "true" ? "false" : "true");
+  syncTable(b.dataset.table);
+}));
+function segmented(id, onChange) {
+  const seg = document.getElementById(id);
+  seg.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    $$("button", seg).forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+    onChange(b.dataset.v);
+  });
+  return () => $("button[aria-pressed='true']", seg)?.dataset.v;
+}
+function legend(id, items) {
+  document.getElementById(id).innerHTML = items.map(([label, color, kind = "line"]) =>
+    `<span><i class="${kind}" style="background:${color}"></i>${label}</span>`).join("");
+}
+
+/* ---------- state ---------- */
+const NET = DATA.network, DAV = DATA.dav;
+const SITES = NET.sites;
+const DAVSITE = SITES.find(s => s.site === "CH-Dav");
+const CONTRAST = "IT-Ren";
+const FORESTS = new Set(["ENF", "DBF", "EBF", "MF"]);
+const state = { ae: "AE6u", net: "all", pft: "all", attr: "slope", strat: "atm_strat", season: "JJA" };
+const AE_STEPS = ["AE1", "AE2", "AE3", "AE4", "AE5", "AE6", "AE6u"];
+const AE_LABEL = { AE1: "Rn", AE2: "−G", AE3: "−S soil", AE4: "−S air", AE5: "−S pho", AE6: "−S bio", AE6u: "u* filter" };
+const AE_LONG = {
+  AE1: "Rn only", AE2: "Rn − G", AE3: "Rn − G − S soil", AE4: "… − S air", AE5: "… − S photosynthesis",
+  AE6: "… − S biomass (AE6)", AE6u: "AE6, u*-filtered TE",
+};
+function filtered() {
+  return SITES.filter(s =>
+    (state.net === "all" || s.network === state.net) &&
+    (state.pft === "all" || (state.pft === "forest" ? FORESTS.has(s.pft)
+      : state.pft === "short" ? !FORESTS.has(s.pft) : s.pft === state.pft)));
+}
+
+/* ---------- hero strip ---------- */
+function renderHero(node) {
+  const vals = SITES.filter(s => s.rma.AE6u != null);
+  const m = { l: 16, r: 16, t: 34, b: 30 };
+  const w = Math.max(280, node.clientWidth);
+  const x = scale(0.4, 1.4, m.l, w - m.r);
+  // beeswarm: stack dots that would overlap, then size the frame to the swarm
+  const gap = w < 600 ? 7 : 9;
+  const sorted = [...vals].sort((a, b) => a.rma.AE6u - b.rma.AE6u);
+  const placed = [];
+  for (const s of sorted) {
+    const cx = x(s.rma.AE6u);
+    let k = 0, dy;
+    while (true) {
+      dy = (k % 2 ? 1 : -1) * Math.ceil(k / 2) * gap;
+      if (!placed.some(p => Math.abs(p.cx - cx) < gap && Math.abs(p.dy - dy) < gap)) break;
+      k++;
+    }
+    placed.push({ cx, dy, s });
+  }
+  const ext = Math.max(18, ...placed.map(p => Math.abs(p.dy))) + 10;
+  const f = frame(node, m.t + 2 * ext + m.b, m);
+  const mid = m.t + ext;
+  placed.forEach(p => { p.cy = mid + p.dy; });
+  for (const t of ticks(0.4, 1.4, 10)) {
+    el("line", { x1: x(t), x2: x(t), y1: f.m.t - 6, y2: f.h - f.m.b, class: "grid-line" }, f.svg);
+    text(f.svg, x(t), f.h - 10, t.toFixed(1), { "text-anchor": "middle" });
+  }
+  const med = median(vals.map(s => s.rma.AE6u));
+  el("line", { x1: x(med), x2: x(med), y1: f.m.t - 10, y2: f.h - f.m.b, stroke: "var(--ink-2)", "stroke-width": 1.5 }, f.svg);
+  text(f.svg, x(med) + 6, f.m.t - 14, `network median ${med.toFixed(2)}`, { class: "lbl-strong" });
+  for (const p of placed) {
+    const isDav = p.s.site === "CH-Dav";
+    el("circle", { cx: p.cx, cy: p.cy, r: isDav ? 7 : 4, fill: isDav ? "var(--dav)" : "var(--net)",
+      stroke: "var(--surface)", "stroke-width": 2 }, f.svg);
+  }
+  const d = placed.find(p => p.s.site === "CH-Dav");
+  text(f.svg, d.cx, d.cy - 13, `CH-Dav ${d.s.rma.AE6u.toFixed(2)}`, { class: "lbl-dav", "text-anchor": "middle" });
+  const hit = el("rect", { x: 0, y: 0, width: f.w, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const pt = f.svg.getBoundingClientRect(), sx = (ev.clientX - pt.left) * f.w / pt.width, sy = (ev.clientY - pt.top) * f.h / pt.height;
+    let best = null, bd = 400;
+    for (const p of placed) { const dd = (p.cx - sx) ** 2 + (p.cy - sy) ** 2; if (dd < bd) { bd = dd; best = p; } }
+    if (!best) return hideTip();
+    showTip(`<b>${best.s.site}</b> · ${best.s.network} · ${best.s.pft}` + row("RMA slope", fmt(best.s.rma.AE6u)), ev);
+  });
+  hit.addEventListener("pointerleave", hideTip);
+}
+
+function renderStats() {
+  const vals = SITES.map(s => s.rma.AE6u).filter(v => v != null).sort((a, b) => a - b);
+  const rank = vals.indexOf(DAVSITE.rma.AE6u) + 1;
+  const imbs = SITES.map(s => s.imb).filter(v => v != null).sort((a, b) => b - a);
+  const imbRank = imbs.indexOf(DAVSITE.imb) + 1;
+  const yrs = DAV.yearly.filter(r => r.year >= 1998 && r.hh_slope != null).map(r => r.hh_slope);
+  const q = DAV.quad_ustar.filter(r => r.ustar_coarse === "[0.5, 0.7)");
+  const qv = k => q.find(r => r.quadrant === k)?.ebr;
+  $("#hero-stats").innerHTML = `
+    <div class="stat"><b class="dav">${DAVSITE.rma.AE6u.toFixed(2)}</b><span>closure at CH-Dav, rank ${rank} of ${vals.length} (median ${median(vals).toFixed(2)})</span></div>
+    <div class="stat"><b>${Math.round(DAVSITE.imb)} W m⁻²</b><span>mean imbalance AE − TE, ${imbRank === 1 ? "largest" : "#" + imbRank} in the network</span></div>
+    <div class="stat"><b>${Math.min(...yrs).toFixed(2)}–${Math.max(...yrs).toFixed(2)}</b><span>closure slope per year 1998–2024, with every instrument</span></div>
+    <div class="stat"><b>${fmt(qv("N"))} vs ${fmt(qv("W"))}</b><span>northerly vs westerly winds at the same u* (0.5–0.7 m s⁻¹)</span></div>`;
+}
+
+/* ---------- network: rank ---------- */
+function renderRank(node) {
+  const key = state.ae;
+  const sites = filtered().filter(s => s.rma[key] != null);
+  if (!sites.find(s => s.site === "CH-Dav")) sites.push(DAVSITE);
+  const data = sites.filter(s => s.rma[key] != null).sort((a, b) => a.rma[key] - b.rma[key]);
+  const f = frame(node, 300, { l: 40, r: 16, t: 22, b: 26 });
+  const vs = data.map(s => s.rma[key]);
+  const lo = Math.min(0.3, Math.floor(Math.min(...vs) * 10) / 10), hi = Math.max(1.2, Math.ceil(Math.max(...vs) * 10) / 10);
+  const y = scale(lo, hi, f.h - f.m.b, f.m.t);
+  yAxis(f, y, ticks(lo, hi, 6), t => t.toFixed(1));
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(1), y2: y(1), class: "base-line" }, f.svg);
+  const bw = f.iw / data.length;
+  const xc = i => f.m.l + bw * (i + 0.5);
+  const med = median(vs);
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(med), y2: y(med), stroke: "var(--ink-2)", "stroke-width": 1.2 }, f.svg);
+  text(f.svg, f.w - f.m.r, y(med) - 6, `median ${med.toFixed(2)}`, { "text-anchor": "end", class: "lbl-strong" });
+  data.forEach((s, i) => {
+    const isDav = s.site === "CH-Dav", isC = s.site === CONTRAST;
+    el("line", { x1: xc(i), x2: xc(i), y1: y(lo), y2: y(s.rma[key]), stroke: isDav ? "var(--dav)" : "var(--hair)", "stroke-width": isDav ? 2 : 1 }, f.svg);
+    el("circle", { cx: xc(i), cy: y(s.rma[key]), r: isDav ? 6 : 3.6,
+      fill: isDav ? "var(--dav)" : isC ? "var(--surface)" : "var(--net)",
+      stroke: isC ? "var(--ink)" : "var(--surface)", "stroke-width": isC ? 1.6 : 2 }, f.svg);
+  });
+  const di = data.findIndex(s => s.site === "CH-Dav");
+  const anchor = di < data.length / 2 ? "start" : "end";
+  text(f.svg, xc(di) + (anchor === "start" ? 9 : -9), y(data[di].rma[key]) + 4, `CH-Dav ${data[di].rma[key].toFixed(2)}`, { class: "lbl-dav", "text-anchor": anchor });
+  const ci = data.findIndex(s => s.site === CONTRAST);
+  if (ci >= 0) text(f.svg, xc(ci) - 8, y(data[ci].rma[key]) + 4, `IT-Ren ${data[ci].rma[key].toFixed(2)}`, { class: "lbl-strong", "text-anchor": "end" });
+  text(f.svg, f.m.l, f.h - 6, `${data.length} sites, lowest to highest closure`, {});
+  const hit = el("rect", { x: f.m.l, y: 0, width: f.iw, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width;
+    const i = Math.max(0, Math.min(data.length - 1, Math.floor((sx - f.m.l) / bw)));
+    const s = data[i];
+    showTip(`<b>${s.site}</b> · ${s.network} · ${s.pft}` + row("RMA slope", fmt(s.rma[key])) + row("rank", `${i + 1} / ${data.length}`)
+      + (s.slope != null ? row("terrain slope", s.slope.toFixed(1) + "°") : ""), ev);
+  });
+  hit.addEventListener("pointerleave", hideTip);
+  setTable(node, [{ key: "rank", label: "Rank", n: 1, d: 0 }, { key: "site", label: "Site" }, { key: "network", label: "Network" },
+    { key: "pft", label: "PFT" }, { key: "v", label: "RMA slope", n: 1 }],
+    data.map((s, i) => ({ rank: i + 1, site: s.site, network: s.network, pft: s.pft, v: s.rma[key] })));
+}
+
+/* ---------- network: scatter ---------- */
+const ATTR_LABEL = { slope: "Terrain slope (°)", bio: "Above-ground biomass (kg m⁻²)", hc: "Canopy height (m)", ec_h: "EC height (m)", elev: "Elevation (m)", lai: "Leaf area index" };
+function renderScatter(node) {
+  const key = state.ae, ak = state.attr;
+  let data = filtered().filter(s => s.rma[key] != null && s[ak] != null);
+  if (!data.find(s => s.site === "CH-Dav")) data.push(DAVSITE);
+  const f = frame(node, 300, { l: 40, r: 16, t: 14, b: 40 });
+  const xs = data.map(s => s[ak]), ys = data.map(s => s.rma[key]);
+  const xhi = Math.max(...xs) * 1.05, xlo = Math.min(0, Math.min(...xs));
+  const ylo = Math.min(0.3, Math.floor(Math.min(...ys) * 10) / 10), yhi = Math.max(1.2, Math.ceil(Math.max(...ys) * 10) / 10);
+  const x = scale(xlo, xhi, f.m.l, f.w - f.m.r), y = scale(ylo, yhi, f.h - f.m.b, f.m.t);
+  yAxis(f, y, ticks(ylo, yhi, 6), t => t.toFixed(1));
+  for (const t of ticks(xlo, xhi, 6)) text(f.svg, x(t), f.h - f.m.b + 16, String(t), { "text-anchor": "middle" });
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: f.h - f.m.b, y2: f.h - f.m.b, class: "base-line" }, f.svg);
+  text(f.svg, f.w - f.m.r, f.h - 4, ATTR_LABEL[ak], { "text-anchor": "end" });
+  const pts = data.map(s => ({ s, cx: x(s[ak]), cy: y(s.rma[key]) }));
+  pts.sort((a, b) => (a.s.site === "CH-Dav") - (b.s.site === "CH-Dav"));
+  for (const p of pts) {
+    const isDav = p.s.site === "CH-Dav", isC = p.s.site === CONTRAST;
+    el("circle", { cx: p.cx, cy: p.cy, r: isDav ? 7 : 4.5, fill: isDav ? "var(--dav)" : isC ? "var(--surface)" : "var(--net)",
+      "fill-opacity": isDav || isC ? 1 : 0.85, stroke: isC ? "var(--ink)" : "var(--surface)", "stroke-width": isC ? 1.6 : 2 }, f.svg);
+  }
+  const d = pts.find(p => p.s.site === "CH-Dav");
+  text(f.svg, d.cx + (d.cx > f.w * 0.7 ? -10 : 10), d.cy + 4, "CH-Dav", { class: "lbl-dav", "text-anchor": d.cx > f.w * 0.7 ? "end" : "start" });
+  const c = pts.find(p => p.s.site === CONTRAST);
+  if (c) text(f.svg, c.cx + 9, c.cy + 4, "IT-Ren", { class: "lbl-strong" });
+  const hit = el("rect", { x: 0, y: 0, width: f.w, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width, sy = (ev.clientY - r.top) * f.h / r.height;
+    let best = null, bd = 24 * 24;
+    for (const p of pts) { const dd = (p.cx - sx) ** 2 + (p.cy - sy) ** 2; if (dd < bd) { bd = dd; best = p; } }
+    if (!best) return hideTip();
+    showTip(`<b>${best.s.site}</b> · ${best.s.pft}` + row(ATTR_LABEL[ak], fmt(best.s[ak], 1)) + row("RMA slope", fmt(best.s.rma[key])), ev);
+  });
+  hit.addEventListener("pointerleave", hideTip);
+  setTable(node, [{ key: "site", label: "Site" }, { key: "pft", label: "PFT" }, { key: "a", label: ATTR_LABEL[ak], n: 1, d: 1 }, { key: "v", label: "RMA slope", n: 1 }],
+    [...data].sort((a, b) => a.rma[key] - b.rma[key]).map(s => ({ site: s.site, pft: s.pft, a: s[ak], v: s.rma[key] })));
+}
+
+/* ---------- generic CH-Dav vs network comparison over categories ---------- */
+function compareChart(node, cats, labels, davVals, netVals, opts = {}) {
+  const f = frame(node, opts.height || 280, { l: 40, r: 16, t: 16, b: opts.b || 44 });
+  const stats = netVals.map(v => ({ q1: quantile(v, 0.25), med: median(v), q3: quantile(v, 0.75), n: v.filter(x => x != null).length }));
+  const all = [...davVals, ...stats.flatMap(s => [s.q1, s.q3])].filter(v => v != null);
+  const lo = Math.min(opts.lo ?? 0.3, Math.floor(Math.min(...all) * 10) / 10), hi = Math.max(opts.hi ?? 1.1, Math.ceil(Math.max(...all) * 10) / 10);
+  const y = scale(lo, hi, f.h - f.m.b, f.m.t);
+  const x = i => f.m.l + (cats.length === 1 ? f.iw / 2 : i * f.iw / (cats.length - 1));
+  yAxis(f, y, ticks(lo, hi, 6), t => t.toFixed(1));
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(1), y2: y(1), class: "base-line" }, f.svg);
+  const every = Math.max(1, Math.ceil(cats.length * 62 / f.iw));
+  labels.forEach((l, i) => { if (i % every === 0) text(f.svg, x(i), f.h - f.m.b + 16, l, { "text-anchor": "middle" }); });
+  if (opts.xTitle) text(f.svg, f.w - f.m.r, f.h - 4, opts.xTitle, { "text-anchor": "end" });
+  // IQR band, broken at gaps
+  let seg = [];
+  const flushBand = () => {
+    if (seg.length > 1) el("path", { d: "M" + seg.map(i => `${x(i)},${y(stats[i].q3)}`).join("L") + "L" + [...seg].reverse().map(i => `${x(i)},${y(stats[i].q1)}`).join("L") + "Z", fill: "var(--band)" }, f.svg);
+    seg = [];
+  };
+  stats.forEach((s, i) => { if (s.q1 != null && s.n >= 3) seg.push(i); else flushBand(); }); flushBand();
+  const line = (vals, color, width) => {
+    let d = "", pen = false;
+    vals.forEach((v, i) => { if (v == null) { pen = false; return; } d += `${pen ? "L" : "M"}${x(i)},${y(v)}`; pen = true; });
+    el("path", { d, fill: "none", stroke: color, "stroke-width": width, "stroke-linejoin": "round", "stroke-linecap": "round" }, f.svg);
+  };
+  line(stats.map(s => s.n >= 3 ? s.med : null), "var(--ink-2)", 2);
+  line(davVals, "var(--dav)", 2.5);
+  if (cats.length <= 12) davVals.forEach((v, i) => { if (v != null) el("circle", { cx: x(i), cy: y(v), r: 4.5, fill: "var(--dav)", stroke: "var(--surface)", "stroke-width": 2 }, f.svg); });
+  const guide = el("line", { y1: f.m.t, y2: f.h - f.m.b, stroke: "var(--axis)", "stroke-width": 1, visibility: "hidden" }, f.svg);
+  const hit = el("rect", { x: f.m.l - 10, y: 0, width: f.iw + 20, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width;
+    const i = Math.max(0, Math.min(cats.length - 1, Math.round((sx - f.m.l) / (f.iw / Math.max(1, cats.length - 1)))));
+    guide.setAttribute("x1", x(i)); guide.setAttribute("x2", x(i)); guide.setAttribute("visibility", "visible");
+    const s = stats[i];
+    showTip(`<b>${opts.tipLabel ? opts.tipLabel(i) : labels[i]}</b>` + row("CH-Dav", fmt(davVals[i]), cssVar("--dav"))
+      + row("network median", s.n >= 3 ? fmt(s.med) : "–", cssVar("--ink-2")) + row("IQR", s.n >= 3 ? `${fmt(s.q1)}–${fmt(s.q3)}` : "–")
+      + row("sites", s.n) + (opts.extra ? opts.extra(i) : ""), ev);
+  });
+  hit.addEventListener("pointerleave", () => { hideTip(); guide.setAttribute("visibility", "hidden"); });
+  setTable(node, [{ key: "c", label: opts.catTitle || "Class" }, { key: "dav", label: "CH-Dav", n: 1 }, { key: "med", label: "Median", n: 1 },
+    { key: "q1", label: "Q1", n: 1 }, { key: "q3", label: "Q3", n: 1 }, { key: "n", label: "Sites", n: 1, d: 0 }],
+    cats.map((c, i) => ({ c: opts.tipLabel ? opts.tipLabel(i) : labels[i], dav: davVals[i], med: stats[i].n >= 3 ? stats[i].med : null, q1: stats[i].q1, q3: stats[i].q3, n: stats[i].n })));
+}
+const compareLegend = id => legend(id, [["CH-Dav", "var(--dav)"], ["network median", "var(--ink-2)"], ["interquartile range", "var(--band)", "box"]]);
+
+function renderSteps(node) {
+  const sites = filtered().filter(s => s.site !== "CH-Dav");
+  compareChart(node, AE_STEPS, AE_STEPS.map(k => AE_LABEL[k]), AE_STEPS.map(k => DAVSITE.rma[k]),
+    AE_STEPS.map(k => sites.map(s => s.rma[k])), { tipLabel: i => AE_LONG[AE_STEPS[i]], catTitle: "Available energy" });
+}
+const TS = ["30 min", "day", "week", "month", "season", "year"];
+function renderTS(node) {
+  const sites = filtered().filter(s => s.site !== "CH-Dav");
+  compareChart(node, TS, TS, TS.map(k => DAVSITE.ratio[k]), TS.map(k => sites.map(s => s.ratio[k])),
+    { catTitle: "Aggregation", lo: 0.3, hi: 1.1, height: 260 });
+}
+const STRAT_NAMES = {
+  very_stable: "very stable", stable: "stable", neutral_stable: "neutral (stable)", neutral_unstable: "neutral (unstable)",
+  unstable: "unstable", very_unstable: "very unstable", night: "night", astronomical_twilight: "astr. twilight",
+  nautical_twilight: "naut. twilight", civil_twilight: "civil twilight", day: "day",
+};
+function stratLabel(lv) {
+  if (STRAT_NAMES[lv]) return STRAT_NAMES[lv];
+  const m = lv.match(/\((-?[\d.]+)-(-?[\d.]+)\]/);
+  return m ? `${m[1]}…${m[2]}` : lv;
+}
+function renderStrat(node) {
+  const S = NET.strat[state.strat];
+  const dv = S.values["CH-Dav"] || [];
+  const keep = S.levels.map((_, i) => dv[i] && dv[i][1] >= 50);
+  const idx = S.levels.map((_, i) => i).filter(i => keep[i]);
+  const sites = filtered().filter(s => s.site !== "CH-Dav");
+  const unit = { SEA_classes: "sun elevation (°)", RH_classes: "relative humidity (%)" }[state.strat];
+  compareChart(node, idx.map(i => S.levels[i]), idx.map(i => stratLabel(S.levels[i])), idx.map(i => dv[i][0]),
+    idx.map(i => sites.map(s => S.values[s.site]?.[i]?.[0] ?? null)),
+    { catTitle: unit || "Class", xTitle: unit, lo: 0, hi: 1.2, extra: j => row("CH-Dav half-hours", dv[idx[j]][1]) });
+}
+
+/* ---------- CH-Dav: yearly ---------- */
+function periodBands(f, x, yTop, yBot, withLabels) {
+  DAV.period_dates.forEach((p, i) => {
+    const a = new Date(p.start), b = new Date(p.end);
+    const xa = x(a.getFullYear() + a.getMonth() / 12), xb = x(b.getFullYear() + b.getMonth() / 12);
+    const x0 = Math.max(f.m.l, xa), x1 = Math.min(f.w - f.m.r, xb);
+    if (x1 <= x0) return;
+    if (i % 2 === 1) el("rect", { x: x0, y: yTop, width: x1 - x0, height: yBot - yTop, fill: "var(--band)", "fill-opacity": 0.55 }, f.svg);
+    if (withLabels && x1 - x0 > 58) text(f.svg, (x0 + x1) / 2, yTop + 12, p.label.replace(/ \((CP|OP|EP)\)/, ""), { "text-anchor": "middle", "font-size": 10 });
+  });
+}
+function renderYears(node) {
+  const rows = DAV.yearly;
+  const f = frame(node, 300, { l: 40, r: 16, t: 26, b: 30 });
+  const x = scale(1996.5, 2024.5, f.m.l, f.w - f.m.r), y = scale(0, 1.1, f.h - f.m.b, f.m.t);
+  periodBands(f, v => x(v - 0.5), f.m.t - 22, f.h - f.m.b, true);
+  yAxis(f, y, [0, 0.2, 0.4, 0.6, 0.8, 1.0], t => t.toFixed(1));
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(1), y2: y(1), class: "base-line" }, f.svg);
+  for (const t of [2000, 2005, 2010, 2015, 2020]) text(f.svg, x(t), f.h - 10, String(t), { "text-anchor": "middle" });
+  const series = [["hh_slope", "half-hourly slope", "var(--s1)"], ["day_slope", "daily-mean slope", "var(--s2)"], ["hh_ebr", "half-hourly ΣTE/ΣAE", "var(--s3)"]];
+  for (const [k, , color] of series) {
+    let d = "", pen = false;
+    rows.forEach(r => { const v = r[k]; if (v == null || (k === "day_slope" && (r.day_n ?? 0) < 10)) { pen = false; return; } d += `${pen ? "L" : "M"}${x(r.year)},${y(v)}`; pen = true; });
+    el("path", { d, fill: "none", stroke: color, "stroke-width": 2, "stroke-linejoin": "round" }, f.svg);
+    rows.forEach(r => { const v = r[k]; if (v == null || (k === "day_slope" && (r.day_n ?? 0) < 10)) return; el("circle", { cx: x(r.year), cy: y(v), r: 3, fill: color, stroke: "var(--surface)", "stroke-width": 1.5 }, f.svg); });
+  }
+  legend("lg-years", series.map(([, l, c]) => [l, c]));
+  const guide = el("line", { y1: f.m.t, y2: f.h - f.m.b, stroke: "var(--axis)", visibility: "hidden" }, f.svg);
+  const hit = el("rect", { x: f.m.l, y: 0, width: f.iw, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width;
+    const yr = Math.max(1997, Math.min(2024, Math.round(x.invert(sx))));
+    const d = rows.find(q => q.year === yr); if (!d) return;
+    guide.setAttribute("x1", x(yr)); guide.setAttribute("x2", x(yr)); guide.setAttribute("visibility", "visible");
+    const p = DAV.period_dates.find(p => new Date(p.start) <= new Date(`${yr}-07-01`) && new Date(`${yr}-07-01`) < new Date(p.end));
+    showTip(`<b>${yr}</b>${p ? ` · ${p.label}` : ""}` + row("half-hourly slope", fmt(d.hh_slope), cssVar("--s1")) + row("daily slope", (d.day_n ?? 0) >= 10 ? fmt(d.day_slope) : "–", cssVar("--s2"))
+      + row("ΣTE / ΣAE", fmt(d.hh_ebr), cssVar("--s3")) + row("half-hours", d.hh_n ?? 0), ev);
+  });
+  hit.addEventListener("pointerleave", () => { hideTip(); guide.setAttribute("visibility", "hidden"); });
+  setTable(node, [{ key: "year", label: "Year" }, { key: "hh_slope", label: "HH slope", n: 1 }, { key: "hh_intercept", label: "Intercept", n: 1, d: 1 },
+    { key: "hh_ebr", label: "ΣTE/ΣAE", n: 1 }, { key: "day_slope", label: "Daily slope", n: 1 }, { key: "hh_n", label: "Half-hours", n: 1, d: 0 }], rows);
+}
+
+/* ---------- CH-Dav: diurnal ---------- */
+const DIUR = [["AE", "available energy AE", "var(--s1)"], ["TE", "turbulent energy TE", "var(--s2)"], ["S", "S bio + S pho", "var(--s3)"],
+  ["RES", "residual AE − TE", "var(--s4)"], ["RES_S", "residual − storage", "var(--s5)"]];
+function renderDiurnal(node) {
+  const rows = DAV.diurnal.filter(r => r.season === state.season);
+  const f = frame(node, 300, { l: 44, r: 16, t: 12, b: 30 });
+  const x = scale(0, 23.5, f.m.l, f.w - f.m.r), y = scale(-100, 700, f.h - f.m.b, f.m.t);
+  yAxis(f, y, [-100, 0, 100, 200, 300, 400, 500, 600, 700], t => String(t));
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(0), y2: y(0), class: "base-line" }, f.svg);
+  for (const t of [0, 3, 6, 9, 12, 15, 18, 21]) text(f.svg, x(t), f.h - 10, `${String(t).padStart(2, "0")}:00`, { "text-anchor": "middle" });
+  text(f.svg, f.m.l - 36, f.m.t + 4, "W m⁻²", {});
+  for (const [k, , color] of DIUR) el("path", { d: rows.map((r, i) => `${i ? "L" : "M"}${x(r.hour)},${y(r[k])}`).join(""), fill: "none", stroke: color, "stroke-width": k.startsWith("RES") ? 2.5 : 2, "stroke-linejoin": "round" }, f.svg);
+  legend("lg-diurnal", DIUR.map(([, l, c]) => [l, c]));
+  const guide = el("line", { y1: f.m.t, y2: f.h - f.m.b, stroke: "var(--axis)", visibility: "hidden" }, f.svg);
+  const hit = el("rect", { x: f.m.l, y: 0, width: f.iw, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width;
+    const h = Math.max(0, Math.min(23.5, Math.round(x.invert(sx) * 2) / 2));
+    const d = rows.find(q => q.hour === h); if (!d) return;
+    guide.setAttribute("x1", x(h)); guide.setAttribute("x2", x(h)); guide.setAttribute("visibility", "visible");
+    const hh = `${String(Math.floor(h)).padStart(2, "0")}:${h % 1 ? "30" : "00"}`;
+    showTip(`<b>${hh}</b> · ${{ DJF: "winter", MAM: "spring", JJA: "summer", SON: "autumn" }[state.season]}` + DIUR.map(([k, l, c]) => row(l, fmt(d[k], 0) + " W m⁻²", cssVar(c.slice(4, -1)))).join(""), ev);
+  });
+  hit.addEventListener("pointerleave", () => { hideTip(); guide.setAttribute("visibility", "hidden"); });
+  setTable(node, [{ key: "hour", label: "Hour", n: 1, d: 1 }, ...DIUR.map(([k, l]) => ({ key: k, label: l, n: 1, d: 0 }))], rows);
+}
+function renderStorageTable() {
+  const order = ["DJF", "MAM", "JJA", "SON"], names = { DJF: "Winter", MAM: "Spring", JJA: "Summer", SON: "Autumn" };
+  const rows = order.map(s => DAV.storage.find(r => r.season === s)).filter(Boolean)
+    .map(r => ({ season: names[r.season], a: r.noS_ols_slope, b: r.withS_ols_slope, d: r.withS_ols_slope - r.noS_ols_slope }));
+  $("#t-storage").innerHTML = tableHTML({ cols: [{ key: "season", label: "Season" }, { key: "a", label: "Without", n: 1 }, { key: "b", label: "With storage", n: 1 }, { key: "d", label: "Gain", n: 1 }], rows });
+}
+
+/* ---------- wind ---------- */
+function renderPolar(node) {
+  const rows = DAV.sector_diag;
+  const size = Math.min(node.clientWidth || 360, 420);
+  node.innerHTML = "";
+  const H = size, W = Math.max(280, node.clientWidth);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, height: H }, node);
+  const cx = W / 2, cy = H / 2, R = H / 2 - 30;
+  const rad = v => Math.min(1.1, Math.max(0, v)) / 1.1 * R;
+  for (const t of [0.25, 0.5, 0.75, 1]) {
+    el("circle", { cx, cy, r: rad(t), fill: "none", stroke: t === 1 ? "var(--axis)" : "var(--hair)", "stroke-width": t === 1 ? 1.4 : 1 }, svg);
+    text(svg, cx + 4, cy - rad(t) - 3, t.toFixed(2), { "font-size": 10 });
+  }
+  const pt = (deg, v) => { const a = (deg - 90) * Math.PI / 180; return [cx + rad(v) * Math.cos(a), cy + rad(v) * Math.sin(a)]; };
+  for (const [deg, lab] of [[0, "N"], [90, "E"], [180, "S"], [270, "W"]]) {
+    const [x1, y1] = pt(deg, 1.1);
+    el("line", { x1: cx, y1: cy, x2: x1, y2: y1, stroke: "var(--hair)" }, svg);
+    const [lx, ly] = pt(deg, 1.1 + 18 / R * 1.1);
+    text(svg, lx, ly + 4, lab, { "text-anchor": "middle", class: "lbl-strong", "font-size": 12 });
+  }
+  const series = [["ebr_all", "all daytime", "var(--s1)"], ["ebr_unstable", "unstable only (z/L < −0.1)", "var(--s2)"]];
+  for (const [k, , c] of series) {
+    const p = rows.map(r => pt(r.sector_centre_deg, r[k]));
+    el("path", { d: "M" + p.map(q => q.join(",")).join("L") + "Z", fill: c, "fill-opacity": 0.08, stroke: c, "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+    p.forEach(q => el("circle", { cx: q[0], cy: q[1], r: 3.5, fill: c, stroke: "var(--surface)", "stroke-width": 1.5 }, svg));
+  }
+  legend("lg-polar", series.map(([, l, c]) => [l, c]));
+  const hit = el("rect", { x: 0, y: 0, width: W, height: H, fill: "transparent" }, svg);
+  hit.addEventListener("pointermove", ev => {
+    const r = svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * W / r.width - cx, sy = (ev.clientY - r.top) * H / r.height - cy;
+    if (Math.hypot(sx, sy) > R + 20) return hideTip();
+    let deg = (Math.atan2(sy, sx) * 180 / Math.PI + 90 + 360) % 360;
+    const d = rows[Math.round(deg / 30) % 12];
+    showTip(`<b>${d.sector_centre_deg}° ± 15°</b>` + row("EBR all", fmt(d.ebr_all), cssVar("--s1")) + row("EBR unstable", fmt(d.ebr_unstable), cssVar("--s2"))
+      + row("share of data", fmt(d.share_pct, 1) + " %") + row("median wind", fmt(d.median_ws, 1) + " m s⁻¹") + row("median u*/WS", fmt(d.median_ustar_ws)), ev);
+  });
+  hit.addEventListener("pointerleave", hideTip);
+  setTable(node, [{ key: "sector_centre_deg", label: "Sector (°)", n: 1, d: 0 }, { key: "ebr_all", label: "EBR all", n: 1 }, { key: "ebr_unstable", label: "EBR unstable", n: 1 },
+    { key: "share_pct", label: "Share %", n: 1, d: 1 }, { key: "median_ws", label: "Wind m/s", n: 1, d: 1 }, { key: "median_ustar_ws", label: "u*/WS", n: 1 }], rows);
+}
+function renderShare(node) {
+  const rows = DAV.sector_diag;
+  const f = frame(node, 260, { l: 36, r: 12, t: 16, b: 30 });
+  const x0 = f.m.l, bw = f.iw / rows.length;
+  const y = scale(0, 45, f.h - f.m.b, f.m.t);
+  yAxis(f, y, [0, 10, 20, 30, 40], t => t + "%");
+  rows.forEach((r, i) => {
+    const h = y(0) - y(r.share_pct), xx = x0 + i * bw + 2, ww = Math.max(2, bw - 4), top = y(r.share_pct);
+    const rr = Math.min(4, ww / 2, h);
+    el("path", { d: `M${xx},${y(0)}V${top + rr}Q${xx},${top} ${xx + rr},${top}H${xx + ww - rr}Q${xx + ww},${top} ${xx + ww},${top + rr}V${y(0)}Z`, fill: "var(--s1)" }, f.svg);
+    text(f.svg, xx + ww / 2, f.h - 10, String(r.sector_centre_deg), { "text-anchor": "middle", "font-size": 10 });
+    if (r.share_pct > 8) text(f.svg, xx + ww / 2, top - 5, Math.round(r.share_pct) + "%", { "text-anchor": "middle", class: "lbl-strong" });
+  });
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(0), y2: y(0), class: "base-line" }, f.svg);
+  const hit = el("rect", { x: f.m.l, y: 0, width: f.iw, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width;
+    const d = rows[Math.max(0, Math.min(rows.length - 1, Math.floor((sx - f.m.l) / bw)))];
+    showTip(`<b>${d.sector_centre_deg}° ± 15°</b>` + row("share of daytime data", fmt(d.share_pct, 1) + " %") + row("EBR", fmt(d.ebr_all)) + row("median wind", fmt(d.median_ws, 1) + " m s⁻¹"), ev);
+  });
+  hit.addEventListener("pointerleave", hideTip);
+  setTable(node, [{ key: "sector_centre_deg", label: "Sector (°)", n: 1, d: 0 }, { key: "share_pct", label: "Share %", n: 1, d: 1 }, { key: "median_ws", label: "Median wind", n: 1, d: 1 }], rows);
+}
+function heatColor(v) {
+  const steps = ["--q1", "--q2", "--q3", "--q4", "--q5", "--q6"];
+  const i = Math.max(0, Math.min(5, Math.floor((v - 0.2) / 0.15)));
+  return { bg: `var(${steps[i]})`, dark: i >= 3 };
+}
+function heatTable(target, rowsKey, rowLabels, data, rowField, colField) {
+  const cols = ["N", "E", "S", "W"];
+  const isDarkUI = matchMedia("(prefers-color-scheme: dark)").matches && document.documentElement.dataset.theme !== "light" || document.documentElement.dataset.theme === "dark";
+  let html = `<table><thead><tr><th>${rowsKey}</th>${cols.map(c => `<th style="text-align:center">${c}</th>`).join("")}</tr></thead><tbody>`;
+  for (const [rv, rl] of rowLabels) {
+    html += `<tr><td class="mono" style="font-size:12px">${rl}</td>`;
+    for (const c of cols) {
+      const d = data.find(x => x[rowField] === rv && x[colField] === c);
+      if (!d || d.n < 30) { html += `<td class="cell" style="color:var(--muted)">–</td>`; continue; }
+      const { bg, dark } = heatColor(d.ebr);
+      const ink = (dark !== isDarkUI) ? "#ffffff" : "#0b0b0b";
+      html += `<td class="cell" style="background:${bg};color:${ink}" title="EBR ${fmt(d.ebr)}, n = ${d.n}">${fmt(d.ebr)}</td>`;
+    }
+    html += "</tr>";
+  }
+  $(target).innerHTML = html + `</tbody></table><p class="note" style="margin-top:8px">Cells with fewer than 30 half-hours shown as –. Stronger shading = better closure.</p>`;
+}
+
+/* ---------- instruments ---------- */
+function renderTimeline(node) {
+  const f = frame(node, 170, { l: 90, r: 16, t: 10, b: 30 });
+  const x = scale(1997, 2025, f.m.l, f.w - f.m.r);
+  const t2x = s => { const d = new Date(s); return x(d.getFullYear() + (d.getMonth() + d.getDate() / 31) / 12); };
+  for (const t of [2000, 2005, 2010, 2015, 2020, 2025]) {
+    el("line", { x1: x(t), x2: x(t), y1: f.m.t, y2: f.h - f.m.b, class: "grid-line" }, f.svg);
+    text(f.svg, x(t), f.h - 10, String(t), { "text-anchor": "middle" });
+  }
+  const sonic = [["1997-01-01", "2006-12-20", "Gill R2"], ["2006-12-20", "2014-07-16", "Gill R3-50"], ["2014-07-16", "2025-01-01", "Gill HS-50 / HS-100"]];
+  const ga = [["1997-01-01", "2005-08-09", "LI-6262 closed"], ["2005-08-09", "2012-09-25", "LI-7500 open"], ["2012-09-25", "2021-11-08", "LI-7200 enclosed"], ["2021-11-08", "2025-01-01", "7200RS"]];
+  const rad = [["1997-01-01", "2006-06-12", "pyrradiometer"], ["2006-06-12", "2019-05-23", "CNR1"], ["2019-05-23", "2025-01-01", "CNR4"]];
+  const lanes = [["Sonic", sonic, 18], ["Gas analyser", ga, 50], ["Radiometer", rad, 82]];
+  const colors = ["var(--s1)", "var(--s3)", "var(--s4)", "var(--s5)"];
+  for (const [name, bars, yy] of lanes) {
+    text(f.svg, f.m.l - 10, f.m.t + yy + 4, name, { "text-anchor": "end", class: "lbl-strong" });
+    bars.forEach(([a, b, lab], i) => {
+      const xa = t2x(a) + 1, xb = t2x(b) - 1;
+      el("rect", { x: xa, y: f.m.t + yy - 11, width: Math.max(2, xb - xa), height: 22, rx: 4, fill: colors[i % colors.length], "fill-opacity": 0.22 }, f.svg);
+      el("rect", { x: xa, y: f.m.t + yy - 11, width: 3, height: 22, rx: 1.5, fill: colors[i % colors.length] }, f.svg);
+      if (xb - xa > lab.length * 6.4 + 10) text(f.svg, xa + 8, f.m.t + yy + 4, lab, { class: "lbl-strong", "font-size": 10.5 });
+    });
+  }
+  const ey = f.m.t + 112;
+  text(f.svg, f.m.l - 10, ey + 4, "Events", { "text-anchor": "end", class: "lbl-strong" });
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: ey, y2: ey, class: "base-line" }, f.svg);
+  const evs = DAV.events.map(e => ({ ...e, cx: t2x(e.date) }));
+  for (const e of evs) el("circle", { cx: e.cx, cy: ey, r: 5, fill: "var(--dav)", stroke: "var(--surface)", "stroke-width": 2 }, f.svg);
+  const hit = el("rect", { x: 0, y: 0, width: f.w, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width, sy = (ev.clientY - r.top) * f.h / r.height;
+    if (Math.abs(sy - ey) > 18) {
+      for (const [name, bars, yy] of lanes) if (Math.abs(sy - (f.m.t + yy)) < 13) {
+        const b = bars.find(([a, bb]) => sx >= t2x(a) && sx <= t2x(bb));
+        if (b) return showTip(`<b>${name}: ${b[2]}</b><br>${b[0]} – ${b[1] === "2025-01-01" ? "today" : b[1]}`, ev);
+      }
+      return hideTip();
+    }
+    let best = null, bd = 16;
+    for (const e of evs) { const d = Math.abs(e.cx - sx); if (d < bd) { bd = d; best = e; } }
+    if (!best) return hideTip();
+    showTip(`<b>${best.date}</b> · ${best.kind}<br>${best.text}`, ev);
+  });
+  hit.addEventListener("pointerleave", hideTip);
+}
+function renderPeriods() {
+  const rows = DAV.periods.map(r => ({ period: r.period, type: r.ga_type, n: r.n, slope: r.ols_slope, ebr: r.ebr, a: r.a_H, b: r.b_LE }));
+  $("#t-periods").innerHTML = tableHTML({ cols: [{ key: "period", label: "Sonic + analyser" }, { key: "type", label: "Path" }, { key: "n", label: "Half-hours", n: 1, d: 0 },
+    { key: "slope", label: "Slope", n: 1 }, { key: "ebr", label: "ΣTE/ΣAE", n: 1 }, { key: "a", label: "a (H)", n: 1 }, { key: "b", label: "b (LE)", n: 1 }], rows });
+}
+function renderEvents() {
+  $("#events").innerHTML = DAV.events.map(e => `<li><time datetime="${e.date}">${e.date}</time><span class="kind">${e.kind}</span><span>${e.text}</span></li>`).join("");
+}
+
+/* ---------- wire up ---------- */
+register("hero-chart", renderHero);
+renderStats();
+register("c-rank", renderRank);
+register("c-scatter", renderScatter);
+register("c-steps", renderSteps); compareLegend("lg-compare-1");
+register("c-ts", renderTS); compareLegend("lg-compare-2");
+register("c-strat", renderStrat); compareLegend("lg-compare-3");
+register("c-years", renderYears);
+register("c-diurnal", renderDiurnal); renderStorageTable();
+register("c-polar", renderPolar);
+register("c-share", renderShare);
+const USTAR_ROWS = [["[0.0, 0.3)", "u* < 0.3"], ["[0.3, 0.5)", "0.3–0.5"], ["[0.5, 0.7)", "0.5–0.7"], ["[0.7, 1.0)", "0.7–1.0"], ["[1.0, 3.0)", "≥ 1.0"]];
+const renderHeats = () => {
+  heatTable("#h-ustar", "u* (m s⁻¹)", USTAR_ROWS, DAV.quad_ustar, "ustar_coarse", "quadrant");
+  heatTable("#h-period", "Sonic + analyser", DAV.period_dates.map(p => [p.label, p.label.replace(/ \((CP|OP|EP)\)/, "")]), DAV.quad_period, "period", "quadrant");
+};
+renderHeats();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderHeats);
+new MutationObserver(renderHeats).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+register("c-timeline", renderTimeline);
+renderPeriods(); renderEvents();
+$("#gen").textContent = `Generated ${DATA.generated} from the ebc-explorer analyses.`;
+
+segmented("ctl-ae", v => { state.ae = v; rerender("c-rank", "c-scatter"); });
+segmented("ctl-net", v => { state.net = v; rerender("c-rank", "c-scatter", "c-steps", "c-ts", "c-strat"); });
+$("#ctl-pft").addEventListener("change", e => { state.pft = e.target.value; rerender("c-rank", "c-scatter", "c-steps", "c-ts", "c-strat"); });
+$("#ctl-attr").addEventListener("change", e => { state.attr = e.target.value; rerender("c-scatter"); });
+segmented("ctl-strat", v => { state.strat = v; rerender("c-strat"); });
+segmented("ctl-season", v => { state.season = v; rerender("c-diurnal"); });
+
+/* active section in nav */
+const navLinks = $$("nav.toc a");
+const io = new IntersectionObserver(entries => {
+  for (const en of entries) if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
+}, { rootMargin: "-45% 0px -50% 0px" });
+$$("section.block").forEach(s => io.observe(s));
+</script>
