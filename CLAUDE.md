@@ -66,6 +66,19 @@ Main paper: Nicolini et al. 2026, GCB 32:e70892 (`files/21788/`). Key facts:
 - Table 1: CH-Dav slope 16.2 deg WNW (steepest ICOS site), EC 35 m, canopy 19.2 m, biomass 62.5 kg m-2
 - CH-Dav is not discussed individually
 
+## Terrain data: `raw/swisstopo_CH-Dav/`
+
+swisstopo tiles (1 × 1 km, LV95/EPSG:2056, credit "© swisstopo"), fetched with
+`uv run python scripts/download_ch_dav_terrain.py` (resumable, `ebc_explorer.swisstopo`):
+`alti3d_2m/` terrain 8 × 8 km, `alti3d_0.5m/` terrain and `surface3d_0.5m/` surface 3 × 4 km.
+Canopy height = surface − terrain. Tower: LV95 E 2784453, N 1187750, ground 1637.7 m.
+The tower stands at the foot of the forested WNW slope, ~80 m above the open valley floor
+to the N/NW/W; forest ends ~250–300 m north of the tower.
+Davoser See (swissTLM3D outline in `raw/swisstopo_CH-Dav/davoser_see_swisstlm3d.geojson`,
+analysis 09): 0.58 km², 1.43 × 0.61 km, long axis 36° (along the valley), surface 1558 m,
+nearest shore 222 m NW of the tower, centroid 565 m at 331°. Lake covers 49 % of the
+N sector within 500 m and 94 % at 500–1000 m.
+
 ## Code layout
 
 - `ebc_explorer/`: reusable code (`paths`, `fluxnet`, `nicolini`, `ebc` closure stats, `ch_dav` site info)
