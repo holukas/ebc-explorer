@@ -30,6 +30,7 @@ from ebc_explorer.ch_dav import INSTRUMENT_PERIODS, TOWER_LV95
 from ebc_explorer.paths import (CH_DAV_PROCESSED, CH_DAV_SWISSTOPO, EBC_RESULTS,
                                 EBC_RESULTS_GAPFILLED, STATIONS_ANCILLARY)
 
+AUTHOR = "Lukas Hörtnagl"  # report author, shown in the footer
 HERE = Path(__file__).parent
 TEMPLATE = HERE / "templates" / "ch_dav_overview.html"
 OUTPUT = HERE / "ch_dav_overview.html"
@@ -248,7 +249,8 @@ def main(argv=None):
     parser.add_argument("--fragment", type=Path, help="also write the page without html/head wrapper")
     args = parser.parse_args(argv)
     payload = {
-        "generated": date.today().isoformat(),
+        "generated": f"{date.today().day} {date.today():%B %Y}",
+        "author": AUTHOR,
         "network": network_payload(),
         "dav": dav_payload(),
         "terrain": terrain_payload(),

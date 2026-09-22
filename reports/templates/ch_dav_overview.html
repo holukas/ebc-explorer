@@ -1540,7 +1540,7 @@ register("c-profiles", renderProfiles);
 renderSectorTable();
 register("c-timeline", renderTimeline);
 renderPeriods(); renderEvents();
-$("#gen").textContent = `Generated on ${DATA.generated} from the ebc-explorer analyses.`;
+$("#gen").innerHTML = `<b>Created by ${DATA.author}</b>, ${DATA.generated}.`;
 
 segmented("ctl-ae", v => { state.ae = v; rerender("c-rank", "c-scatter"); });
 segmented("ctl-net", v => { state.net = v; rerender("c-rank", "c-scatter", "c-steps", "c-ts", "c-strat"); });
