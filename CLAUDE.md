@@ -85,7 +85,9 @@ N sector within 500 m and 94 % at 500–1000 m.
 - `analyses/ch_dav_NN_*.py`: numbered analysis scripts; each writes to
   `processed/CH-Dav/NN_*.csv` and `figures/CH-Dav/NN_*.png`. Run with `uv run python analyses/<script>.py`.
 - `reports/build_ch_dav_overview.py` + `reports/templates/ch_dav_overview.html` -> `reports/ch_dav_overview.html`
-  (interactive overview page; data embedded as JSON). Rebuild after re-running the analyses.
+  (interactive overview page; data and map images embedded). Needs analyses 01-10 (08-10: terrain,
+  lake and map images from the swisstopo data). Rebuild after re-running the analyses.
+  Preview: `.claude/launch.json` entry "reports" serves `reports/` on http://localhost:8765.
   Never put personal data in reports: no person names from the fieldbook, no IP addresses.
 
 ## Environment
