@@ -70,6 +70,9 @@ CH_DAV_FLUXMET_HH_PARQUET = INTERIM / CH_DAV_FLUXNET.name / "FLUXMET_HH.parquet"
 CH_DAV_ICOS_L2 = RAW / "ICOSETC_CH-Dav_ARCHIVE_L2_2025"  # ICOS ETC L2 fluxes 2019-2024 (incl. footprint)
 CH_DAV_FLUXES_L2 = CH_DAV_ICOS_L2 / "ICOSETC_CH-Dav_FLUXES_L2.csv"
 CH_DAV_FLUXES_L2_PARQUET = INTERIM / CH_DAV_ICOS_L2.name / "FLUXES_L2.parquet"
+# sensor-level soil and radiation data (per heat flux plate, soil profile and radiometer),
+# a column subset of ICOSETC_CH-Dav_METEOSENS_L2.csv; see scripts/extract_ch_dav_meteosens.py
+CH_DAV_METEOSENS_PARQUET = INTERIM / CH_DAV_ICOS_L2.name / "METEOSENS_soil_radiation.parquet"
 CH_DAV_SWISSTOPO = RAW / "swisstopo_CH-Dav"  # terrain and surface model tiles around the tower
 CH_DAV_PROCESSED = PROCESSED / "CH-Dav"
 CH_DAV_FIGURES = FIGURES / "CH-Dav"
