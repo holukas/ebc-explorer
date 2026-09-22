@@ -71,6 +71,9 @@ Main paper: Nicolini et al. 2026, GCB 32:e70892 (`files/21788/`). Key facts:
 - `ebc_explorer/`: reusable code (`paths`, `fluxnet`, `nicolini`, `ebc` closure stats, `ch_dav` site info)
 - `analyses/ch_dav_NN_*.py`: numbered analysis scripts; each writes to
   `processed/CH-Dav/NN_*.csv` and `figures/CH-Dav/NN_*.png`. Run with `uv run python analyses/<script>.py`.
+- `reports/build_ch_dav_overview.py` + `reports/templates/ch_dav_overview.html` -> `reports/ch_dav_overview.html`
+  (interactive overview page; data embedded as JSON). Rebuild after re-running the analyses.
+  Never put personal data in reports: no person names from the fieldbook, no IP addresses.
 
 ## Environment
 
