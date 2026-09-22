@@ -66,6 +66,16 @@ Main paper: Nicolini et al. 2026, GCB 32:e70892 (`files/21788/`). Key facts:
 - Table 1: CH-Dav slope 16.2 deg WNW (steepest ICOS site), EC 35 m, canopy 19.2 m, biomass 62.5 kg m-2
 - CH-Dav is not discussed individually
 
+## ICOS L2 fluxes with footprint: `raw/ICOSETC_CH-Dav_ARCHIVE_L2_2025/`
+
+`ICOSETC_CH-Dav_FLUXES_L2.csv` (2019-2024), extracted from the station's archive
+`F:\Sync\luhk_work\sites\DAV\Data\Datasets\2025_ICOSETC_CH-Dav_ARCHIVE_L2.zip` (never modify
+the original). Load with `ebc_explorer.fluxnet.load_ch_dav_fluxes_l2()`. Contains per half-hour
+FETCH_OFFSET/MAX/50/70/80/90, FOOTPRINT_80_SURF, FOOTPRINT_TA_CONTR, FOOTPRINT_FLAG (0 = valid),
+V_SIGMA, MO_LENGTH, ZL, WD. The FLUXNET product has no footprint variables.
+Analysis 12: daytime 90 % fetch ~190-210 m; lake contributes ~3 % for N wind and has no effect on
+closure within the N sector; at equal u*, closure is poorest near neutral (FETCH ranks with z/L).
+
 ## Terrain data: `raw/swisstopo_CH-Dav/`
 
 swisstopo tiles (1 × 1 km, LV95/EPSG:2056, credit "© swisstopo"), fetched with
@@ -88,6 +98,9 @@ N sector within 500 m and 94 % at 500–1000 m.
   (interactive overview page; data and map images embedded). Needs analyses 01-10 (08-10: terrain,
   lake and map images from the swisstopo data). Rebuild after re-running the analyses.
   Preview: `.claude/launch.json` entry "reports" serves `reports/` on http://localhost:8765.
+- `reports/build_ch_dav_3d.py` + `reports/templates/ch_dav_3d.html` -> `reports/ch_dav_3d.html`
+  (3D landscape, three.js from jsdelivr; needs analyses 07, 09, 11, 12). Published copy:
+  https://claude.ai/artifact/FjLpmhyvvmphCKn1ngo5Cp (linked from the overview's published copy).
   Never put personal data in reports: no person names from the fieldbook, no IP addresses.
   Exception: the report author (`AUTHOR` in the build script) is shown in the footer.
 
