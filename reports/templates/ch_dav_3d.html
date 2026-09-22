@@ -1,0 +1,411 @@
+<title>CH-Dav 3D Landscape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  --ground: #f3f6f5; --surface: #ffffff; --surface-2: #eaf0ee;
+  --ink: #0f1c19; --ink-2: #46554f; --muted: #7b8884; --hair: #dce4e1; --axis: #b9c4c0;
+  --brand: #1d5c4f; --brand-soft: #d8e9e3; --dav: #eb6834;
+  --scene: #dfe7e4;
+  --shadow: 0 1px 2px rgba(15, 28, 25, 0.06), 0 8px 24px rgba(15, 28, 25, 0.05);
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0d1312; --surface: #141c1a; --surface-2: #1b2522;
+    --ink: #edf3f1; --ink-2: #b6c3bf; --muted: #7f8c88; --hair: #24302d; --axis: #3a4743;
+    --brand: #6cc1a8; --brand-soft: #1d3a33; --dav: #f07a47; --scene: #1a2321;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0d1312; --surface: #141c1a; --surface-2: #1b2522;
+  --ink: #edf3f1; --ink-2: #b6c3bf; --muted: #7f8c88; --hair: #24302d; --axis: #3a4743;
+  --brand: #6cc1a8; --brand-soft: #1d3a33; --dav: #f07a47; --scene: #1a2321;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+* { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); font: 15px/1.6 var(--f-body); padding-inline: 16px; padding-block: 0 40px; }
+.wrap { max-width: 1240px; margin-inline: auto; display: grid; gap: 16px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.eyebrow { font: 500 12px/1.3 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding-top: 18px; }
+header { display: grid; gap: 8px; padding-block: 8px 4px; }
+header h1 { font-size: clamp(30px, 4vw, 46px); line-height: 1.05; }
+.lede { color: var(--ink-2); max-width: 78ch; }
+.card { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); padding: 16px 18px; display: grid; gap: 10px; min-width: 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+.ctl { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.lab { font: 500 11px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 8px; padding: 2px; flex-wrap: wrap; }
+.seg button { font: 500 13px/1 var(--f-body); color: var(--ink-2); background: transparent; border: 0; padding: 7px 10px; border-radius: 6px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.12); }
+.seg.small button { font-size: 12px; padding: 6px 9px; }
+.chk { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--ink-2); cursor: pointer; }
+.chk input { accent-color: var(--brand); }
+input[type="range"] { accent-color: var(--brand); width: 120px; }
+.btn { font: 500 13px/1 var(--f-body); color: var(--ink); background: var(--surface-2); border: 0; border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+.btn:hover { background: var(--brand-soft); color: var(--brand); }
+.viewer { position: relative; width: 100%; height: min(72vh, 760px); min-height: 380px; border-radius: 12px; overflow: hidden; background: var(--scene); box-shadow: var(--shadow); }
+.viewer canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.lbl { position: absolute; transform: translate(-50%, -100%); font: 600 12px/1.2 var(--f-mono); color: #0f1c19; background: rgba(255, 255, 255, 0.86); padding: 2px 6px; border-radius: 5px; white-space: nowrap; }
+.lbl.minor { font-weight: 400; font-size: 11px; opacity: 0.85; }
+.lbl.tower { background: #eb6834; color: #fff; }
+.lbl.lake { background: rgba(42, 120, 214, 0.9); color: #fff; font-style: italic; }
+.hint { position: absolute; left: 12px; bottom: 10px; font: 500 12px/1.3 var(--f-mono); color: #0f1c19; background: rgba(255, 255, 255, 0.8); padding: 4px 8px; border-radius: 6px; pointer-events: none; }
+.tip { position: fixed; z-index: 50; pointer-events: none; background: var(--surface); color: var(--ink); border-radius: 8px; border: 1px solid var(--hair); box-shadow: 0 12px 32px rgba(0,0,0,0.16); padding: 8px 10px; font-size: 12.5px; line-height: 1.45; max-width: 280px; }
+.tip .row { display: flex; justify-content: space-between; gap: 14px; }
+.tip .row span:last-child { font-family: var(--f-mono); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.5px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+.legend i.box { width: 12px; height: 10px; }
+.grid-2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.card h2 { font-size: 20px; }
+.card ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.table-view { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--hair); white-space: nowrap; }
+th { font: 500 11px/1.3 var(--f-mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+td.n, th.n { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+tr.minor td { color: var(--muted); }
+.note { font-size: 13px; color: var(--ink-2); }
+.fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--ink-2); }
+footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--hair); display: grid; gap: 6px; font-size: 12.5px; color: var(--muted); max-width: 110ch; }
+footer b { color: var(--ink-2); font-weight: 600; }
+@media (max-width: 900px) { .grid-2 { grid-template-columns: minmax(0, 1fr); } }
+</style>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="eyebrow">ICOS station CH-Dav · Davos Seehornwald, Switzerland</div>
+    <div class="ctl" role="group" aria-label="Colour theme">
+      <span class="lab">Theme</span>
+      <div class="seg small" id="ctl-theme">
+        <button type="button" data-v="auto">Auto</button>
+        <button type="button" data-v="light">Light</button>
+        <button type="button" data-v="dark">Dark</button>
+      </div>
+    </div>
+  </div>
+  <header>
+    <h1>CH-Dav landscape in 3D</h1>
+    <p class="lede">Terrain, forest and the Davoser See around the flux tower, with the 30° wind sectors, the closure per sector and the daytime flux footprint from the ICOS data. Drag to rotate, scroll or pinch to zoom, right-drag or two-finger drag to move.</p>
+  </header>
+
+  <div class="card controls" role="group" aria-label="Map controls">
+    <div class="ctl"><span class="lab">Surface</span>
+      <div class="seg" id="ctl-tex">
+        <button type="button" data-v="photo" aria-pressed="true">Aerial photo</button>
+        <button type="button" data-v="canopy">Canopy height</button>
+      </div>
+    </div>
+    <div class="ctl"><span class="lab">Layers</span>
+      <label class="chk"><input type="checkbox" id="lay-sectors" checked> Wind sectors</label>
+      <label class="chk"><input type="checkbox" id="lay-footprint" checked> Footprint</label>
+      <label class="chk"><input type="checkbox" id="lay-lake" checked> Lake</label>
+      <label class="chk"><input type="checkbox" id="lay-labels" checked> Labels</label>
+    </div>
+    <div class="ctl"><label class="lab" for="ctl-ex">Height ×<span id="ex-val">1.5</span></label>
+      <input type="range" id="ctl-ex" min="1" max="3" step="0.1" value="1.5">
+    </div>
+    <div class="ctl">
+      <button class="btn" type="button" id="btn-reset">Reset view</button>
+      <button class="btn" type="button" id="btn-tower">Zoom to tower</button>
+    </div>
+  </div>
+
+  <div class="viewer" id="viewer">
+    <div class="labels" id="labels"></div>
+    <div class="hint" id="hint">8 × 8 km · hover for details</div>
+  </div>
+  <div class="legend" id="legend"></div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2>Footprint from the ICOS data</h2>
+      <ul id="fp-findings">
+        <li>The ICOS footprint model (Kljun et al., 2015) places half of the daytime flux within about 40 to 50 m of the tower, 80 % within about 110 to 120 m and 90 % within about 190 to 210 m.</li>
+        <li>For northerly wind, the lake starts 350 m from the tower along the wind direction. The model assigns on average about 3 % of the flux to the lake. Within the northern sector, closure does not change with this share (EBR 0.42 to 0.47).</li>
+        <li>At the same u*, closure decreases as the footprint gets longer: at u* 0.6 to 0.8 m s⁻¹, EBR is 0.65 when 80 % of the flux comes from within 90 m and 0.37 when it comes from beyond 130 m. In this model the footprint length follows the atmospheric stability, so closure is best in strongly unstable conditions and poorest near neutral.</li>
+        <li>The lake is therefore unlikely to affect the measured fluxes directly through the footprint. It can still affect them indirectly, through cool air and the along-valley flow that crosses it before reaching the forest.</li>
+        <li>The footprint model assumes flat, uniform terrain. On the 16° slope, with the lake and the valley floor upwind, the real source area can differ.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Footprint and closure per wind sector</h2>
+      <div class="table-view" id="t-fp"></div>
+      <p class="note">Daytime, AE ≥ 100 W m⁻², valid ICOS footprint (flag 0), 2019 to 2024. Distances are medians along the wind direction. Grey rows: fewer than 100 half-hours.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p><b>Data.</b> Terrain swissALTI3D (2 m), surface swissSURFACE3D (0.5 m, 2020), aerial photo SWISSIMAGE (2 m, 2025), lake outline swissTLM3D: © swisstopo. Footprint distances: ICOS ETC L2 fluxes CH-Dav 2019 to 2024 (Kljun et al. 2015 model), ICOS Carbon Portal, CC BY 4.0. Closure: ICOS FLUXNET product v1.3_r1, measured data.</p>
+    <p><b>Method.</b> Terrain mesh on a 10 m grid, 8 × 8 km (LV95 E 2781 to 2789 km, N 1184 to 1192 km). Canopy height = surface minus terrain. Footprint lines connect the median distances at which 50, 80 and 90 % of the cross-wind integrated footprint is reached, per 30° wind sector.</p>
+    <p id="gen"></p>
+  </footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>window.DATA = /*__DATA__*/null;</script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const D = window.DATA, T = D.terrain3d;
+const $ = s => document.querySelector(s);
+const fmt = (v, d = 2) => (v == null || !isFinite(v)) ? "n/a" : v.toFixed(d);
+const SECTOR_NAMES = { 0: "N", 30: "NNE", 60: "ENE", 90: "E", 120: "ESE", 150: "SSE", 180: "S", 210: "SSW", 240: "WSW", 270: "W", 300: "WNW", 330: "NNW" };
+
+/* ---- theme switch (same behaviour as the overview page) ---- */
+const THEME_KEY = "ch-dav-theme";
+function applyTheme(v) {
+  if (v === "light" || v === "dark") document.documentElement.dataset.theme = v; else delete document.documentElement.dataset.theme;
+  document.querySelectorAll("#ctl-theme button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === v ? "true" : "false"));
+}
+let saved = null; try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+applyTheme(saved || document.documentElement.dataset.theme || "auto");
+function segmented(id, cb) {
+  const seg = document.getElementById(id);
+  seg.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    seg.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+    cb(b.dataset.v);
+  });
+}
+segmented("ctl-theme", v => { applyTheme(v); try { localStorage.setItem(THEME_KEY, v); } catch (e) {} });
+
+/* ---- terrain data ---- */
+const [L, R, B, TOP] = T.extent, W = R - L, H = TOP - B;
+const NX = T.nx, NY = T.ny, G = T.grid;
+const bytes = Uint8Array.from(atob(T.heights), c => c.charCodeAt(0));
+const hRaw = new Uint16Array(bytes.buffer);
+const [TE, TN] = D.tower;
+function heightAt(e, n) {  // m a.s.l., bilinear
+  const fx = (e - L) / G - 0.5, fy = (TOP - n) / G - 0.5;
+  const x0 = Math.max(0, Math.min(NX - 2, Math.floor(fx))), y0 = Math.max(0, Math.min(NY - 2, Math.floor(fy)));
+  const dx = Math.min(1, Math.max(0, fx - x0)), dy = Math.min(1, Math.max(0, fy - y0));
+  const v = (x, y) => hRaw[y * NX + x] * T.hscale + T.hmin;
+  return v(x0, y0) * (1 - dx) * (1 - dy) + v(x0 + 1, y0) * dx * (1 - dy) + v(x0, y0 + 1) * (1 - dx) * dy + v(x0 + 1, y0 + 1) * dx * dy;
+}
+const Z0 = heightAt(TE, TN);
+const toScene = (e, n, h) => new THREE.Vector3(e - TE, h - Z0, -(n - TN));
+const sceneToEN = p => [p.x + TE, -p.z + TN];
+
+/* ---- renderer, scene, camera ---- */
+const viewer = $("#viewer");
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+} catch (e) {
+  viewer.insertAdjacentHTML("beforeend", `<div class="fallback">This browser cannot show the 3D view (WebGL is not available).</div>`);
+  throw e;
+}
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+viewer.prepend(renderer.domElement);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(42, 1, 5, 60000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.maxPolarAngle = Math.PI * 0.47;
+controls.minDistance = 60;
+controls.maxDistance = 16000;
+controls.screenSpacePanning = false;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a9a90, 1.7));
+const sun = new THREE.DirectionalLight(0xffffff, 1.1);
+sun.position.set(-3000, 4000, -2000);
+scene.add(sun);
+function sceneColor() { scene.background = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue("--scene").trim() || "#dfe7e4"); }
+sceneColor();
+new MutationObserver(sceneColor).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", sceneColor);
+
+const world = new THREE.Group();  // everything that follows the vertical exaggeration
+scene.add(world);
+
+/* ---- terrain mesh ---- */
+const geo = new THREE.PlaneGeometry(W, H, NX - 1, NY - 1);
+geo.rotateX(-Math.PI / 2);
+geo.translate(L + W / 2 - TE, 0, -(B + H / 2 - TN));
+const pos = geo.attributes.position;
+for (let i = 0; i < pos.count; i++) pos.setY(i, hRaw[i] * T.hscale + T.hmin - Z0);
+geo.computeVertexNormals();
+const loader = new THREE.TextureLoader();
+const textures = {};
+for (const k of ["photo", "canopy"]) {
+  const tx = loader.load(T.textures[k]);
+  tx.colorSpace = THREE.SRGBColorSpace;
+  tx.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  textures[k] = tx;
+}
+const terrainMat = new THREE.MeshLambertMaterial({ map: textures.photo });
+const terrain = new THREE.Mesh(geo, terrainMat);
+world.add(terrain);
+
+/* ---- overlays ---- */
+const drape = (e, n, lift = 3) => toScene(e, n, heightAt(e, n) + lift);
+function drapedLine(points, color, opacity = 1, width = 1) {
+  const pts = [];
+  for (let i = 0; i < points.length - 1; i++) {
+    const [e0, n0] = points[i], [e1, n1] = points[i + 1];
+    const steps = Math.max(1, Math.ceil(Math.hypot(e1 - e0, n1 - n0) / 15));
+    for (let s = 0; s < steps; s++) pts.push(drape(e0 + (e1 - e0) * s / steps, n0 + (n1 - n0) * s / steps));
+  }
+  pts.push(drape(...points[points.length - 1]));
+  const g = new THREE.BufferGeometry().setFromPoints(pts);
+  return new THREE.Line(g, new THREE.LineBasicMaterial({ color, transparent: opacity < 1, opacity, depthTest: true }));
+}
+const polar = (deg, dist) => [TE + dist * Math.sin(deg * Math.PI / 180), TN + dist * Math.cos(deg * Math.PI / 180)];
+
+const layers = { sectors: new THREE.Group(), footprint: new THREE.Group(), lake: new THREE.Group() };
+Object.values(layers).forEach(g => world.add(g));
+for (let d = 15; d < 360; d += 30) layers.sectors.add(drapedLine([polar(d, 0), polar(d, 3000)], 0xffffff, 0.8));
+for (const r of [500, 1000, 2000]) {
+  const ring = []; for (let a = 0; a <= 360; a += 4) ring.push(polar(a, r));
+  layers.sectors.add(drapedLine(ring, 0xffffff, 0.65));
+}
+
+// lake: filled surface at the water level plus a draped shore line
+const shape = new THREE.Shape(D.lake.outline.map(([e, n]) => new THREE.Vector2(e - TE, n - TN)));
+const lakeGeo = new THREE.ShapeGeometry(shape);
+lakeGeo.rotateX(-Math.PI / 2);
+lakeGeo.translate(0, D.lake.level - Z0 + 0.6, 0);
+layers.lake.add(new THREE.Mesh(lakeGeo, new THREE.MeshBasicMaterial({ color: 0x2a78d6, transparent: true, opacity: 0.5, depthWrite: false })));
+layers.lake.add(drapedLine([...D.lake.outline, D.lake.outline[0]], 0x1c5cab, 1));
+
+// footprint: closed curves through the median distances per sector
+const FP_LEVELS = [["fetch_50_median", 0x0e3d22, "50 %"], ["fetch_80_median", 0xeb6834, "80 %"], ["fetch_90_median", 0xeda100, "90 %"]];
+const fpRows = D.footprint.filter(r => r.fetch_80_median != null);
+for (const [key, color] of FP_LEVELS) {
+  const pts = [];
+  const byDeg = Object.fromEntries(fpRows.map(r => [r.sector, r[key]]));
+  for (let a = 0; a <= 360; a += 3) {  // interpolate between sector centres
+    const s0 = Math.floor(a / 30) * 30 % 360, s1 = (s0 + 30) % 360, f = (a % 30) / 30;
+    const v0 = byDeg[s0] ?? byDeg[s1], v1 = byDeg[s1] ?? byDeg[s0];
+    pts.push(polar(a, v0 * (1 - f) + v1 * f));
+  }
+  layers.footprint.add(drapedLine(pts, color, 1));
+}
+
+// tower: 35 m mast with a marker on top
+const mast = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 35, 12), new THREE.MeshLambertMaterial({ color: 0xeb6834 }));
+mast.position.set(0, 17.5, 0);
+world.add(mast);
+const top = new THREE.Mesh(new THREE.SphereGeometry(6, 16, 12), new THREE.MeshBasicMaterial({ color: 0xeb6834 }));
+top.position.set(0, 38, 0);
+world.add(top);
+
+/* ---- HTML labels projected from 3D ---- */
+const labelBox = $("#labels");
+const labels = [];
+function addLabel(text, e, n, h, cls = "") {
+  const div = document.createElement("div");
+  div.className = "lbl " + cls; div.textContent = text;
+  labelBox.appendChild(div);
+  labels.push({ div, e, n, h });
+}
+const sectorEbr = Object.fromEntries(D.sectors.map(r => [r.sector_centre_deg, r]));
+for (const s of D.sectors) {
+  const [e, n] = polar(s.sector_centre_deg, 2300);
+  if (e < L || e > R || n < B || n > TOP) continue;
+  addLabel(`${SECTOR_NAMES[s.sector_centre_deg]} ${fmt(s.ebr_all)}`, e, n, heightAt(e, n) + 40, s.share_pct >= 2 ? "" : "minor");
+}
+addLabel("CH-Dav tower", TE, TN, Z0 + 60, "tower");
+addLabel("Davoser See", D.lake.centroid[0] + 150, D.lake.centroid[1] + 350, D.lake.level + 30, "lake");  // north part, clear of the tower label
+const tmp = new THREE.Vector3();
+function updateLabels() {
+  const show = $("#lay-labels").checked;
+  const w = viewer.clientWidth, h = viewer.clientHeight;
+  for (const l of labels) {
+    tmp.copy(toScene(l.e, l.n, l.h)); tmp.y *= world.scale.y;
+    tmp.project(camera);
+    const vis = show && tmp.z < 1 && Math.abs(tmp.x) < 1.1 && Math.abs(tmp.y) < 1.1;
+    l.div.style.display = vis ? "" : "none";
+    if (vis) { l.div.style.left = `${(tmp.x + 1) / 2 * w}px`; l.div.style.top = `${(1 - tmp.y) / 2 * h}px`; }
+  }
+}
+
+/* ---- controls ---- */
+function setEx(v) { world.scale.y = v; $("#ex-val").textContent = v.toFixed(1); }
+setEx(1.5);
+$("#ctl-ex").addEventListener("input", e => setEx(+e.target.value));
+segmented("ctl-tex", v => { terrainMat.map = textures[v]; terrainMat.needsUpdate = true; updateLegend(); });
+for (const k of ["sectors", "footprint", "lake"]) $("#lay-" + k).addEventListener("change", e => { layers[k].visible = e.target.checked; });
+const HOME = { pos: new THREE.Vector3(-900, 2600, 3600), target: new THREE.Vector3(0, 0, -700) };
+const TOWER_VIEW = { pos: new THREE.Vector3(-260, 330, 420), target: new THREE.Vector3(0, 0, -60) };
+function fly(v) { camera.position.copy(v.pos); controls.target.copy(v.target); controls.update(); }
+fly(HOME);
+$("#btn-reset").addEventListener("click", () => fly(HOME));
+$("#btn-tower").addEventListener("click", () => fly(TOWER_VIEW));
+
+function updateLegend() {
+  const items = [["tower", "#eb6834", "box"], ["Davoser See", "#2a78d6", "box"], ["wind sectors, rings 0.5, 1, 2 km", "#ffffff", "line", true],
+    ...FP_LEVELS.map(([, c, lab]) => [`footprint ${lab}`, "#" + c.toString(16).padStart(6, "0"), "line"])];
+  let html = items.map(([lab, c, kind, outline]) => `<span><i class="${kind === "box" ? "box" : ""}" style="background:${c};${outline ? "outline:1px solid var(--axis)" : ""}"></i>${lab}</span>`).join("");
+  if (terrainMat.map === textures.canopy) html += `<span><i style="width:120px;height:9px;background:linear-gradient(90deg,${T.ramp.join(",")})"></i>canopy height 0 to ${T.chm_max} m (3 × 4 km area)</span>`;
+  $("#legend").innerHTML = html;
+}
+updateLegend();
+
+/* ---- hover: elevation, distance, sector ---- */
+const tip = $("#tip");
+const ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
+let lastMove = null;
+renderer.domElement.addEventListener("pointermove", e => { lastMove = e; });
+renderer.domElement.addEventListener("pointerleave", () => { lastMove = null; tip.hidden = true; });
+function hover() {
+  if (!lastMove) return;
+  const e = lastMove; lastMove = null;
+  const rc = renderer.domElement.getBoundingClientRect();
+  mouse.set((e.clientX - rc.left) / rc.width * 2 - 1, -(e.clientY - rc.top) / rc.height * 2 + 1);
+  ray.setFromCamera(mouse, camera);
+  const hit = ray.intersectObject(terrain)[0];
+  if (!hit) { tip.hidden = true; return; }
+  const p = hit.point.clone(); p.y /= world.scale.y;
+  const [E, N] = sceneToEN(p);
+  const dist = Math.hypot(E - TE, N - TN), brg = (Math.atan2(E - TE, N - TN) * 180 / Math.PI + 360) % 360;
+  const sec = Math.round(brg / 30) % 12 * 30, s = sectorEbr[sec];
+  const row = (k, v) => `<div class="row"><span>${k}</span><span>${v}</span></div>`;
+  tip.innerHTML = `<b>${Math.round(heightAt(E, N))} m a.s.l.</b>` + row("from tower", `${(dist / 1000).toFixed(2)} km, ${Math.round(brg)}°`)
+    + row("sector", `${SECTOR_NAMES[sec]}, EBR ${fmt(s?.ebr_all)}`) + row("LV95", `${Math.round(E)}, ${Math.round(N)}`);
+  tip.hidden = false;
+  const r = tip.getBoundingClientRect();
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
+  if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+
+/* ---- render loop ---- */
+function resize() {
+  const w = viewer.clientWidth, h = viewer.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / Math.max(1, h); camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(viewer);
+resize();
+renderer.setAnimationLoop(() => { controls.update(); hover(); renderer.render(scene, camera); updateLabels(); });
+
+/* ---- footprint table ---- */
+const rows = [...D.footprint].sort((a, b) => b.n - a.n);
+$("#t-fp").innerHTML = `<table><thead><tr><th>Sector</th><th class="n">Half-hours</th><th class="n">EBR</th><th class="n">50 % (m)</th><th class="n">80 % (m)</th><th class="n">90 % (m)</th><th class="n">Lake (m)</th></tr></thead><tbody>`
+  + rows.map(r => `<tr class="${r.n < 100 ? "minor" : ""}"><td>${SECTOR_NAMES[r.sector]} (${r.sector}°)</td><td class="n">${r.n}</td><td class="n">${fmt(r.ebr)}</td>`
+    + `<td class="n">${fmt(r.fetch_50_median, 0)}</td><td class="n">${fmt(r.fetch_80_median, 0)}</td><td class="n">${fmt(r.fetch_90_median, 0)}</td><td class="n">${r.lake_m == null ? "none" : fmt(r.lake_m, 0)}</td></tr>`).join("")
+  + "</tbody></table>";
+$("#gen").innerHTML = `<b>Created by ${D.author}</b>, ${D.generated}.`;
+</script>
