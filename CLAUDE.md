@@ -73,6 +73,11 @@ Main paper: Nicolini et al. 2026, GCB 32:e70892 (`files/21788/`). Key facts:
 the original). Load with `ebc_explorer.fluxnet.load_ch_dav_fluxes_l2()`. Contains per half-hour
 FETCH_OFFSET/MAX/50/70/80/90, FOOTPRINT_80_SURF, FOOTPRINT_TA_CONTR, FOOTPRINT_FLAG (0 = valid),
 V_SIGMA, MO_LENGTH, ZL, WD. The FLUXNET product has no footprint variables.
+Sensor-level soil and radiation data (5 heat flux plates G_<plot>_1_1 at 5-6 cm, TS/SWC profiles
+per plot, SW_IN from 2 pyranometers) from the archive's METEOSENS file are extracted with
+`scripts/extract_ch_dav_meteosens.py` to `interim/.../METEOSENS_soil_radiation.parquet`
+(`paths.CH_DAV_METEOSENS_PARQUET`), 2020-2024. Analysis 13 (error budget): plot-to-plot range of
+G + soil storage ~20 W m-2 at summer midday (~7 % of the gap); all AE-term errors together ≤ ~50 %.
 Analysis 12: daytime 90 % fetch ~190-210 m; lake contributes ~3 % for N wind and has no effect on
 closure within the N sector; at equal u*, closure is poorest near neutral (FETCH ranks with z/L).
 
@@ -95,7 +100,7 @@ N sector within 500 m and 94 % at 500–1000 m.
 - `analyses/ch_dav_NN_*.py`: numbered analysis scripts; each writes to
   `processed/CH-Dav/NN_*.csv` and `figures/CH-Dav/NN_*.png`. Run with `uv run python analyses/<script>.py`.
 - `reports/build_ch_dav_overview.py` + `reports/templates/ch_dav_overview.html` -> `reports/ch_dav_overview.html`
-  (interactive overview page; data and map images embedded). Needs analyses 01-10 (08-10: terrain,
+  (interactive overview page; data and map images embedded). Needs analyses 01-10, 12 and 13 (08-10: terrain,
   lake and map images from the swisstopo data). Rebuild after re-running the analyses.
   Preview: `.claude/launch.json` entry "reports" serves `reports/` on http://localhost:8765.
 - `reports/build_ch_dav_3d.py` + `reports/templates/ch_dav_3d.html` -> `reports/ch_dav_3d.html`
