@@ -1,0 +1,45 @@
+# ebc-explorer
+
+Exploring energy balance closure (EBC) of eddy-covariance sites from the ICOS and NEON networks.
+
+## Data location
+
+Data is NOT in this repo. It lives in a separate synced folder:
+
+    F:\Sync\luhk_work\dev-data\ebc-explorer-data
+
+- Set in `.env` (git-ignored) as `EBC_DATA_DIR`; template in `.env.example`.
+- In code, never hard-code paths. Use `ebc_explorer/paths.py`:
+  `from ebc_explorer.paths import EBC_RESULTS, INTERIM, REFS`
+- Layout and conventions are in `<data dir>/README.md`. Summary:
+  - `raw/` — as downloaded, **read-only, never modify**
+  - `interim/` — regenerable caches (e.g. Parquet), safe to delete
+  - `processed/` — result tables written by this code
+  - `figures/` — plots written by this code
+  - `refs/` — reference PDFs, named `FirstAuthor_Year_ShortTitle.pdf`
+
+## Main dataset: `raw/EBC_data_ICOS_NEON_2026/`
+
+Nicolini & Papale (2026), Zenodo https://doi.org/10.5281/zenodo.19608436, CC BY 4.0.
+84 sites (38 ICOS, 46 NEON). Full description: `raw/EBC_data_ICOS_NEON_2026/EBC_data_README.md`.
+
+| paths.py name | File | Notes |
+|---|---|---|
+| `EBC_RESULTS` | `processed/EBC_results.csv` | EBC metrics, non-gap-filled, ~73k rows × 22 cols |
+| `EBC_RESULTS_GAPFILLED` | `processed/EBC_results_gapfilled.csv` | gap-filled, ~84k rows × 28 cols, adds `EBC_ratio` etc. |
+| `SBIO_SPHO_NRCORR` | `intermediate/Sbio_Spho_NRcorr.csv` | **848 MB**, 7.9M half-hourly rows; read in chunks or cache as Parquet in `interim/` |
+| `STATIONS_ANCILLARY` | `ancillary/EBC_stations_MD_ANCILLARY.txt` | tab-separated, site metadata |
+| `ICOS_RADIOMETER_SETUP` | `ancillary/ICOS_stations_radiometer_setup.txt` | tab-separated, Italian column names |
+| `ICOS_RAD_VS_FFP_FOV` | `ancillary/ICOS_stations_RADvsFFP_fov.csv` | month-level, `P` = month |
+
+Results tables: one row per site × `t_scale` × `fattore`/`livello` × `AE_var`/`TE_var` combination.
+
+Gotchas:
+- Italian labels. `t_scale`: `semioraria` half-hourly, `giornaliera` daily, `settimanale` weekly,
+  `mensile` monthly, `stagionale` seasonal, `annuale` annual. `fattore` = factor, `livello` = level.
+  Radiometer file: `h_radiometro` radiometer height, `w_traliccio` tower width, `d_braccio` boom length.
+- Missing values are the string `NA`; in `fattore`/`livello` NA means "no stratification".
+
+## Environment
+
+- Windows, Python 3.9.7, pandas 2.3.3. Keep code 3.9-compatible (no `X | None` type syntax).
