@@ -1,4 +1,4 @@
-<title>Davos Energy Gap</title>
+<title>CH-Dav Energy Balance</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
@@ -15,11 +15,9 @@
   --brand: #1d5c4f;
   --brand-soft: #d8e9e3;
   --dav: #eb6834;
-  --dav-soft: rgba(235, 104, 52, 0.14);
   --net: #9aa6a2;
   --band: rgba(70, 85, 79, 0.13);
   --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4;
-  --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
   --good-ink: #006300; --serious-ink: #a8431a; --critical-ink: #b02a2a; --warning-ink: #8a5a00;
   --q1: #cde2fb; --q2: #9ec5f4; --q3: #6da7ec; --q4: #3987e5; --q5: #256abf; --q6: #184f95;
   --shadow: 0 1px 2px rgba(15, 28, 25, 0.06), 0 8px 24px rgba(15, 28, 25, 0.05);
@@ -33,8 +31,7 @@
     --ground: #0d1312; --surface: #141c1a; --surface-2: #1b2522;
     --ink: #edf3f1; --ink-2: #b6c3bf; --muted: #7f8c88; --hair: #24302d; --axis: #3a4743;
     --brand: #6cc1a8; --brand-soft: #1d3a33;
-    --dav: #f07a47; --dav-soft: rgba(240, 122, 71, 0.18);
-    --net: #6b7874; --band: rgba(182, 195, 191, 0.12);
+    --dav: #f07a47; --net: #6b7874; --band: rgba(182, 195, 191, 0.12);
     --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181;
     --good-ink: #3fcf3f; --serious-ink: #f09a74; --critical-ink: #f07b7b; --warning-ink: #f5c04a;
     --q1: #184f95; --q2: #1c5cab; --q3: #256abf; --q4: #3987e5; --q5: #6da7ec; --q6: #9ec5f4;
@@ -46,8 +43,7 @@
   --ground: #0d1312; --surface: #141c1a; --surface-2: #1b2522;
   --ink: #edf3f1; --ink-2: #b6c3bf; --muted: #7f8c88; --hair: #24302d; --axis: #3a4743;
   --brand: #6cc1a8; --brand-soft: #1d3a33;
-  --dav: #f07a47; --dav-soft: rgba(240, 122, 71, 0.18);
-  --net: #6b7874; --band: rgba(182, 195, 191, 0.12);
+  --dav: #f07a47; --net: #6b7874; --band: rgba(182, 195, 191, 0.12);
   --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181;
   --good-ink: #3fcf3f; --serious-ink: #f09a74; --critical-ink: #f07b7b; --warning-ink: #f5c04a;
   --q1: #184f95; --q2: #1c5cab; --q3: #256abf; --q4: #3987e5; --q5: #6da7ec; --q6: #9ec5f4;
@@ -67,7 +63,6 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; lette
 p { margin: 0; }
 a { color: var(--brand); text-underline-offset: 2px; }
 .mono { font-family: var(--f-mono); }
-.num { font-variant-numeric: tabular-nums; }
 .eyebrow {
   font: 500 12px/1.3 var(--f-mono);
   letter-spacing: 0.08em;
@@ -75,14 +70,20 @@ a { color: var(--brand); text-underline-offset: 2px; }
   color: var(--ink-2);
 }
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+abbr[data-g] {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--muted);
+  text-underline-offset: 3px;
+  cursor: help;
+}
 
 /* Header */
-header.site { padding-block: 40px 20px; display: grid; gap: 28px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding-top: 18px; }
+header.site { padding-block: 22px 20px; display: grid; gap: 28px; }
 .title-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: end; }
-.title-row h1 { font-size: clamp(36px, 5.2vw, 64px); line-height: 1.02; font-weight: 700; }
-.title-row h1 em { font-style: normal; color: var(--dav); }
-.lede { color: var(--ink-2); font-size: 17px; max-width: 62ch; margin-top: 14px; }
-.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--hair); }
+.title-row h1 { font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05; font-weight: 700; }
+.lede { color: var(--ink-2); font-size: 17px; max-width: 64ch; margin-top: 14px; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--hair); margin: 0; }
 .facts div { padding: 9px 0; border-bottom: 1px solid var(--hair); display: grid; gap: 1px; }
 .facts div:nth-child(odd) { padding-right: 12px; }
 .facts dt { font: 500 11px/1.3 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
@@ -91,10 +92,10 @@ header.site { padding-block: 40px 20px; display: grid; gap: 28px; }
 .hero { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 22px 22px 14px; display: grid; gap: 14px; }
 .hero-head { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; justify-content: space-between; }
 .hero-head h2 { font-size: 20px; font-weight: 600; }
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--hair); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--hair); }
 .stat { padding: 14px 16px 6px 0; display: grid; gap: 2px; align-content: start; }
 .stat + .stat { padding-left: 16px; border-left: 1px solid var(--hair); }
-.stat b { font: 600 30px/1.1 var(--f-display); color: var(--ink); }
+.stat b { font: 600 28px/1.1 var(--f-display); color: var(--ink); }
 .stat b.dav { color: var(--dav); }
 .stat span { font-size: 13px; color: var(--ink-2); line-height: 1.4; }
 
@@ -113,8 +114,8 @@ nav.toc a.active { color: var(--brand); border-bottom-color: var(--brand); }
 
 /* Sections */
 section.block { padding-top: 56px; scroll-margin-top: 48px; display: grid; gap: 18px; }
-.sec-head { display: grid; gap: 6px; max-width: 78ch; }
-.sec-head h2 { font-size: clamp(26px, 3vw, 34px); font-weight: 700; line-height: 1.1; }
+.sec-head { display: grid; gap: 6px; max-width: 80ch; }
+.sec-head h2 { font-size: clamp(24px, 2.8vw, 32px); font-weight: 700; line-height: 1.15; }
 .sec-head p { color: var(--ink-2); }
 .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .grid-3-2 { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 18px; }
@@ -124,7 +125,6 @@ section.block { padding-top: 56px; scroll-margin-top: 48px; display: grid; gap: 
 .card-head h3 { font-size: 17px; font-weight: 600; line-height: 1.25; }
 .card-head .sub { font-size: 13px; color: var(--ink-2); margin-top: 3px; max-width: 70ch; }
 .note { font-size: 13px; color: var(--ink-2); }
-.note b { color: var(--ink); font-weight: 600; }
 
 /* Controls */
 .controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 12px 14px; background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); }
@@ -137,6 +137,7 @@ section.block { padding-top: 56px; scroll-margin-top: 48px; display: grid; gap: 
 }
 .seg button:hover { color: var(--ink); }
 .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.12); }
+.seg.small button { font-size: 12px; padding: 6px 9px; }
 select {
   font: 500 13px/1 var(--f-body); color: var(--ink); background: var(--surface-2); border: 0;
   border-radius: 8px; padding: 8px 28px 8px 10px; cursor: pointer;
@@ -160,7 +161,6 @@ select {
 .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.5px; color: var(--ink-2); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
-.legend i.dot { width: 9px; height: 9px; border-radius: 50%; }
 .legend i.box { width: 12px; height: 10px; border-radius: 2px; }
 
 .tip {
@@ -172,6 +172,8 @@ select {
 .tip .row { display: flex; justify-content: space-between; gap: 14px; }
 .tip .row span:last-child { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
 .tip .sw { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.tip .full { font-weight: 600; }
+.tip .plain { color: var(--ink-2); margin-top: 2px; }
 
 .table-view { overflow-x: auto; max-height: 420px; overflow-y: auto; }
 table { border-collapse: collapse; width: 100%; font-size: 13px; }
@@ -184,16 +186,22 @@ tr.is-dav td { color: var(--dav); font-weight: 600; }
 .heat table td.cell { text-align: center; font: 500 13px/1 var(--f-mono); font-variant-numeric: tabular-nums; padding: 10px 8px; border: 2px solid var(--surface); border-radius: 6px; }
 .heat table th { position: static; }
 
+.gloss td { white-space: normal; vertical-align: top; }
+.gloss td:first-child { font: 500 13px/1.5 var(--f-mono); white-space: nowrap; color: var(--ink); }
+.gloss td:nth-child(2) { font-weight: 500; min-width: 180px; }
+.gloss td:nth-child(3) { color: var(--ink-2); min-width: 260px; }
+.gloss tr.grp td { font: 500 11px/1.3 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding-top: 16px; border-bottom: 1px solid var(--axis); }
+
 /* Timeline list */
-.events { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.events { list-style: none; margin: 0; padding: 0; display: grid; }
 .events li { display: grid; grid-template-columns: 96px 92px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--hair); font-size: 13.5px; }
 .events time { font: 500 12.5px/1.5 var(--f-mono); color: var(--ink-2); }
 .kind { font: 500 11px/1.9 var(--f-mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
 
-/* Explanations */
+/* Causes */
 .expl { display: grid; gap: 14px; }
-.hyp { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); padding: 18px 20px; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 18px; }
-.hyp h3 { font-size: 19px; font-weight: 600; line-height: 1.2; }
+.hyp { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); padding: 18px 20px; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 18px; }
+.hyp h3 { font-size: 18px; font-weight: 600; line-height: 1.25; }
 .verdict { display: inline-flex; align-items: center; gap: 7px; font: 500 12px/1 var(--f-mono); padding: 6px 9px; border-radius: 999px; margin-top: 10px; background: var(--surface-2); color: var(--ink-2); }
 .verdict svg { width: 12px; height: 12px; flex: none; }
 .verdict.lead { color: var(--critical-ink); }
@@ -202,12 +210,11 @@ tr.is-dav td { color: var(--dav); font-weight: 600; }
 .verdict.open { color: var(--warning-ink); }
 .share { font: 500 12px/1.4 var(--f-mono); color: var(--muted); margin-top: 8px; }
 .hyp ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; font-size: 14px; color: var(--ink-2); }
-.hyp ul b { color: var(--ink); font-weight: 600; }
 .hyp .refs { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
 
 /* Next steps */
 .steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-.step-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.step-list { list-style: none; margin: 0; padding: 0; display: grid; }
 .step-list li { padding: 12px 0; border-bottom: 1px solid var(--hair); display: grid; gap: 4px; }
 .step-list li:last-child { border-bottom: 0; }
 .step-list .t { font-weight: 600; font-size: 14.5px; }
@@ -231,7 +238,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
   .facts div:nth-child(odd) { padding-right: 0; }
   .events li { grid-template-columns: 88px minmax(0, 1fr); }
   .events .kind { display: none; }
-  .stat b { font-size: 24px; }
+  .stat b { font-size: 23px; }
 }
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
@@ -239,29 +246,39 @@ footer b { color: var(--ink-2); font-weight: 600; }
 </style>
 
 <div class="wrap">
+<div class="topbar">
+  <div class="eyebrow">ICOS station CH-Dav · Davos Seehornwald, Switzerland</div>
+  <div class="ctl" role="group" aria-label="Colour theme">
+    <span class="lab">Theme</span>
+    <div class="seg small" id="ctl-theme">
+      <button type="button" data-v="auto">Auto</button>
+      <button type="button" data-v="light">Light</button>
+      <button type="button" data-v="dark">Dark</button>
+    </div>
+  </div>
+</div>
 <header class="site">
   <div class="title-row">
     <div>
-      <div class="eyebrow">ICOS ecosystem station · CH-Dav · Davos Seehornwald</div>
-      <h1 style="margin-top:10px">Where does <em>half</em> the energy go?</h1>
-      <p class="lede">At the Davos spruce forest, the measured turbulent fluxes H + LE add up to only about half of the available energy: every year since 1998, with every instrument generation. This page compares CH-Dav with the 84 ICOS and NEON sites of Nicolini et al. (2026), shows what the 27-year record tells us, and lists the explanations that remain.</p>
+      <h1>Energy balance closure at CH-Dav</h1>
+      <p class="lede">At CH-Dav, the measured turbulent heat fluxes (H + LE) account for about half of the available energy. This is the case in every year since 1998 and with every instrument set-up. This report compares CH-Dav with 84 ICOS and NEON sites (Nicolini et al., 2026), summarises the 1997 to 2024 record and lists possible causes.</p>
     </div>
     <dl class="facts">
-      <div><dt>Location</dt><dd>46.815° N · 9.856° E</dd></div>
+      <div><dt>Location</dt><dd>46.815° N, 9.856° E</dd></div>
       <div><dt>Elevation</dt><dd>1639 m a.s.l.</dd></div>
-      <div><dt>Forest</dt><dd>Norway spruce · 19 m</dd></div>
-      <div><dt>EC height</dt><dd>35 m · boom west</dd></div>
-      <div><dt>Terrain</dt><dd>16° slope · WNW aspect</dd></div>
-      <div><dt>Record</dt><dd>1997 – 2024</dd></div>
+      <div><dt>Forest</dt><dd>Norway spruce, 19 m</dd></div>
+      <div><dt>EC height</dt><dd>35 m, boom points west</dd></div>
+      <div><dt>Terrain</dt><dd>16° slope, facing WNW</dd></div>
+      <div><dt>Record</dt><dd>1997 to 2024</dd></div>
     </dl>
   </div>
 
   <div class="hero">
     <div class="hero-head">
-      <h2>Closure at 80 flux sites, best available energy accounting</h2>
-      <span class="note">RMA slope of H + LE against Rn − G − storage − photosynthesis, u*-filtered, 30 min</span>
+      <h2>Energy balance closure at 80 sites</h2>
+      <span class="note">RMA slope of H + LE against AE, 30 min, all storage terms, u*-filtered fluxes</span>
     </div>
-    <div class="chart" id="hero-chart" role="img" aria-label="Strip chart of energy balance closure at 80 sites with CH-Dav highlighted"></div>
+    <div class="chart" id="hero-chart" role="img" aria-label="Energy balance closure at 80 sites, CH-Dav highlighted"></div>
     <div class="stats" id="hero-stats"></div>
   </div>
 </header>
@@ -271,21 +288,22 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <li><a href="#network">Network</a></li>
     <li><a href="#timescales">Time scales</a></li>
     <li><a href="#conditions">Conditions</a></li>
-    <li><a href="#record">27 years</a></li>
+    <li><a href="#record">Yearly closure</a></li>
     <li><a href="#diurnal">Daily cycle</a></li>
-    <li><a href="#wind">Wind</a></li>
+    <li><a href="#wind">Wind direction</a></li>
     <li><a href="#instruments">Instruments</a></li>
-    <li><a href="#explanations">Explanations</a></li>
+    <li><a href="#explanations">Possible causes</a></li>
     <li><a href="#nextsteps">Next steps</a></li>
+    <li><a href="#glossary">Abbreviations</a></li>
   </ul>
 </nav>
 
 <main>
 <section class="block" id="network">
   <div class="sec-head">
-    <div class="eyebrow">Network comparison · Nicolini et al. 2026 dataset</div>
-    <h2>CH-Dav sits at the bottom of the network</h2>
-    <p>Adding soil, air, biomass and photosynthesis terms lifts the median site from about 0.68 to 0.86. At CH-Dav the same steps only move closure from 0.51 to 0.62. Filter the network and change the available-energy formulation to compare.</p>
+    <div class="eyebrow">Network comparison, Nicolini et al. (2026) dataset</div>
+    <h2>CH-Dav compared with the network</h2>
+    <p>Including soil, air and biomass heat storage and photosynthesis raises the median closure of all sites from 0.68 to 0.86. At CH-Dav, the same terms raise it from 0.51 to 0.62. Use the filters to change the definition of available energy and the group of sites.</p>
   </div>
   <div class="controls" role="group" aria-label="Network filters">
     <div class="ctl"><span class="lab">Available energy</span>
@@ -310,14 +328,14 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <select id="ctl-pft">
         <option value="all">All types</option>
         <option value="forest">Forests (ENF, DBF, EBF, MF)</option>
-        <option value="ENF">Evergreen needleleaf (ENF)</option>
+        <option value="ENF">Evergreen needleleaf forest (ENF)</option>
         <option value="short">Short vegetation</option>
       </select>
     </div>
   </div>
   <div class="card">
     <div class="card-head">
-      <div><h3>Every site, ranked by closure</h3><p class="sub">CH-Dav in orange; IT-Ren, the other alpine spruce forest on a slope, outlined for contrast. Hover a mark for the site.</p></div>
+      <div><h3>Sites ranked by closure</h3><p class="sub">CH-Dav in orange. IT-Ren, an alpine spruce forest on a slope, is outlined for comparison. Hover over a point to see the site.</p></div>
       <button class="tbl-btn" type="button" data-table="c-rank" aria-pressed="false">Table</button>
     </div>
     <div class="chart" id="c-rank"></div>
@@ -325,9 +343,9 @@ footer b { color: var(--ink-2); font-weight: 600; }
   <div class="grid-2">
     <div class="card">
       <div class="card-head">
-        <div><h3>Closure against a site attribute</h3><p class="sub">Is CH-Dav unusual in its setting?</p></div>
+        <div><h3>Closure and site characteristics</h3><p class="sub">Select the characteristic shown on the x-axis.</p></div>
         <div class="ctl">
-          <select id="ctl-attr" aria-label="Site attribute on the x axis">
+          <select id="ctl-attr" aria-label="Site characteristic on the x-axis">
             <option value="slope">Terrain slope (°)</option>
             <option value="bio">Above-ground biomass (kg m⁻²)</option>
             <option value="hc">Canopy height (m)</option>
@@ -342,7 +360,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
     </div>
     <div class="card">
       <div class="card-head">
-        <div><h3>Step by step: what each term adds</h3><p class="sub">CH-Dav against the median and interquartile range of the filtered sites.</p></div>
+        <div><h3>Closure for each definition of available energy</h3><p class="sub">CH-Dav, network median and interquartile range (IQR) of the selected sites.</p></div>
         <button class="tbl-btn" type="button" data-table="c-steps" aria-pressed="false">Table</button>
       </div>
       <div class="legend" id="lg-compare-1"></div>
@@ -353,13 +371,13 @@ footer b { color: var(--ink-2); font-weight: 600; }
 
 <section class="block" id="timescales">
   <div class="sec-head">
-    <div class="eyebrow">Aggregation</div>
-    <h2>Longer sums do not rescue it</h2>
-    <p>For most sites the bulk ratio ΣTE / ΣAE climbs towards one as fluxes are summed over days, months and years, because storage and phase effects cancel. CH-Dav stays below 0.5 at every time scale: the missing energy is systematic, not a timing problem.</p>
+    <div class="eyebrow">Temporal aggregation</div>
+    <h2>Closure at longer time scales</h2>
+    <p>At most sites, the EBR approaches 1 when fluxes are summed over days to years, because storage changes and timing differences cancel out. At CH-Dav, the EBR stays between 0.43 and 0.47 at all time scales. The missing energy is therefore systematic.</p>
   </div>
   <div class="card">
     <div class="card-head">
-      <div><h3>Energy balance ratio by aggregation period</h3><p class="sub">Gap-filled fluxes, full available energy (AE6), u*-filtered turbulent fluxes.</p></div>
+      <div><h3>EBR by aggregation period</h3><p class="sub">Gap-filled data, all storage terms, u*-filtered turbulent fluxes.</p></div>
       <button class="tbl-btn" type="button" data-table="c-ts" aria-pressed="false">Table</button>
     </div>
     <div class="legend" id="lg-compare-2"></div>
@@ -369,19 +387,19 @@ footer b { color: var(--ink-2); font-weight: 600; }
 
 <section class="block" id="conditions">
   <div class="sec-head">
-    <div class="eyebrow">Conditions</div>
-    <h2>Low under every condition</h2>
-    <p>Split by atmospheric stability, sun elevation or humidity, CH-Dav runs below the network in nearly every class. The gap is not confined to a particular weather situation.</p>
+    <div class="eyebrow">Meteorological conditions</div>
+    <h2>Closure by stability, sun elevation and humidity</h2>
+    <p>CH-Dav is below the network median in 72 of 74 condition classes. The low closure is not limited to specific weather conditions.</p>
   </div>
   <div class="card">
     <div class="card-head">
-      <div><h3>Closure by condition class</h3><p class="sub">RMA slope, full available energy (AE6), fully quality-filtered fluxes. Classes with fewer than 50 half-hours at CH-Dav are omitted.</p></div>
+      <div><h3>Closure by condition class</h3><p class="sub">RMA slope, all storage terms, quality-filtered fluxes. Classes with fewer than 50 half-hours at CH-Dav are not shown.</p></div>
       <div class="ctl">
         <div class="seg" id="ctl-strat">
           <button type="button" data-v="atm_strat" aria-pressed="true">Stability</button>
           <button type="button" data-v="SEA_classes">Sun elevation</button>
           <button type="button" data-v="RH_classes">Humidity</button>
-          <button type="button" data-v="twilight">Light</button>
+          <button type="button" data-v="twilight">Day and night</button>
         </div>
         <button class="tbl-btn" type="button" data-table="c-strat" aria-pressed="false">Table</button>
       </div>
@@ -393,31 +411,31 @@ footer b { color: var(--ink-2); font-weight: 600; }
 
 <section class="block" id="record">
   <div class="sec-head">
-    <div class="eyebrow">CH-Dav · ICOS FLUXNET product 1997–2024 · measured values only</div>
-    <h2>27 years, six instrument generations, one gap</h2>
-    <p>The closure slope has stayed between 0.38 and 0.58 since 1998. It did not jump with any change of sonic anemometer or gas analyser, so the cause lies beyond a single instrument. The shift in the energy balance ratio around 2014–2015 coincides with the new sonic and the new soil heat flux plates.</p>
+    <div class="eyebrow">CH-Dav, 1997 to 2024, measured data only</div>
+    <h2>Closure per year</h2>
+    <p>The yearly closure slope ranged from 0.38 to 0.58 between 1998 and 2024. It did not change when instruments were replaced. The EBR decreased in 2014 and 2015, when the sonic anemometer and the soil heat flux plates were replaced.</p>
   </div>
   <div class="card">
     <div class="card-head">
-      <div><h3>Closure per year</h3><p class="sub">OLS slope of half-hourly and daily-mean H + LE against Rn − G, and the half-hourly bulk ratio. Shaded bands mark instrument periods.</p></div>
+      <div><h3>Yearly closure</h3><p class="sub">OLS slope of H + LE against Rn − G for half-hourly and daily data, and the half-hourly EBR. Shaded bands show the instrument periods.</p></div>
       <button class="tbl-btn" type="button" data-table="c-years" aria-pressed="false">Table</button>
     </div>
     <div class="legend" id="lg-years"></div>
     <div class="chart" id="c-years"></div>
-    <p class="note">1997: flux calculation bug (slow eddies suppressed); 2012–2013: no measured soil heat flux. Daily slopes use only days with ≥ 40 measured half-hours of every term, hence few days after 2019.</p>
+    <p class="note">1997: flux calculation error that removed air motions slower than 10 s. 2012 and 2013: no measured soil heat flux. Daily slopes use only days with at least 40 measured half-hours for every term, so there are few such days after 2019.</p>
   </div>
 </section>
 
 <section class="block" id="diurnal">
   <div class="sec-head">
-    <div class="eyebrow">CH-Dav · 2019–2024 · with biomass storage and photosynthesis</div>
-    <h2>Half the energy is missing at every hour</h2>
-    <p>If heat were only stored in the trees, the gap would peak in the morning and reverse in the evening. Instead the residual follows available energy through the day and peaks at noon. Biomass storage and photosynthesis (green) are real but small: they raise the slope from 0.50 to 0.54.</p>
+    <div class="eyebrow">CH-Dav, 2019 to 2024, including biomass heat storage and photosynthesis</div>
+    <h2>Daily cycle of the energy balance</h2>
+    <p>If heat storage in the trees caused the gap, the residual would peak in the morning and become negative in the evening. Instead, the residual follows the available energy and peaks at noon. Biomass heat storage and photosynthesis are small: including them increases the slope from 0.50 to 0.54.</p>
   </div>
   <div class="grid-3-2">
     <div class="card">
       <div class="card-head">
-        <div><h3>Mean diurnal cycle</h3><p class="sub">Local standard time. Residual = AE − TE.</p></div>
+        <div><h3>Mean daily cycle</h3><p class="sub">Local standard time. Residual = AE − TE.</p></div>
         <div class="ctl">
           <div class="seg" id="ctl-season">
             <button type="button" data-v="DJF">Winter</button>
@@ -432,23 +450,23 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <div class="chart" id="c-diurnal"></div>
     </div>
     <div class="card">
-      <div class="card-head"><div><h3>What storage buys</h3><p class="sub">OLS slope of TE against AE per season, without and with S<sub>bio</sub> + S<sub>pho</sub>.</p></div></div>
+      <div class="card-head"><div><h3>Effect of storage terms on closure</h3><p class="sub">OLS slope per season, without and with <abbr data-g="Sbio">S<sub>bio</sub></abbr> + <abbr data-g="Spho">S<sub>pho</sub></abbr>.</p></div></div>
       <div class="table-view" id="t-storage"></div>
-      <p class="note">Radiation checks show no sign of an overestimated Rn: SW_IN agrees with an independent PAR sensor (ratio 0.47–0.51 for 25 years), and Rn equals the sum of its four components since 2019. Midday Rn/SW_IN is 0.83–0.87, plausible for a dark conifer canopy.</p>
+      <p class="note">The radiation data show no sign of overestimated net radiation. SW_IN agrees with a separate PAR sensor (ratio 0.47 to 0.51 over 25 years), and Rn equals the sum of its four components since 2019. The midday ratio Rn / SW_IN (0.83 to 0.87) is typical for a dark conifer canopy.</p>
     </div>
   </div>
 </section>
 
 <section class="block" id="wind">
   <div class="sec-head">
-    <div class="eyebrow">CH-Dav · daytime · 1998–2024</div>
-    <h2>The gap follows the wind</h2>
-    <p>Almost two thirds of daytime air arrives from the north, along the valley. Exactly this flow closes worst. At the same friction velocity, northerly winds close at about 0.5, while southerly and westerly winds reach 0.75–1.0. The contrast holds in all six instrument periods and in clearly unstable conditions.</p>
+    <div class="eyebrow">CH-Dav, daytime, 1998 to 2024</div>
+    <h2>Closure by wind direction</h2>
+    <p>62 % of the daytime data come from north to north-northeast, along the valley. These wind directions have the lowest closure. At the same u*, the EBR is about 0.5 for northerly wind and 0.75 to 1.0 for southerly and westerly wind. This difference occurs in all six instrument periods and also in unstable conditions.</p>
   </div>
   <div class="grid-2">
     <div class="card">
       <div class="card-head">
-        <div><h3>Energy balance ratio by wind direction</h3><p class="sub">30° sectors, AE ≥ 100 W m⁻². Radius = ΣTE / ΣAE; the outer ring is perfect closure.</p></div>
+        <div><h3>EBR by wind direction</h3><p class="sub">30° sectors, AE ≥ 100 W m⁻². The outer ring marks EBR = 1.</p></div>
         <button class="tbl-btn" type="button" data-table="c-polar" aria-pressed="false">Table</button>
       </div>
       <div class="legend" id="lg-polar"></div>
@@ -456,7 +474,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
     </div>
     <div class="card">
       <div class="card-head">
-        <div><h3>Share of daytime data by sector</h3><p class="sub">North and north-northeast carry 62 % of the record, with the fastest winds (median 3 m s⁻¹).</p></div>
+        <div><h3>Share of daytime data by wind direction</h3><p class="sub">North to north-northeast: 62 % of the data and the highest wind speeds (median 3 m s⁻¹).</p></div>
         <button class="tbl-btn" type="button" data-table="c-share" aria-pressed="false">Table</button>
       </div>
       <div class="chart" id="c-share"></div>
@@ -464,11 +482,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
   </div>
   <div class="grid-2">
     <div class="card">
-      <div class="card-head"><div><h3>Direction against turbulence</h3><p class="sub">Daytime EBR by wind quadrant and friction velocity u* (m s⁻¹). More turbulence helps everywhere, but northerly flow stays low.</p></div></div>
+      <div class="card-head"><div><h3>EBR by wind direction and u*</h3><p class="sub">Daytime, u* in m s⁻¹. Closure increases with u* in all directions, but less for northerly wind.</p></div></div>
       <div class="heat" id="h-ustar"></div>
     </div>
     <div class="card">
-      <div class="card-head"><div><h3>Direction against instrument period</h3><p class="sub">Daytime EBR by wind quadrant, u* 0.4–1.0 m s⁻¹. The northern deficit appears with every sonic and gas analyser.</p></div></div>
+      <div class="card-head"><div><h3>EBR by wind direction and instrument period</h3><p class="sub">Daytime, u* between 0.4 and 1.0 m s⁻¹.</p></div></div>
       <div class="heat" id="h-period"></div>
     </div>
   </div>
@@ -476,23 +494,23 @@ footer b { color: var(--ink-2); font-weight: 600; }
 
 <section class="block" id="instruments">
   <div class="sec-head">
-    <div class="eyebrow">Site history · fieldbook, metadata, labelling report</div>
-    <h2>What changed, and what did not</h2>
-    <p>Sonics, gas analysers, radiometers and soil heat flux plates were all replaced at least once. The tower, the westward boom and the terrain never changed, and neither did the gap.</p>
+    <div class="eyebrow">Site history from the fieldbook, metadata and ICOS labelling report</div>
+    <h2>Instrument changes</h2>
+    <p>Sonic anemometers, gas analysers, radiometers and soil heat flux plates were all replaced at least once. The tower, the boom direction and the terrain did not change, and the low closure persisted.</p>
   </div>
   <div class="card">
     <div class="card-head">
-      <div><h3>Instrument timeline</h3><p class="sub">Bars: sonic anemometer and gas analyser generations. Ticks: documented events; hover for details.</p></div>
+      <div><h3>Instrument timeline</h3><p class="sub">Bars show instrument periods. Points mark documented events; hover over them for details.</p></div>
     </div>
     <div class="chart" id="c-timeline"></div>
   </div>
   <div class="grid-2">
     <div class="card">
-      <div class="card-head"><div><h3>Closure per instrument period</h3><p class="sub">Daytime, measured data. In AE = a·H + b·LE + c, a coefficient above 1 means that flux would need scaling up (H and LE are correlated, so read with care).</p></div></div>
+      <div class="card-head"><div><h3>Closure per instrument period</h3><p class="sub">Daytime, measured data. Coefficients a and b are from the fit AE = a·H + b·LE + c. A coefficient above 1 means that the flux is too small. H and LE are correlated, so the coefficients are uncertain.</p></div></div>
       <div class="table-view" id="t-periods"></div>
     </div>
     <div class="card">
-      <div class="card-head"><div><h3>Documented events</h3><p class="sub">Summarised and anonymised.</p></div></div>
+      <div class="card-head"><div><h3>Documented events</h3><p class="sub">Summary without personal information.</p></div></div>
       <ul class="events" id="events"></ul>
     </div>
   </div>
@@ -501,72 +519,72 @@ footer b { color: var(--ink-2); font-weight: 600; }
 <section class="block" id="explanations">
   <div class="sec-head">
     <div class="eyebrow">Interpretation</div>
-    <h2>Possible explanations, weighed</h2>
-    <p>Ordered from most to least likely to explain the bulk of the gap at CH-Dav, based on the analyses above and the EBC literature. The verdicts are working assessments, not conclusions.</p>
+    <h2>Possible causes</h2>
+    <p>The causes are ordered from most to least likely to explain most of the gap at CH-Dav. The assessment is based on the analyses above and on the literature, and it is provisional.</p>
   </div>
-  <div class="expl" id="hyps">
+  <div class="expl">
     <article class="hyp">
-      <div><h3>Terrain-driven advection in the along-valley flow</h3><span class="verdict lead"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1 11 10H1Z" fill="currentColor"/></svg>Leading candidate</span><div class="share">could explain: most of the north-sector deficit</div></div>
+      <div><h3>Advection in the along-valley flow over sloping terrain</h3><span class="verdict lead"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1 11 10H1Z" fill="currentColor"/></svg>Most likely</span><div class="share">Possible share: most of the deficit for northerly wind</div></div>
       <div>
         <ul>
-          <li><b>At equal u*, northerly winds close at ~0.5, S and W at 0.75–1.0</b>, in every instrument period since 1998 and for unstable conditions only.</li>
-          <li>North is the dominant daytime direction (62 % of data) and the fastest flow, so it dominates the site average.</li>
-          <li>CH-Dav is the steepest ICOS site in the network (16° by DEM). A beech slope forest shows the same pattern: 0.48–0.55 in the poor sectors vs 0.80, attributed to advection.</li>
-          <li>Horizontal and vertical advection are not measured by a single tower and would bypass the eddy covariance system.</li>
+          <li>At the same u*, the EBR is about 0.5 for northerly wind and 0.75 to 1.0 for southerly and westerly wind. This holds in all instrument periods since 1998 and in unstable conditions.</li>
+          <li>Northerly wind is the most frequent daytime wind (62 % of the data) and has the highest wind speeds. It therefore dominates the site average.</li>
+          <li>With a slope of 16°, CH-Dav is the steepest ICOS site in the dataset. McGloin et al. (2018) found a similar pattern at a sloping beech forest (EBR 0.48 to 0.55 in some wind sectors, 0.80 in others) and attributed it to advection.</li>
+          <li>Advection is heat carried horizontally or vertically past the tower. A single EC system does not measure it.</li>
         </ul>
         <p class="refs">McGloin et al. 2018; Leuning et al. 2012; Foken 2008</p>
       </div>
     </article>
     <article class="hyp">
-      <div><h3>Secondary circulations and low-frequency transport</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Likely contributor</span><div class="share">flat-terrain models: ~8–19 % of H</div></div>
+      <div><h3>Secondary circulations and slow air motions</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Likely contributor</span><div class="share">Models for flat terrain: 8 to 19 % of H</div></div>
       <div>
         <ul>
-          <li>Closure rises from 0.2 to 0.8 with u*, the classic signature of energy carried by organised motions that 30-min averages miss.</li>
-          <li>The LES-based model of Mauder et al. (2021) predicts about 8 % extra H for this tower height, at most ~19 %; topography is thought to amplify such circulations, but no slope model exists yet.</li>
-          <li>Over tall forest, 30-min fluxes were still growing at the end of the averaging window in 22 % (H) to 47 % (LE) of periods.</li>
+          <li>The EBR increases from 0.2 to 0.8 with u*. This is typical for heat carried by large, slow air motions that 30-minute averages do not capture.</li>
+          <li>The model of Mauder et al. (2021) predicts about 8 % additional H for this measurement height, and at most about 19 %. Sloping terrain may increase this effect, but no model for slopes exists yet.</li>
+          <li>Above a tall forest, 30-minute fluxes were incomplete in 22 % (H) to 47 % (LE) of the periods (Charuchittipan et al., 2014).</li>
         </ul>
         <p class="refs">Mauder et al. 2020, 2021, 2024; Wanner et al. 2022, 2024; Charuchittipan et al. 2014</p>
       </div>
     </article>
     <article class="hyp">
-      <div><h3>Coordinate rotation and sonic set-up</h3><span class="verdict open"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1" fill="currentColor" transform="rotate(45 6 6)"/></svg>Open question</span><div class="share">sector-wise planar fit: +0.03–0.05 elsewhere</div></div>
+      <div><h3>Coordinate rotation and sonic set-up</h3><span class="verdict open"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1" fill="currentColor" transform="rotate(45 6 6)"/></svg>Unresolved</span><div class="share">Sector-wise planar fit at other sites: +0.03 to +0.05</div></div>
       <div>
         <ul>
-          <li>On a 16° slope, streamlines tilt differently by wind sector; a misfit leaks horizontal flux into w'T' and w'q'.</li>
-          <li>The EC geometry is barely documented: the boom was found rotated in 2002, a wrong wind-direction configuration was fixed in 2019, and a transducer was found out of place in 2022.</li>
-          <li>Tilt angles and mean w per sector need EddyPro full output to check.</li>
+          <li>On a 16° slope, the mean wind is tilted differently in each wind sector. If the coordinate rotation does not account for this, part of the horizontal flux is counted in the vertical flux, or the reverse.</li>
+          <li>The set-up of the EC system is poorly documented. The boom was found rotated in 2002, the wind direction configuration was corrected in 2019, and a sonic transducer was found displaced in 2022.</li>
+          <li>Tilt angles and the mean vertical wind per sector can be checked with the EddyPro full output.</li>
         </ul>
         <p class="refs">McGloin et al. 2018; Leuning et al. 2012; ICOS labelling report 2019</p>
       </div>
     </article>
     <article class="hyp">
-      <div><h3>Energy storage in the forest</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Partial</span><div class="share">measured effect: +0.04 in slope</div></div>
+      <div><h3>Heat storage in the forest</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Partial</span><div class="share">Measured effect: +0.04 in slope</div></div>
       <div>
         <ul>
-          <li>Biomass heat storage and photosynthesis raise the slope from 0.50 to 0.54; literature values for tall spruce forests are 5–10 % of midday Rn.</li>
-          <li>Storage uses air temperature as a proxy for stem temperature, which likely underestimates it. Across the network, imbalance grows with biomass, and CH-Dav (62 kg m⁻²) sits far above that trend.</li>
-          <li>The residual peaks at noon and does not reverse in the evening, which storage cannot produce.</li>
+          <li>Biomass heat storage and photosynthesis increase the slope from 0.50 to 0.54. Published values for tall spruce forests are 5 to 10 % of Rn at midday.</li>
+          <li>Biomass heat storage is estimated from air temperature, not tree temperature, and is probably underestimated. In the network, the imbalance increases with biomass. CH-Dav (62 kg m⁻²) is well above this relationship.</li>
+          <li>The residual peaks at noon and does not become negative in the evening. Storage cannot cause this pattern.</li>
         </ul>
         <p class="refs">Nicolini et al. 2026; Lindroth et al. 2010; Moderow et al. 2009</p>
       </div>
     </article>
     <article class="hyp">
-      <div><h3>Tower and boom flow distortion</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Sector-limited</span><div class="share">affects easterly winds (~4 % of data)</div></div>
+      <div><h3>Flow distortion by the tower and boom</h3><span class="verdict part"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>Easterly wind only</span><div class="share">Affects about 4 % of the data</div></div>
       <div>
         <ul>
-          <li>With the boom pointing west, easterly air passes the 3 m lattice tower first. East sectors indeed close worst (0.26–0.47), matching a documented case with the same geometry.</li>
-          <li>Northerly flow reaches the sonic undisturbed by the tower, so this does not explain the main deficit.</li>
+          <li>The boom points west, so easterly wind passes the 3 m wide lattice tower before it reaches the sonic. Easterly sectors have the lowest EBR (0.26 to 0.47). Kidston et al. (2010) found the same at a site with this geometry.</li>
+          <li>Northerly wind reaches the sonic without passing the tower. Flow distortion therefore does not explain the main deficit.</li>
         </ul>
-        <p class="refs">Kidston et al. 2010; Mauder &amp; Zeeman 2018</p>
+        <p class="refs">Kidston et al. 2010; Mauder and Zeeman 2018</p>
       </div>
     </article>
     <article class="hyp">
-      <div><h3>Instrument errors: sonic heads, gas analyser, radiometer</h3><span class="verdict minor"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" stroke-width="2"/></svg>Unlikely as main cause</span><div class="share">known effects: 3–10 %</div></div>
+      <div><h3>Instrument errors</h3><span class="verdict minor"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" stroke-width="2"/></svg>Unlikely as main cause</span><div class="share">Known effects: 3 to 10 %</div></div>
       <div>
         <ul>
-          <li>The gap persists with three sonic models, three gas analysers and two radiometers.</li>
-          <li>Known sonic head effects (transducer shadowing, angle of attack) are 3–10 % and only weakly direction-dependent; humidity-related LE damping appears with the open-path analyser too.</li>
-          <li>Radiation is internally consistent and matches an independent PAR sensor; net radiation corrections change closure by a few percent at most.</li>
+          <li>The deficit occurs with three sonic models, three gas analysers and two radiometers.</li>
+          <li>Known sonic errors (transducer shadowing, angle of attack) are 3 to 10 % and depend little on wind direction. Humidity-dependent losses of LE also occur with the open-path analyser.</li>
+          <li>The radiation data are consistent and agree with a separate PAR sensor. Corrections of net radiation change closure by a few percent.</li>
         </ul>
         <p class="refs">Frank et al. 2013, 2016; Horst et al. 2015; Fratini et al. 2012; Nicolini et al. 2026</p>
       </div>
@@ -576,38 +594,49 @@ footer b { color: var(--ink-2); font-weight: 600; }
 
 <section class="block" id="nextsteps">
   <div class="sec-head">
-    <div class="eyebrow">Towards closing the gap</div>
-    <h2>Tests to run, corrections to try</h2>
-    <p>Tests discriminate between the explanations; corrections are only justified once the cause is known. In line with Nicolini et al. (2026), any residual should be reported as a bounded uncertainty rather than absorbed by a blanket closure correction.</p>
+    <div class="eyebrow">Next steps</div>
+    <h2>Tests and corrections</h2>
+    <p>Tests are needed to identify the cause. Corrections are justified only once the cause is known. Following Nicolini et al. (2026), a remaining imbalance should be reported as an uncertainty, not removed with a general closure correction.</p>
   </div>
   <div class="steps">
     <div class="card">
-      <div class="card-head"><div><h3>Diagnostic tests</h3></div></div>
+      <div class="card-head"><div><h3>Tests</h3></div></div>
       <ul class="step-list">
-        <li><span class="t">Daily closure by dominant wind direction</span><span class="d">If north-wind days also fail on daily sums, the loss is advective, not a phase or storage effect.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
-        <li><span class="t">Footprint against land cover per sector</span><span class="d">Map the northern footprint onto the 2006 clearing, the road and forest edges.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">land cover map</span></span></li>
-        <li><span class="t">Tilt angles, mean w and σw/u* per sector</span><span class="d">Reveals slope-induced streamline tilt and distorted flow at the sensor.</span><span class="tags"><span class="tag">EddyPro full output</span></span></li>
-        <li><span class="t">Ogives and longer averaging per sector</span><span class="d">Quantifies flux carried by eddies slower than 30 min, especially in northerly flow.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
-        <li><span class="t">Second sonic on another tower face or at a second height</span><span class="d">The decisive test for flow distortion and vertical flux divergence.</span><span class="tags"><span class="tag">field campaign</span></span></li>
+        <li><span class="t">Daily closure by wind direction</span><span class="d">If days with northerly wind also have low closure in daily sums, the missing heat is carried away by advection and not stored.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
+        <li><span class="t">Footprint and land cover per wind sector</span><span class="d">Compare the area that contributes to the flux (the footprint) north of the tower with the 2006 clearing, the road and the forest edges.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">land-cover map</span></span></li>
+        <li><span class="t">Tilt angles, mean vertical wind and σw/u* per sector</span><span class="d">Shows whether the flow at the sensor is tilted or distorted.</span><span class="tags"><span class="tag">EddyPro full output</span></span></li>
+        <li><span class="t">Ogives and longer averaging periods per sector</span><span class="d">Estimates the flux carried by air motions slower than 30 minutes.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
+        <li><span class="t">Second sonic on another side of the tower or at a second height</span><span class="d">Separates flow distortion from changes of the flux with height.</span><span class="tags"><span class="tag">field campaign</span></span></li>
       </ul>
     </div>
     <div class="card">
-      <div class="card-head"><div><h3>Candidate corrections</h3></div></div>
+      <div class="card-head"><div><h3>Corrections</h3></div></div>
       <ul class="step-list">
-        <li><span class="t">Sector-wise planar fit</span><span class="d">Rotate coordinates per wind sector on the sloping site; elsewhere worth +0.03 to +0.05 in slope.</span><span class="tags"><span class="tag">EddyPro reprocessing</span></span></li>
-        <li><span class="t">Extended averaging or ogive correction</span><span class="d">Recover low-frequency flux; 5–10 % of the residual in the literature, more over tall forest.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
-        <li><span class="t">Dispersive flux model</span><span class="d">Add modelled secondary-circulation flux (Mauder et al. 2021) using ERA5 boundary-layer height; expected +8 % of H on flat terrain.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">ERA5</span></span></li>
-        <li><span class="t">Measured biomass temperature for storage</span><span class="d">Use stem and branch temperatures instead of air temperature to bound biomass heat storage.</span><span class="tags"><span class="tag">bole temperature sensors</span></span></li>
-        <li><span class="t">Flag or exclude problem sectors</span><span class="d">Mark easterly (through-tower) data and report northerly flow separately until the cause is known.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
+        <li><span class="t">Sector-wise planar fit</span><span class="d">Coordinate rotation for each wind sector. Increased the slope by 0.03 to 0.05 at other sloping sites.</span><span class="tags"><span class="tag">EddyPro reprocessing</span></span></li>
+        <li><span class="t">Longer averaging or ogive correction</span><span class="d">Adds the flux of slow air motions; 5 to 10 % of the residual in the literature.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
+        <li><span class="t">Model for secondary circulations</span><span class="d">Adds modelled flux (Mauder et al., 2021) using the boundary-layer height from ERA5. About +8 % of H for flat terrain.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">ERA5</span></span></li>
+        <li><span class="t">Measured tree temperature for biomass storage</span><span class="d">Use stem and branch temperatures instead of air temperature.</span><span class="tags"><span class="tag">tree temperature sensors</span></span></li>
+        <li><span class="t">Flag wind sectors</span><span class="d">Flag easterly data (air passes the tower first) and report northerly data separately until the cause is known.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
       </ul>
     </div>
+  </div>
+</section>
+
+<section class="block" id="glossary">
+  <div class="sec-head">
+    <div class="eyebrow">Reference</div>
+    <h2>Abbreviations</h2>
+    <p>Abbreviations in the text have a dotted underline. Hover over them to see their meaning.</p>
+  </div>
+  <div class="card">
+    <div class="table-view" style="max-height:none"><table class="gloss" id="t-gloss"></table></div>
   </div>
 </section>
 </main>
 
 <footer>
-  <p><b>Data.</b> Network results: Nicolini, G., Papale, D. (2026), EBC_data, Zenodo, doi:10.5281/zenodo.19608436 (CC BY 4.0). CH-Dav: ICOS FLUXNET product 1997–2024, release v1.3_r1, ICOS Carbon Portal (CC BY 4.0). Site history from the station fieldbook and ICOS labelling report, summarised.</p>
-  <p><b>Method notes.</b> Network slopes are RMA slopes as in Nicolini et al. (2026); AE1–AE6 follow their Table 2 (dataset codes NR, NR_G2, NR_G1, NR_G1_SH_SLE, …_Spho, …_Spho_Sbio), fully quality-filtered TE unless marked u*-filtered. CH-Dav analyses use measured (not gap-filled) Rn, G, H and LE with OLS slopes and bulk ratios ΣTE / ΣAE. The dataset's imbalance column behaves as AE − TE.</p>
+  <p><b>Data.</b> Network results: Nicolini, G., Papale, D. (2026), EBC_data, Zenodo, doi:10.5281/zenodo.19608436 (CC BY 4.0). CH-Dav: ICOS FLUXNET product 1997 to 2024, release v1.3_r1, ICOS Carbon Portal (CC BY 4.0). Site history summarised from the station fieldbook and the ICOS labelling report.</p>
+  <p><b>Methods.</b> Network slopes are RMA slopes as in Nicolini et al. (2026). AE1 to AE6 follow their Table 2 (dataset codes NR, NR_G2, NR_G1, NR_G1_SH_SLE, NR_G1_SH_SLE_Spho, NR_G1_SH_SLE_Spho_Sbio). Turbulent fluxes are fully quality-filtered unless marked u*-filtered. CH-Dav analyses use measured (not gap-filled) Rn, G, H and LE, with OLS slopes and EBR = ΣTE / ΣAE. The imbalance column of the dataset corresponds to AE − TE.</p>
   <p id="gen"></p>
 </footer>
 </div>
@@ -617,11 +646,113 @@ footer b { color: var(--ink-2); font-weight: 600; }
 <script>
 const DATA = /*__DATA__*/null;
 
+/* ---------- abbreviations: one source for tooltips and the table ---------- */
+const GLOSS = [
+  ["Energy balance", [
+    ["EBC", "Energy balance closure", "How well the measured heat fluxes H + LE match the available energy. A value of 1 means they match."],
+    ["EBR", "Energy balance ratio", "Sum of H + LE divided by the sum of AE over a period. A value of 1 means closure."],
+    ["AE", "Available energy", "Energy that the surface can pass to the air: Rn minus the heat that goes into soil, air, trees and photosynthesis."],
+    ["TE", "Turbulent energy", "Heat carried away by air movement: H + LE."],
+    ["H", "Sensible heat flux", "Heat that warms the air."],
+    ["LE", "Latent heat flux", "Energy used to evaporate water from soil and leaves."],
+    ["Rn", "Net radiation", "Incoming minus outgoing radiation from sun and sky."],
+    ["G", "Soil heat flux", "Heat flowing into or out of the soil, measured with plates a few cm deep."],
+    ["Ssoil", "Soil heat storage", "Heat stored in the soil layer above the soil heat flux plates.", "S soil"],
+    ["Sair", "Air heat storage", "Heat and water vapour stored in the air below the sensors.", "S air"],
+    ["Sbio", "Biomass heat storage", "Heat stored in stems, branches and needles.", "S bio"],
+    ["Spho", "Photosynthesis energy", "Energy that plants store in sugars during photosynthesis.", "S pho"],
+    ["AE1 to AE6", "Definitions of available energy", "From Rn only (AE1) to Rn minus all storage terms and photosynthesis (AE6), as in Nicolini et al. (2026).", null, true],
+  ]],
+  ["Weather and turbulence", [
+    ["u*", "Friction velocity", "Strength of the turbulence near the canopy, in m s⁻¹. Low values mean weak mixing."],
+    ["z/L", "Stability parameter", "Negative when warm air rises from the surface (unstable), positive when the air is layered (stable)."],
+    ["σw", "Standard deviation of vertical wind", "How strongly the vertical wind speed fluctuates."],
+    ["RH", "Relative humidity", "Water vapour in the air as a percentage of the maximum possible."],
+    ["SW_IN", "Incoming shortwave radiation", "Sunlight reaching the radiometer."],
+    ["SW_OUT", "Outgoing shortwave radiation", "Sunlight reflected by the canopy."],
+    ["LW_OUT", "Outgoing longwave radiation", "Heat radiation emitted by the canopy."],
+    ["PAR", "Photosynthetically active radiation", "Visible light, measured with a separate sensor."],
+    ["WS", "Wind speed", "Horizontal wind speed at the sensor height."],
+    ["N, E, S, W", "Wind directions", "Direction the wind comes from: north, east, south, west.", null, true],
+  ]],
+  ["Statistics", [
+    ["OLS", "Ordinary least squares", "Standard linear regression. It assumes that only the y-values have errors."],
+    ["RMA", "Reduced major axis", "Linear regression that allows errors in both x and y. Used in the network comparison."],
+    ["IQR", "Interquartile range", "Range that contains the middle half of the sites."],
+    ["n", "Number of values", "Number of half-hours or sites used.", null, true],
+  ]],
+  ["Networks, sites and vegetation", [
+    ["ICOS", "Integrated Carbon Observation System", "European research network for greenhouse gas measurements."],
+    ["NEON", "National Ecological Observatory Network", "Ecological research network in the United States."],
+    ["CH-Dav", "Site code for Davos", "Country code (CH, Switzerland) and site name. IT-Ren is Renon in Italy.", null, true],
+    ["PFT", "Plant functional type", "Vegetation class used to group the sites."],
+    ["ENF", "Evergreen needleleaf forest", "Conifer forest that keeps its needles all year."],
+    ["DBF", "Deciduous broadleaf forest", "Forest of trees that lose their leaves in winter."],
+    ["EBF", "Evergreen broadleaf forest", "Broadleaf forest that keeps its leaves all year."],
+    ["MF", "Mixed forest", "Forest with both conifers and broadleaf trees."],
+    ["a.s.l.", "Above sea level", "Height above mean sea level."],
+  ]],
+  ["Instruments and data", [
+    ["EC", "Eddy covariance", "Method that calculates heat and gas fluxes from fast (20 times per second) measurements of wind and air properties."],
+    ["CP", "Closed-path gas analyser", "Analyser that measures air pumped through a long tube (LI-6262)."],
+    ["OP", "Open-path gas analyser", "Analyser that measures directly in the open air (LI-7500)."],
+    ["EP", "Enclosed-path gas analyser", "Analyser with a short, heated intake tube (LI-7200)."],
+    ["ERA5", "ECMWF reanalysis, version 5", "Global weather data reconstructed from observations and a weather model."],
+    ["FLUXNET", "Global flux network data format", "Standard format and processing (ONEFlux) for eddy covariance data."],
+  ]],
+];
+const GL = new Map();
+for (const [, items] of GLOSS) for (const [key, full, plain, label, manual] of items) GL.set(key, { full, plain, label: label || key, manual });
+// storage terms (S soil, S air, ...) and manual entries are marked up by hand, everything else automatically
+const AUTO_KEYS = [...GL.entries()].filter(([k, v]) => !v.manual && !/^S[a-z]/.test(k)).map(([k]) => k)
+  .sort((a, b) => b.length - a.length);
+const esc = s => s.replace(/[.*+?^${}()|[\]\\\/]/g, "\\$&");
+const ABBR_RE = new RegExp(`(?<![A-Za-z0-9_\\-.])(${AUTO_KEYS.map(esc).join("|")})(?![A-Za-z0-9_])`, "g");
+function glossify(root) {
+  if (!root) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(n) {
+      const p = n.parentElement;
+      if (!p || p.closest("abbr, button, select, option, svg, script, style, .gloss, .tip, a, time, h1, .eyebrow")) return NodeFilter.FILTER_REJECT;
+      ABBR_RE.lastIndex = 0;
+      return ABBR_RE.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    },
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (const n of nodes) {
+    const frag = document.createDocumentFragment();
+    let last = 0, m;
+    ABBR_RE.lastIndex = 0;
+    while ((m = ABBR_RE.exec(n.nodeValue))) {
+      frag.append(n.nodeValue.slice(last, m.index));
+      const a = document.createElement("abbr");
+      a.dataset.g = m[1]; a.textContent = m[1];
+      frag.append(a);
+      last = m.index + m[1].length;
+    }
+    frag.append(n.nodeValue.slice(last));
+    n.replaceWith(frag);
+  }
+}
+function glossTip(key) {
+  const g = GL.get(key); if (!g) return "";
+  return `<div class="full">${g.label}: ${g.full}</div><div class="plain">${g.plain}</div>`;
+}
+function renderGlossTable() {
+  let html = `<thead><tr><th>Abbreviation</th><th>Stands for</th><th>Meaning</th></tr></thead><tbody>`;
+  for (const [group, items] of GLOSS) {
+    html += `<tr class="grp"><td colspan="3">${group}</td></tr>`;
+    for (const [key, full, plain, label] of items) html += `<tr><td>${label || key}</td><td>${full}</td><td>${plain}</td></tr>`;
+  }
+  document.getElementById("t-gloss").innerHTML = html + "</tbody>";
+}
+
 /* ---------- helpers ---------- */
 const NS = "http://www.w3.org/2000/svg";
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const fmt = (v, d = 2) => (v == null || !isFinite(v)) ? "–" : v.toFixed(d);
+const fmt = (v, d = 2) => (v == null || !isFinite(v)) ? "n/a" : v.toFixed(d);
 const median = a => quantile(a, 0.5);
 function quantile(arr, q) {
   const s = arr.filter(v => v != null && isFinite(v)).sort((a, b) => a - b);
@@ -666,16 +797,21 @@ const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(
 
 /* tooltip */
 const tip = $("#tip");
-function showTip(html, ev) {
-  tip.innerHTML = html; tip.hidden = false;
+function placeTip(x0, y0) {
   const pad = 14, r = tip.getBoundingClientRect();
-  let x = ev.clientX + pad, y = ev.clientY + pad;
-  if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - pad;
-  if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - pad;
+  let x = x0 + pad, y = y0 + pad;
+  if (x + r.width > innerWidth - 8) x = x0 - r.width - pad;
+  if (y + r.height > innerHeight - 8) y = y0 - r.height - pad;
   tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
 }
+function showTip(html, ev) { tip.innerHTML = html; tip.hidden = false; placeTip(ev.clientX, ev.clientY); }
 const hideTip = () => { tip.hidden = true; };
 const row = (k, v, color) => `<div class="row"><span>${color ? `<i class="sw" style="background:${color}"></i>` : ""}${k}</span><span>${v}</span></div>`;
+document.addEventListener("pointerover", e => {
+  const a = e.target.closest?.("abbr[data-g]"); if (a) showTip(glossTip(a.dataset.g), e);
+});
+document.addEventListener("pointermove", e => { if (e.target.closest?.("abbr[data-g]")) placeTip(e.clientX, e.clientY); });
+document.addEventListener("pointerout", e => { if (e.target.closest?.("abbr[data-g]")) hideTip(); });
 
 /* chart registry: render on demand, re-render on resize, table views */
 const charts = new Map();
@@ -691,7 +827,7 @@ function tableHTML({ cols, rows }, davKey) {
   const head = cols.map(c => `<th class="${c.n ? "n" : ""}">${c.label}</th>`).join("");
   const body = rows.map(r => `<tr class="${davKey && davKey(r) ? "is-dav" : ""}">${cols.map(c => {
     const v = r[c.key];
-    return `<td class="${c.n ? "n" : ""}">${c.n ? fmt(v, c.d ?? 2) : (v ?? "–")}</td>`;
+    return `<td class="${c.n ? "n" : ""}">${c.n ? fmt(v, c.d ?? 2) : (v ?? "n/a")}</td>`;
   }).join("")}</tr>`).join("");
   return `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
 }
@@ -702,7 +838,8 @@ function syncTable(id) {
   const on = btn.getAttribute("aria-pressed") === "true";
   if (on) {
     if (!tv) { tv = document.createElement("div"); tv.className = "table-view"; node.after(tv); }
-    tv.innerHTML = node._table ? tableHTML(node._table, r => r.site === "CH-Dav" || r.who === "CH-Dav") : "";
+    tv.innerHTML = node._table ? tableHTML(node._table, r => r.site === "CH-Dav") : "";
+    glossify(tv);
     tv.hidden = false; node.hidden = true;
   } else {
     if (tv) tv.hidden = true;
@@ -720,12 +857,27 @@ function segmented(id, onChange) {
     $$("button", seg).forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
     onChange(b.dataset.v);
   });
-  return () => $("button[aria-pressed='true']", seg)?.dataset.v;
 }
 function legend(id, items) {
-  document.getElementById(id).innerHTML = items.map(([label, color, kind = "line"]) =>
-    `<span><i class="${kind}" style="background:${color}"></i>${label}</span>`).join("");
+  const node = document.getElementById(id);
+  node.innerHTML = items.map(([label, color, kind = "line"]) => `<span><i class="${kind}" style="background:${color}"></i>${label}</span>`).join("");
+  glossify(node);
 }
+
+/* ---------- theme switch ---------- */
+const THEME_KEY = "ch-dav-theme";
+function applyTheme(v) {
+  if (v === "light" || v === "dark") document.documentElement.dataset.theme = v;
+  else delete document.documentElement.dataset.theme;
+  $$("#ctl-theme button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === v ? "true" : "false"));
+}
+let savedTheme = null;
+try { savedTheme = localStorage.getItem(THEME_KEY); } catch (e) { /* storage unavailable */ }
+applyTheme(savedTheme || document.documentElement.dataset.theme || "auto");
+segmented("ctl-theme", v => {
+  applyTheme(v);
+  try { localStorage.setItem(THEME_KEY, v); } catch (e) { /* storage unavailable */ }
+});
 
 /* ---------- state ---------- */
 const NET = DATA.network, DAV = DATA.dav;
@@ -737,8 +889,8 @@ const state = { ae: "AE6u", net: "all", pft: "all", attr: "slope", strat: "atm_s
 const AE_STEPS = ["AE1", "AE2", "AE3", "AE4", "AE5", "AE6", "AE6u"];
 const AE_LABEL = { AE1: "Rn", AE2: "−G", AE3: "−S soil", AE4: "−S air", AE5: "−S pho", AE6: "−S bio", AE6u: "u* filter" };
 const AE_LONG = {
-  AE1: "Rn only", AE2: "Rn − G", AE3: "Rn − G − S soil", AE4: "… − S air", AE5: "… − S photosynthesis",
-  AE6: "… − S biomass (AE6)", AE6u: "AE6, u*-filtered TE",
+  AE1: "AE1: Rn", AE2: "AE2: Rn − G", AE3: "AE3: Rn − G − S soil", AE4: "AE4: AE3 − S air", AE5: "AE5: AE4 − S pho",
+  AE6: "AE6: AE5 − S bio", AE6u: "AE6 with u*-filtered TE",
 };
 function filtered() {
   return SITES.filter(s =>
@@ -753,7 +905,6 @@ function renderHero(node) {
   const m = { l: 16, r: 16, t: 34, b: 30 };
   const w = Math.max(280, node.clientWidth);
   const x = scale(0.4, 1.4, m.l, w - m.r);
-  // beeswarm: stack dots that would overlap, then size the frame to the swarm
   const gap = w < 600 ? 7 : 9;
   const sorted = [...vals].sort((a, b) => a.rma.AE6u - b.rma.AE6u);
   const placed = [];
@@ -780,8 +931,7 @@ function renderHero(node) {
   text(f.svg, x(med) + 6, f.m.t - 14, `network median ${med.toFixed(2)}`, { class: "lbl-strong" });
   for (const p of placed) {
     const isDav = p.s.site === "CH-Dav";
-    el("circle", { cx: p.cx, cy: p.cy, r: isDav ? 7 : 4, fill: isDav ? "var(--dav)" : "var(--net)",
-      stroke: "var(--surface)", "stroke-width": 2 }, f.svg);
+    el("circle", { cx: p.cx, cy: p.cy, r: isDav ? 7 : 4, fill: isDav ? "var(--dav)" : "var(--net)", stroke: "var(--surface)", "stroke-width": 2 }, f.svg);
   }
   const d = placed.find(p => p.s.site === "CH-Dav");
   text(f.svg, d.cx, d.cy - 13, `CH-Dav ${d.s.rma.AE6u.toFixed(2)}`, { class: "lbl-dav", "text-anchor": "middle" });
@@ -791,7 +941,7 @@ function renderHero(node) {
     let best = null, bd = 400;
     for (const p of placed) { const dd = (p.cx - sx) ** 2 + (p.cy - sy) ** 2; if (dd < bd) { bd = dd; best = p; } }
     if (!best) return hideTip();
-    showTip(`<b>${best.s.site}</b> · ${best.s.network} · ${best.s.pft}` + row("RMA slope", fmt(best.s.rma.AE6u)), ev);
+    showTip(`<b>${best.s.site}</b>, ${best.s.network}, ${best.s.pft}` + row("RMA slope", fmt(best.s.rma.AE6u)), ev);
   });
   hit.addEventListener("pointerleave", hideTip);
 }
@@ -804,11 +954,13 @@ function renderStats() {
   const yrs = DAV.yearly.filter(r => r.year >= 1998 && r.hh_slope != null).map(r => r.hh_slope);
   const q = DAV.quad_ustar.filter(r => r.ustar_coarse === "[0.5, 0.7)");
   const qv = k => q.find(r => r.quadrant === k)?.ebr;
-  $("#hero-stats").innerHTML = `
-    <div class="stat"><b class="dav">${DAVSITE.rma.AE6u.toFixed(2)}</b><span>closure at CH-Dav, rank ${rank} of ${vals.length} (median ${median(vals).toFixed(2)})</span></div>
-    <div class="stat"><b>${Math.round(DAVSITE.imb)} W m⁻²</b><span>mean imbalance AE − TE, ${imbRank === 1 ? "largest" : "#" + imbRank} in the network</span></div>
-    <div class="stat"><b>${Math.min(...yrs).toFixed(2)}–${Math.max(...yrs).toFixed(2)}</b><span>closure slope per year 1998–2024, with every instrument</span></div>
-    <div class="stat"><b>${fmt(qv("N"))} vs ${fmt(qv("W"))}</b><span>northerly vs westerly winds at the same u* (0.5–0.7 m s⁻¹)</span></div>`;
+  const node = $("#hero-stats");
+  node.innerHTML = `
+    <div class="stat"><b class="dav">${DAVSITE.rma.AE6u.toFixed(2)}</b><span>closure at CH-Dav: rank ${rank} of ${vals.length} (median ${median(vals).toFixed(2)})</span></div>
+    <div class="stat"><b>${Math.round(DAVSITE.imb)} W m⁻²</b><span>mean imbalance AE − TE, ${imbRank === 1 ? "the largest" : "rank " + imbRank} of ${imbs.length} sites</span></div>
+    <div class="stat"><b>${Math.min(...yrs).toFixed(2)} to ${Math.max(...yrs).toFixed(2)}</b><span>range of the yearly closure slope, 1998 to 2024</span></div>
+    <div class="stat"><b>${fmt(qv("N"))} and ${fmt(qv("W"))}</b><span>EBR for northerly and westerly wind at u* 0.5 to 0.7 m s⁻¹</span></div>`;
+  glossify(node);
 }
 
 /* ---------- network: rank ---------- */
@@ -840,13 +992,13 @@ function renderRank(node) {
   text(f.svg, xc(di) + (anchor === "start" ? 9 : -9), y(data[di].rma[key]) + 4, `CH-Dav ${data[di].rma[key].toFixed(2)}`, { class: "lbl-dav", "text-anchor": anchor });
   const ci = data.findIndex(s => s.site === CONTRAST);
   if (ci >= 0) text(f.svg, xc(ci) - 8, y(data[ci].rma[key]) + 4, `IT-Ren ${data[ci].rma[key].toFixed(2)}`, { class: "lbl-strong", "text-anchor": "end" });
-  text(f.svg, f.m.l, f.h - 6, `${data.length} sites, lowest to highest closure`, {});
+  text(f.svg, f.m.l, f.h - 6, `${data.length} sites, from lowest to highest closure`, {});
   const hit = el("rect", { x: f.m.l, y: 0, width: f.iw, height: f.h, fill: "transparent" }, f.svg);
   hit.addEventListener("pointermove", ev => {
     const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width;
     const i = Math.max(0, Math.min(data.length - 1, Math.floor((sx - f.m.l) / bw)));
     const s = data[i];
-    showTip(`<b>${s.site}</b> · ${s.network} · ${s.pft}` + row("RMA slope", fmt(s.rma[key])) + row("rank", `${i + 1} / ${data.length}`)
+    showTip(`<b>${s.site}</b>, ${s.network}, ${s.pft}` + row("RMA slope", fmt(s.rma[key])) + row("rank", `${i + 1} of ${data.length}`)
       + (s.slope != null ? row("terrain slope", s.slope.toFixed(1) + "°") : ""), ev);
   });
   hit.addEventListener("pointerleave", hideTip);
@@ -859,7 +1011,7 @@ function renderRank(node) {
 const ATTR_LABEL = { slope: "Terrain slope (°)", bio: "Above-ground biomass (kg m⁻²)", hc: "Canopy height (m)", ec_h: "EC height (m)", elev: "Elevation (m)", lai: "Leaf area index" };
 function renderScatter(node) {
   const key = state.ae, ak = state.attr;
-  let data = filtered().filter(s => s.rma[key] != null && s[ak] != null);
+  const data = filtered().filter(s => s.rma[key] != null && s[ak] != null);
   if (!data.find(s => s.site === "CH-Dav")) data.push(DAVSITE);
   const f = frame(node, 300, { l: 40, r: 16, t: 14, b: 40 });
   const xs = data.map(s => s[ak]), ys = data.map(s => s.rma[key]);
@@ -887,14 +1039,14 @@ function renderScatter(node) {
     let best = null, bd = 24 * 24;
     for (const p of pts) { const dd = (p.cx - sx) ** 2 + (p.cy - sy) ** 2; if (dd < bd) { bd = dd; best = p; } }
     if (!best) return hideTip();
-    showTip(`<b>${best.s.site}</b> · ${best.s.pft}` + row(ATTR_LABEL[ak], fmt(best.s[ak], 1)) + row("RMA slope", fmt(best.s.rma[key])), ev);
+    showTip(`<b>${best.s.site}</b>, ${best.s.pft}` + row(ATTR_LABEL[ak], fmt(best.s[ak], 1)) + row("RMA slope", fmt(best.s.rma[key])), ev);
   });
   hit.addEventListener("pointerleave", hideTip);
   setTable(node, [{ key: "site", label: "Site" }, { key: "pft", label: "PFT" }, { key: "a", label: ATTR_LABEL[ak], n: 1, d: 1 }, { key: "v", label: "RMA slope", n: 1 }],
     [...data].sort((a, b) => a.rma[key] - b.rma[key]).map(s => ({ site: s.site, pft: s.pft, a: s[ak], v: s.rma[key] })));
 }
 
-/* ---------- generic CH-Dav vs network comparison over categories ---------- */
+/* ---------- CH-Dav against the network over categories ---------- */
 function compareChart(node, cats, labels, davVals, netVals, opts = {}) {
   const f = frame(node, opts.height || 280, { l: 40, r: 16, t: 16, b: opts.b || 44 });
   const stats = netVals.map(v => ({ q1: quantile(v, 0.25), med: median(v), q3: quantile(v, 0.75), n: v.filter(x => x != null).length }));
@@ -907,7 +1059,6 @@ function compareChart(node, cats, labels, davVals, netVals, opts = {}) {
   const every = Math.max(1, Math.ceil(cats.length * 62 / f.iw));
   labels.forEach((l, i) => { if (i % every === 0) text(f.svg, x(i), f.h - f.m.b + 16, l, { "text-anchor": "middle" }); });
   if (opts.xTitle) text(f.svg, f.w - f.m.r, f.h - 4, opts.xTitle, { "text-anchor": "end" });
-  // IQR band, broken at gaps
   let seg = [];
   const flushBand = () => {
     if (seg.length > 1) el("path", { d: "M" + seg.map(i => `${x(i)},${y(stats[i].q3)}`).join("L") + "L" + [...seg].reverse().map(i => `${x(i)},${y(stats[i].q1)}`).join("L") + "Z", fill: "var(--band)" }, f.svg);
@@ -930,15 +1081,15 @@ function compareChart(node, cats, labels, davVals, netVals, opts = {}) {
     guide.setAttribute("x1", x(i)); guide.setAttribute("x2", x(i)); guide.setAttribute("visibility", "visible");
     const s = stats[i];
     showTip(`<b>${opts.tipLabel ? opts.tipLabel(i) : labels[i]}</b>` + row("CH-Dav", fmt(davVals[i]), cssVar("--dav"))
-      + row("network median", s.n >= 3 ? fmt(s.med) : "–", cssVar("--ink-2")) + row("IQR", s.n >= 3 ? `${fmt(s.q1)}–${fmt(s.q3)}` : "–")
+      + row("network median", s.n >= 3 ? fmt(s.med) : "n/a", cssVar("--ink-2")) + row("IQR", s.n >= 3 ? `${fmt(s.q1)} to ${fmt(s.q3)}` : "n/a")
       + row("sites", s.n) + (opts.extra ? opts.extra(i) : ""), ev);
   });
   hit.addEventListener("pointerleave", () => { hideTip(); guide.setAttribute("visibility", "hidden"); });
   setTable(node, [{ key: "c", label: opts.catTitle || "Class" }, { key: "dav", label: "CH-Dav", n: 1 }, { key: "med", label: "Median", n: 1 },
-    { key: "q1", label: "Q1", n: 1 }, { key: "q3", label: "Q3", n: 1 }, { key: "n", label: "Sites", n: 1, d: 0 }],
+    { key: "q1", label: "Lower quartile", n: 1 }, { key: "q3", label: "Upper quartile", n: 1 }, { key: "n", label: "Sites", n: 1, d: 0 }],
     cats.map((c, i) => ({ c: opts.tipLabel ? opts.tipLabel(i) : labels[i], dav: davVals[i], med: stats[i].n >= 3 ? stats[i].med : null, q1: stats[i].q1, q3: stats[i].q3, n: stats[i].n })));
 }
-const compareLegend = id => legend(id, [["CH-Dav", "var(--dav)"], ["network median", "var(--ink-2)"], ["interquartile range", "var(--band)", "box"]]);
+const compareLegend = id => legend(id, [["CH-Dav", "var(--dav)"], ["network median", "var(--ink-2)"], ["interquartile range (IQR)", "var(--band)", "box"]]);
 
 function renderSteps(node) {
   const sites = filtered().filter(s => s.site !== "CH-Dav");
@@ -949,23 +1100,22 @@ const TS = ["30 min", "day", "week", "month", "season", "year"];
 function renderTS(node) {
   const sites = filtered().filter(s => s.site !== "CH-Dav");
   compareChart(node, TS, TS, TS.map(k => DAVSITE.ratio[k]), TS.map(k => sites.map(s => s.ratio[k])),
-    { catTitle: "Aggregation", lo: 0.3, hi: 1.1, height: 260 });
+    { catTitle: "Aggregation period", lo: 0.3, hi: 1.1, height: 260 });
 }
 const STRAT_NAMES = {
   very_stable: "very stable", stable: "stable", neutral_stable: "neutral (stable)", neutral_unstable: "neutral (unstable)",
-  unstable: "unstable", very_unstable: "very unstable", night: "night", astronomical_twilight: "astr. twilight",
-  nautical_twilight: "naut. twilight", civil_twilight: "civil twilight", day: "day",
+  unstable: "unstable", very_unstable: "very unstable", night: "night", astronomical_twilight: "astron. twilight",
+  nautical_twilight: "nautical twilight", civil_twilight: "civil twilight", day: "day",
 };
 function stratLabel(lv) {
   if (STRAT_NAMES[lv]) return STRAT_NAMES[lv];
   const m = lv.match(/\((-?[\d.]+)-(-?[\d.]+)\]/);
-  return m ? `${m[1]}…${m[2]}` : lv;
+  return m ? `${m[1]} to ${m[2]}` : lv;
 }
 function renderStrat(node) {
   const S = NET.strat[state.strat];
   const dv = S.values["CH-Dav"] || [];
-  const keep = S.levels.map((_, i) => dv[i] && dv[i][1] >= 50);
-  const idx = S.levels.map((_, i) => i).filter(i => keep[i]);
+  const idx = S.levels.map((_, i) => i).filter(i => dv[i] && dv[i][1] >= 50);
   const sites = filtered().filter(s => s.site !== "CH-Dav");
   const unit = { SEA_classes: "sun elevation (°)", RH_classes: "relative humidity (%)" }[state.strat];
   compareChart(node, idx.map(i => S.levels[i]), idx.map(i => stratLabel(S.levels[i])), idx.map(i => dv[i][0]),
@@ -977,8 +1127,7 @@ function renderStrat(node) {
 function periodBands(f, x, yTop, yBot, withLabels) {
   DAV.period_dates.forEach((p, i) => {
     const a = new Date(p.start), b = new Date(p.end);
-    const xa = x(a.getFullYear() + a.getMonth() / 12), xb = x(b.getFullYear() + b.getMonth() / 12);
-    const x0 = Math.max(f.m.l, xa), x1 = Math.min(f.w - f.m.r, xb);
+    const x0 = Math.max(f.m.l, x(a.getFullYear() + a.getMonth() / 12)), x1 = Math.min(f.w - f.m.r, x(b.getFullYear() + b.getMonth() / 12));
     if (x1 <= x0) return;
     if (i % 2 === 1) el("rect", { x: x0, y: yTop, width: x1 - x0, height: yBot - yTop, fill: "var(--band)", "fill-opacity": 0.55 }, f.svg);
     if (withLabels && x1 - x0 > 58) text(f.svg, (x0 + x1) / 2, yTop + 12, p.label.replace(/ \((CP|OP|EP)\)/, ""), { "text-anchor": "middle", "font-size": 10 });
@@ -992,12 +1141,13 @@ function renderYears(node) {
   yAxis(f, y, [0, 0.2, 0.4, 0.6, 0.8, 1.0], t => t.toFixed(1));
   el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(1), y2: y(1), class: "base-line" }, f.svg);
   for (const t of [2000, 2005, 2010, 2015, 2020]) text(f.svg, x(t), f.h - 10, String(t), { "text-anchor": "middle" });
-  const series = [["hh_slope", "half-hourly slope", "var(--s1)"], ["day_slope", "daily-mean slope", "var(--s2)"], ["hh_ebr", "half-hourly ΣTE/ΣAE", "var(--s3)"]];
+  const series = [["hh_slope", "slope, half-hourly data", "var(--s1)"], ["day_slope", "slope, daily means", "var(--s2)"], ["hh_ebr", "EBR, half-hourly data", "var(--s3)"]];
+  const ok = (r, k) => r[k] != null && !(k === "day_slope" && (r.day_n ?? 0) < 10);
   for (const [k, , color] of series) {
     let d = "", pen = false;
-    rows.forEach(r => { const v = r[k]; if (v == null || (k === "day_slope" && (r.day_n ?? 0) < 10)) { pen = false; return; } d += `${pen ? "L" : "M"}${x(r.year)},${y(v)}`; pen = true; });
+    rows.forEach(r => { if (!ok(r, k)) { pen = false; return; } d += `${pen ? "L" : "M"}${x(r.year)},${y(r[k])}`; pen = true; });
     el("path", { d, fill: "none", stroke: color, "stroke-width": 2, "stroke-linejoin": "round" }, f.svg);
-    rows.forEach(r => { const v = r[k]; if (v == null || (k === "day_slope" && (r.day_n ?? 0) < 10)) return; el("circle", { cx: x(r.year), cy: y(v), r: 3, fill: color, stroke: "var(--surface)", "stroke-width": 1.5 }, f.svg); });
+    rows.forEach(r => { if (ok(r, k)) el("circle", { cx: x(r.year), cy: y(r[k]), r: 3, fill: color, stroke: "var(--surface)", "stroke-width": 1.5 }, f.svg); });
   }
   legend("lg-years", series.map(([, l, c]) => [l, c]));
   const guide = el("line", { y1: f.m.t, y2: f.h - f.m.b, stroke: "var(--axis)", visibility: "hidden" }, f.svg);
@@ -1008,17 +1158,18 @@ function renderYears(node) {
     const d = rows.find(q => q.year === yr); if (!d) return;
     guide.setAttribute("x1", x(yr)); guide.setAttribute("x2", x(yr)); guide.setAttribute("visibility", "visible");
     const p = DAV.period_dates.find(p => new Date(p.start) <= new Date(`${yr}-07-01`) && new Date(`${yr}-07-01`) < new Date(p.end));
-    showTip(`<b>${yr}</b>${p ? ` · ${p.label}` : ""}` + row("half-hourly slope", fmt(d.hh_slope), cssVar("--s1")) + row("daily slope", (d.day_n ?? 0) >= 10 ? fmt(d.day_slope) : "–", cssVar("--s2"))
-      + row("ΣTE / ΣAE", fmt(d.hh_ebr), cssVar("--s3")) + row("half-hours", d.hh_n ?? 0), ev);
+    showTip(`<b>${yr}</b>${p ? `, ${p.label}` : ""}` + row("slope, half-hourly", fmt(d.hh_slope), cssVar("--s1")) + row("slope, daily", ok(d, "day_slope") ? fmt(d.day_slope) : "n/a", cssVar("--s2"))
+      + row("EBR", fmt(d.hh_ebr), cssVar("--s3")) + row("half-hours", d.hh_n ?? 0), ev);
   });
   hit.addEventListener("pointerleave", () => { hideTip(); guide.setAttribute("visibility", "hidden"); });
-  setTable(node, [{ key: "year", label: "Year" }, { key: "hh_slope", label: "HH slope", n: 1 }, { key: "hh_intercept", label: "Intercept", n: 1, d: 1 },
-    { key: "hh_ebr", label: "ΣTE/ΣAE", n: 1 }, { key: "day_slope", label: "Daily slope", n: 1 }, { key: "hh_n", label: "Half-hours", n: 1, d: 0 }], rows);
+  setTable(node, [{ key: "year", label: "Year" }, { key: "hh_slope", label: "Slope, half-hourly", n: 1 }, { key: "hh_intercept", label: "Intercept (W m⁻²)", n: 1, d: 1 },
+    { key: "hh_ebr", label: "EBR", n: 1 }, { key: "day_slope", label: "Slope, daily", n: 1 }, { key: "hh_n", label: "Half-hours", n: 1, d: 0 }], rows);
 }
 
-/* ---------- CH-Dav: diurnal ---------- */
-const DIUR = [["AE", "available energy AE", "var(--s1)"], ["TE", "turbulent energy TE", "var(--s2)"], ["S", "S bio + S pho", "var(--s3)"],
-  ["RES", "residual AE − TE", "var(--s4)"], ["RES_S", "residual − storage", "var(--s5)"]];
+/* ---------- CH-Dav: daily cycle ---------- */
+const DIUR = [["AE", "available energy (AE)", "var(--s1)"], ["TE", "turbulent energy (TE)", "var(--s2)"], ["S", "biomass storage + photosynthesis", "var(--s3)"],
+  ["RES", "residual AE − TE", "var(--s4)"], ["RES_S", "residual minus storage", "var(--s5)"]];
+const SEASON_NAME = { DJF: "winter", MAM: "spring", JJA: "summer", SON: "autumn" };
 function renderDiurnal(node) {
   const rows = DAV.diurnal.filter(r => r.season === state.season);
   const f = frame(node, 300, { l: 44, r: 16, t: 12, b: 30 });
@@ -1037,24 +1188,24 @@ function renderDiurnal(node) {
     const d = rows.find(q => q.hour === h); if (!d) return;
     guide.setAttribute("x1", x(h)); guide.setAttribute("x2", x(h)); guide.setAttribute("visibility", "visible");
     const hh = `${String(Math.floor(h)).padStart(2, "0")}:${h % 1 ? "30" : "00"}`;
-    showTip(`<b>${hh}</b> · ${{ DJF: "winter", MAM: "spring", JJA: "summer", SON: "autumn" }[state.season]}` + DIUR.map(([k, l, c]) => row(l, fmt(d[k], 0) + " W m⁻²", cssVar(c.slice(4, -1)))).join(""), ev);
+    showTip(`<b>${hh}</b>, ${SEASON_NAME[state.season]}` + DIUR.map(([k, l, c]) => row(l, fmt(d[k], 0) + " W m⁻²", cssVar(c.slice(4, -1)))).join(""), ev);
   });
   hit.addEventListener("pointerleave", () => { hideTip(); guide.setAttribute("visibility", "hidden"); });
-  setTable(node, [{ key: "hour", label: "Hour", n: 1, d: 1 }, ...DIUR.map(([k, l]) => ({ key: k, label: l, n: 1, d: 0 }))], rows);
+  setTable(node, [{ key: "hour", label: "Hour", n: 1, d: 1 }, ...DIUR.map(([k, l]) => ({ key: k, label: l + " (W m⁻²)", n: 1, d: 0 }))], rows);
 }
 function renderStorageTable() {
-  const order = ["DJF", "MAM", "JJA", "SON"], names = { DJF: "Winter", MAM: "Spring", JJA: "Summer", SON: "Autumn" };
-  const rows = order.map(s => DAV.storage.find(r => r.season === s)).filter(Boolean)
+  const names = { DJF: "Winter", MAM: "Spring", JJA: "Summer", SON: "Autumn" };
+  const rows = ["DJF", "MAM", "JJA", "SON"].map(s => DAV.storage.find(r => r.season === s)).filter(Boolean)
     .map(r => ({ season: names[r.season], a: r.noS_ols_slope, b: r.withS_ols_slope, d: r.withS_ols_slope - r.noS_ols_slope }));
-  $("#t-storage").innerHTML = tableHTML({ cols: [{ key: "season", label: "Season" }, { key: "a", label: "Without", n: 1 }, { key: "b", label: "With storage", n: 1 }, { key: "d", label: "Gain", n: 1 }], rows });
+  const node = $("#t-storage");
+  node.innerHTML = tableHTML({ cols: [{ key: "season", label: "Season" }, { key: "a", label: "Without storage", n: 1 }, { key: "b", label: "With storage", n: 1 }, { key: "d", label: "Difference", n: 1 }], rows });
 }
 
 /* ---------- wind ---------- */
 function renderPolar(node) {
   const rows = DAV.sector_diag;
-  const size = Math.min(node.clientWidth || 360, 420);
   node.innerHTML = "";
-  const H = size, W = Math.max(280, node.clientWidth);
+  const W = Math.max(280, node.clientWidth), H = Math.min(W, 420);
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, height: H }, node);
   const cx = W / 2, cy = H / 2, R = H / 2 - 30;
   const rad = v => Math.min(1.1, Math.max(0, v)) / 1.1 * R;
@@ -1069,7 +1220,7 @@ function renderPolar(node) {
     const [lx, ly] = pt(deg, 1.1 + 18 / R * 1.1);
     text(svg, lx, ly + 4, lab, { "text-anchor": "middle", class: "lbl-strong", "font-size": 12 });
   }
-  const series = [["ebr_all", "all daytime", "var(--s1)"], ["ebr_unstable", "unstable only (z/L < −0.1)", "var(--s2)"]];
+  const series = [["ebr_all", "all daytime data", "var(--s1)"], ["ebr_unstable", "unstable conditions only (z/L < −0.1)", "var(--s2)"]];
   for (const [k, , c] of series) {
     const p = rows.map(r => pt(r.sector_centre_deg, r[k]));
     el("path", { d: "M" + p.map(q => q.join(",")).join("L") + "Z", fill: c, "fill-opacity": 0.08, stroke: c, "stroke-width": 2, "stroke-linejoin": "round" }, svg);
@@ -1080,23 +1231,23 @@ function renderPolar(node) {
   hit.addEventListener("pointermove", ev => {
     const r = svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * W / r.width - cx, sy = (ev.clientY - r.top) * H / r.height - cy;
     if (Math.hypot(sx, sy) > R + 20) return hideTip();
-    let deg = (Math.atan2(sy, sx) * 180 / Math.PI + 90 + 360) % 360;
+    const deg = (Math.atan2(sy, sx) * 180 / Math.PI + 90 + 360) % 360;
     const d = rows[Math.round(deg / 30) % 12];
-    showTip(`<b>${d.sector_centre_deg}° ± 15°</b>` + row("EBR all", fmt(d.ebr_all), cssVar("--s1")) + row("EBR unstable", fmt(d.ebr_unstable), cssVar("--s2"))
-      + row("share of data", fmt(d.share_pct, 1) + " %") + row("median wind", fmt(d.median_ws, 1) + " m s⁻¹") + row("median u*/WS", fmt(d.median_ustar_ws)), ev);
+    showTip(`<b>${d.sector_centre_deg}° ± 15°</b>` + row("EBR, all data", fmt(d.ebr_all), cssVar("--s1")) + row("EBR, unstable", fmt(d.ebr_unstable), cssVar("--s2"))
+      + row("share of data", fmt(d.share_pct, 1) + " %") + row("median wind speed", fmt(d.median_ws, 1) + " m s⁻¹") + row("median u*/WS", fmt(d.median_ustar_ws)), ev);
   });
   hit.addEventListener("pointerleave", hideTip);
-  setTable(node, [{ key: "sector_centre_deg", label: "Sector (°)", n: 1, d: 0 }, { key: "ebr_all", label: "EBR all", n: 1 }, { key: "ebr_unstable", label: "EBR unstable", n: 1 },
-    { key: "share_pct", label: "Share %", n: 1, d: 1 }, { key: "median_ws", label: "Wind m/s", n: 1, d: 1 }, { key: "median_ustar_ws", label: "u*/WS", n: 1 }], rows);
+  setTable(node, [{ key: "sector_centre_deg", label: "Sector (°)", n: 1, d: 0 }, { key: "ebr_all", label: "EBR, all", n: 1 }, { key: "ebr_unstable", label: "EBR, unstable", n: 1 },
+    { key: "share_pct", label: "Share (%)", n: 1, d: 1 }, { key: "median_ws", label: "WS (m s⁻¹)", n: 1, d: 1 }, { key: "median_ustar_ws", label: "u*/WS", n: 1 }], rows);
 }
 function renderShare(node) {
   const rows = DAV.sector_diag;
   const f = frame(node, 260, { l: 36, r: 12, t: 16, b: 30 });
-  const x0 = f.m.l, bw = f.iw / rows.length;
+  const bw = f.iw / rows.length;
   const y = scale(0, 45, f.h - f.m.b, f.m.t);
   yAxis(f, y, [0, 10, 20, 30, 40], t => t + "%");
   rows.forEach((r, i) => {
-    const h = y(0) - y(r.share_pct), xx = x0 + i * bw + 2, ww = Math.max(2, bw - 4), top = y(r.share_pct);
+    const xx = f.m.l + i * bw + 2, ww = Math.max(2, bw - 4), top = y(r.share_pct), h = y(0) - top;
     const rr = Math.min(4, ww / 2, h);
     el("path", { d: `M${xx},${y(0)}V${top + rr}Q${xx},${top} ${xx + rr},${top}H${xx + ww - rr}Q${xx + ww},${top} ${xx + ww},${top + rr}V${y(0)}Z`, fill: "var(--s1)" }, f.svg);
     text(f.svg, xx + ww / 2, f.h - 10, String(r.sector_centre_deg), { "text-anchor": "middle", "font-size": 10 });
@@ -1107,32 +1258,38 @@ function renderShare(node) {
   hit.addEventListener("pointermove", ev => {
     const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width;
     const d = rows[Math.max(0, Math.min(rows.length - 1, Math.floor((sx - f.m.l) / bw)))];
-    showTip(`<b>${d.sector_centre_deg}° ± 15°</b>` + row("share of daytime data", fmt(d.share_pct, 1) + " %") + row("EBR", fmt(d.ebr_all)) + row("median wind", fmt(d.median_ws, 1) + " m s⁻¹"), ev);
+    showTip(`<b>${d.sector_centre_deg}° ± 15°</b>` + row("share of daytime data", fmt(d.share_pct, 1) + " %") + row("EBR", fmt(d.ebr_all)) + row("median wind speed", fmt(d.median_ws, 1) + " m s⁻¹"), ev);
   });
   hit.addEventListener("pointerleave", hideTip);
-  setTable(node, [{ key: "sector_centre_deg", label: "Sector (°)", n: 1, d: 0 }, { key: "share_pct", label: "Share %", n: 1, d: 1 }, { key: "median_ws", label: "Median wind", n: 1, d: 1 }], rows);
+  setTable(node, [{ key: "sector_centre_deg", label: "Sector (°)", n: 1, d: 0 }, { key: "share_pct", label: "Share (%)", n: 1, d: 1 }, { key: "median_ws", label: "WS (m s⁻¹)", n: 1, d: 1 }], rows);
 }
 function heatColor(v) {
   const steps = ["--q1", "--q2", "--q3", "--q4", "--q5", "--q6"];
   const i = Math.max(0, Math.min(5, Math.floor((v - 0.2) / 0.15)));
   return { bg: `var(${steps[i]})`, dark: i >= 3 };
 }
-function heatTable(target, rowsKey, rowLabels, data, rowField, colField) {
-  const cols = ["N", "E", "S", "W"];
-  const isDarkUI = matchMedia("(prefers-color-scheme: dark)").matches && document.documentElement.dataset.theme !== "light" || document.documentElement.dataset.theme === "dark";
-  let html = `<table><thead><tr><th>${rowsKey}</th>${cols.map(c => `<th style="text-align:center">${c}</th>`).join("")}</tr></thead><tbody>`;
+function isDarkUI() {
+  const t = document.documentElement.dataset.theme;
+  return t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+}
+function heatTable(target, rowsKey, rowLabels, data, rowField) {
+  const dirs = [["N"], ["E"], ["S"], ["W"]];
+  const darkUI = isDarkUI();
+  let html = `<table><thead><tr><th>${rowsKey}</th>${dirs.map(([c]) => `<th style="text-align:center"><abbr data-g="N, E, S, W">${c}</abbr></th>`).join("")}</tr></thead><tbody>`;
   for (const [rv, rl] of rowLabels) {
     html += `<tr><td class="mono" style="font-size:12px">${rl}</td>`;
-    for (const c of cols) {
-      const d = data.find(x => x[rowField] === rv && x[colField] === c);
-      if (!d || d.n < 30) { html += `<td class="cell" style="color:var(--muted)">–</td>`; continue; }
+    for (const [c] of dirs) {
+      const d = data.find(x => x[rowField] === rv && x.quadrant === c);
+      if (!d || d.n < 30) { html += `<td class="cell" style="color:var(--muted)">n/a</td>`; continue; }
       const { bg, dark } = heatColor(d.ebr);
-      const ink = (dark !== isDarkUI) ? "#ffffff" : "#0b0b0b";
+      const ink = (dark !== darkUI) ? "#ffffff" : "#0b0b0b";
       html += `<td class="cell" style="background:${bg};color:${ink}" title="EBR ${fmt(d.ebr)}, n = ${d.n}">${fmt(d.ebr)}</td>`;
     }
     html += "</tr>";
   }
-  $(target).innerHTML = html + `</tbody></table><p class="note" style="margin-top:8px">Cells with fewer than 30 half-hours shown as –. Stronger shading = better closure.</p>`;
+  const node = $(target);
+  node.innerHTML = html + `</tbody></table><p class="note" style="margin-top:8px">Cells with fewer than 30 half-hours are marked n/a. Stronger shading means better closure.</p>`;
+  glossify(node);
 }
 
 /* ---------- instruments ---------- */
@@ -1145,9 +1302,9 @@ function renderTimeline(node) {
     text(f.svg, x(t), f.h - 10, String(t), { "text-anchor": "middle" });
   }
   const sonic = [["1997-01-01", "2006-12-20", "Gill R2"], ["2006-12-20", "2014-07-16", "Gill R3-50"], ["2014-07-16", "2025-01-01", "Gill HS-50 / HS-100"]];
-  const ga = [["1997-01-01", "2005-08-09", "LI-6262 closed"], ["2005-08-09", "2012-09-25", "LI-7500 open"], ["2012-09-25", "2021-11-08", "LI-7200 enclosed"], ["2021-11-08", "2025-01-01", "7200RS"]];
-  const rad = [["1997-01-01", "2006-06-12", "pyrradiometer"], ["2006-06-12", "2019-05-23", "CNR1"], ["2019-05-23", "2025-01-01", "CNR4"]];
-  const lanes = [["Sonic", sonic, 18], ["Gas analyser", ga, 50], ["Radiometer", rad, 82]];
+  const ga = [["1997-01-01", "2005-08-09", "LI-6262 closed path"], ["2005-08-09", "2012-09-25", "LI-7500 open path"], ["2012-09-25", "2021-11-08", "LI-7200 enclosed path"], ["2021-11-08", "2025-01-01", "LI-7200RS"]];
+  const radm = [["1997-01-01", "2006-06-12", "pyrradiometer"], ["2006-06-12", "2019-05-23", "CNR1"], ["2019-05-23", "2025-01-01", "CNR4"]];
+  const lanes = [["Sonic", sonic, 18], ["Gas analyser", ga, 50], ["Radiometer", radm, 82]];
   const colors = ["var(--s1)", "var(--s3)", "var(--s4)", "var(--s5)"];
   for (const [name, bars, yy] of lanes) {
     text(f.svg, f.m.l - 10, f.m.t + yy + 4, name, { "text-anchor": "end", class: "lbl-strong" });
@@ -1169,27 +1326,35 @@ function renderTimeline(node) {
     if (Math.abs(sy - ey) > 18) {
       for (const [name, bars, yy] of lanes) if (Math.abs(sy - (f.m.t + yy)) < 13) {
         const b = bars.find(([a, bb]) => sx >= t2x(a) && sx <= t2x(bb));
-        if (b) return showTip(`<b>${name}: ${b[2]}</b><br>${b[0]} – ${b[1] === "2025-01-01" ? "today" : b[1]}`, ev);
+        if (b) return showTip(`<b>${name}: ${b[2]}</b><br>${b[0]} to ${b[1] === "2025-01-01" ? "today" : b[1]}`, ev);
       }
       return hideTip();
     }
     let best = null, bd = 16;
     for (const e of evs) { const d = Math.abs(e.cx - sx); if (d < bd) { bd = d; best = e; } }
     if (!best) return hideTip();
-    showTip(`<b>${best.date}</b> · ${best.kind}<br>${best.text}`, ev);
+    showTip(`<b>${best.date}</b>, ${best.kind}<br>${best.text}`, ev);
   });
   hit.addEventListener("pointerleave", hideTip);
 }
 function renderPeriods() {
-  const rows = DAV.periods.map(r => ({ period: r.period, type: r.ga_type, n: r.n, slope: r.ols_slope, ebr: r.ebr, a: r.a_H, b: r.b_LE }));
-  $("#t-periods").innerHTML = tableHTML({ cols: [{ key: "period", label: "Sonic + analyser" }, { key: "type", label: "Path" }, { key: "n", label: "Half-hours", n: 1, d: 0 },
-    { key: "slope", label: "Slope", n: 1 }, { key: "ebr", label: "ΣTE/ΣAE", n: 1 }, { key: "a", label: "a (H)", n: 1 }, { key: "b", label: "b (LE)", n: 1 }], rows });
+  const rows = DAV.periods.map(r => ({ period: r.period, n: r.n, slope: r.ols_slope, ebr: r.ebr, a: r.a_H, b: r.b_LE }));
+  const node = $("#t-periods");
+  node.innerHTML = tableHTML({ cols: [{ key: "period", label: "Sonic and gas analyser" }, { key: "n", label: "Half-hours", n: 1, d: 0 },
+    { key: "slope", label: "OLS slope", n: 1 }, { key: "ebr", label: "EBR", n: 1 }, { key: "a", label: "a (H)", n: 1 }, { key: "b", label: "b (LE)", n: 1 }], rows });
+  glossify(node);
 }
 function renderEvents() {
-  $("#events").innerHTML = DAV.events.map(e => `<li><time datetime="${e.date}">${e.date}</time><span class="kind">${e.kind}</span><span>${e.text}</span></li>`).join("");
+  const node = $("#events");
+  node.innerHTML = DAV.events.map(e => `<li><time datetime="${e.date}">${e.date}</time><span class="kind">${e.kind}</span><span>${e.text}</span></li>`).join("");
+  glossify(node);
 }
 
 /* ---------- wire up ---------- */
+renderGlossTable();
+glossify($("header.site"));
+glossify($("main"));
+glossify($("footer"));
 register("hero-chart", renderHero);
 renderStats();
 register("c-rank", renderRank);
@@ -1201,17 +1366,17 @@ register("c-years", renderYears);
 register("c-diurnal", renderDiurnal); renderStorageTable();
 register("c-polar", renderPolar);
 register("c-share", renderShare);
-const USTAR_ROWS = [["[0.0, 0.3)", "u* < 0.3"], ["[0.3, 0.5)", "0.3–0.5"], ["[0.5, 0.7)", "0.5–0.7"], ["[0.7, 1.0)", "0.7–1.0"], ["[1.0, 3.0)", "≥ 1.0"]];
+const USTAR_ROWS = [["[0.0, 0.3)", "below 0.3"], ["[0.3, 0.5)", "0.3 to 0.5"], ["[0.5, 0.7)", "0.5 to 0.7"], ["[0.7, 1.0)", "0.7 to 1.0"], ["[1.0, 3.0)", "1.0 and above"]];
 const renderHeats = () => {
-  heatTable("#h-ustar", "u* (m s⁻¹)", USTAR_ROWS, DAV.quad_ustar, "ustar_coarse", "quadrant");
-  heatTable("#h-period", "Sonic + analyser", DAV.period_dates.map(p => [p.label, p.label.replace(/ \((CP|OP|EP)\)/, "")]), DAV.quad_period, "period", "quadrant");
+  heatTable("#h-ustar", "u* (m s⁻¹)", USTAR_ROWS, DAV.quad_ustar, "ustar_coarse");
+  heatTable("#h-period", "Sonic and gas analyser", DAV.period_dates.map(p => [p.label, p.label]), DAV.quad_period, "period");
 };
 renderHeats();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderHeats);
 new MutationObserver(renderHeats).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 register("c-timeline", renderTimeline);
 renderPeriods(); renderEvents();
-$("#gen").textContent = `Generated ${DATA.generated} from the ebc-explorer analyses.`;
+$("#gen").textContent = `Generated on ${DATA.generated} from the ebc-explorer analyses.`;
 
 segmented("ctl-ae", v => { state.ae = v; rerender("c-rank", "c-scatter"); });
 segmented("ctl-net", v => { state.net = v; rerender("c-rank", "c-scatter", "c-steps", "c-ts", "c-strat"); });
@@ -1220,7 +1385,7 @@ $("#ctl-attr").addEventListener("change", e => { state.attr = e.target.value; re
 segmented("ctl-strat", v => { state.strat = v; rerender("c-strat"); });
 segmented("ctl-season", v => { state.season = v; rerender("c-diurnal"); });
 
-/* active section in nav */
+/* active section in the navigation */
 const navLinks = $$("nav.toc a");
 const io = new IntersectionObserver(entries => {
   for (const en of entries) if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
