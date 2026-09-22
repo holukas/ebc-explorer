@@ -51,6 +51,21 @@ ICOS FLUXNET (ONEFlux) product, 1997-2024. Half-hourly file ~770 MB; load with
 - Instrument periods (sonic + gas analyser) from BIFVARINFO: `ebc_explorer.ch_dav.INSTRUMENT_PERIODS`.
   The metadata labels the LI-7500 as GA_CP; it is open path.
 
+## Literature: `refs/EBC/`
+
+Zotero export (`EBC.rdf`, `files/<id>/<Author - Year - Title>.pdf`, ~110 PDFs: the
+references of Nicolini 2026 plus recent EBC papers). Find with
+`ebc_explorer.refs.find_refs("Mauder", 2024)`; extract text with `pdf_text()` (pypdf,
+run via `uv run --with pypdf`). File names may contain Unicode hyphens: use glob, not typed paths.
+
+Main paper: Nicolini et al. 2026, GCB 32:e70892 (`files/21788/`). Key facts:
+- AE1..AE6 = NETRAD, -G, -SG, -SH-SLE, -Spho, -Sbio; TE uncorrected / fullQC / u*-filtered; RMA slopes reported
+- Sbio uses layer-weighted *air* temperature as biomass temperature (likely underestimates storage)
+- imbalance grows with biomass: ~25 W m-2 + 0.18 * biomass (kg m-2); CH-Dav is far above this
+- NETRAD corrections (slope, shadow, tower, FoV) change EBC by only a few % across sites
+- Table 1: CH-Dav slope 16.2 deg WNW (steepest ICOS site), EC 35 m, canopy 19.2 m, biomass 62.5 kg m-2
+- CH-Dav is not discussed individually
+
 ## Code layout
 
 - `ebc_explorer/`: reusable code (`paths`, `fluxnet`, `nicolini`, `ebc` closure stats, `ch_dav` site info)
