@@ -16,6 +16,8 @@ Setup facts (ICOS labelling report 2019-11-18; fieldbook; swissfluxnet site page
 
 import pandas as pd
 
+TOWER_LV95 = (2784453.0, 1187750.0)  # E, N in LV95 (EPSG:2056); ground 1637.7 m a.s.l.
+
 # Instrument periods of the EC system, from the BIFVARINFO_HH metadata of the
 # ICOS FLUXNET product (VAR_INFO_MODEL of H_F_MDS and LE_F_MDS).
 # Note: the metadata labels the LI-7500 as GA_CP, but it is an open-path analyser.
