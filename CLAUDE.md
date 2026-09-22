@@ -40,6 +40,23 @@ Gotchas:
   Radiometer file: `h_radiometro` radiometer height, `w_traliccio` tower width, `d_braccio` boom length.
 - Missing values are the string `NA`; in `fattore`/`livello` NA means "no stratification".
 
+## CH-Dav FLUXNET data: `raw/ICOS_CH-Dav_FLUXNET_1997-2024_v1.3_r1/`
+
+ICOS FLUXNET (ONEFlux) product, 1997-2024. Half-hourly file ~770 MB; load with
+`ebc_explorer.fluxnet.load_ch_dav_hh()` (cached as Parquet in `interim/`).
+- Missing = -9999, local standard time, `*_QC == 0` = measured (not gap-filled).
+- No storage terms (SH, SLE), no snow depth. Sbio/Spho for CH-Dav exist only for
+  2019-2024 in the Nicolini file: `ebc_explorer.nicolini.load_sbio_spho("CH-Dav")`.
+- Nicolini et al. (2026) used CH-Dav 2019-2024 only.
+- Instrument periods (sonic + gas analyser) from BIFVARINFO: `ebc_explorer.ch_dav.INSTRUMENT_PERIODS`.
+  The metadata labels the LI-7500 as GA_CP; it is open path.
+
+## Code layout
+
+- `ebc_explorer/`: reusable code (`paths`, `fluxnet`, `nicolini`, `ebc` closure stats, `ch_dav` site info)
+- `analyses/ch_dav_NN_*.py`: numbered analysis scripts; each writes to
+  `processed/CH-Dav/NN_*.csv` and `figures/CH-Dav/NN_*.png`. Run with `uv run python analyses/<script>.py`.
+
 ## Environment
 
 - Windows. Python 3.12 managed with **uv** (`.python-version`, `pyproject.toml`, `uv.lock`); venv in `.venv/` (git-ignored).
