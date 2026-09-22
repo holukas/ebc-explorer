@@ -556,6 +556,16 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <div class="table-view" id="t-sectors" style="max-height:none"></div>
     <p class="note">The lake covers half of the northern sector within 500 m and almost all of it between 500 and 1000 m. The NNE sector has hardly any lake but also closes poorly; like the northern wind, it blows along the valley axis (36°). The west to north-northwest sectors are also open or lake-covered and close better, but they contain less than 5 % of the data.</p>
   </div>
+  <div class="card">
+    <div class="card-head"><div><h3>Flux footprint from the ICOS data</h3><p class="sub">ICOS ETC L2 fluxes 2019 to 2024, footprint model of Kljun et al. (2015), daytime, valid footprints only.</p></div>
+      <a class="tbl-btn" href="ch_dav_3d.html" target="_blank" rel="noopener">Open the 3D landscape</a></div>
+    <ul class="did">
+      <li>Half of the daytime flux comes from within about 40 to 50 m of the tower, 80 % from within about 110 to 120 m and 90 % from within about 190 to 210 m.</li>
+      <li>For northerly wind the lake starts 350 m from the tower, so the model assigns only about 3 % of the flux to the lake. Within the northern sector, closure is the same with and without this lake share (EBR 0.42 to 0.47).</li>
+      <li>At the same u*, closure decreases as the footprint gets longer (at u* 0.6 to 0.8 m s⁻¹: EBR 0.65 within 90 m, 0.37 beyond 130 m). The footprint length follows the stability, so closure is best in strongly unstable and poorest in near-neutral conditions.</li>
+      <li>The model assumes flat, uniform terrain; on the 16° slope the real source area can differ. The 3D landscape shows the footprint on the terrain.</li>
+    </ul>
+  </div>
 </section>
 
 <section class="block" id="instruments">
@@ -595,8 +605,9 @@ footer b { color: var(--ink-2); font-weight: 600; }
         <ul>
           <li>At the same u*, the EBR is about 0.5 for northerly wind and 0.75 to 1.0 for southerly and westerly wind. This holds in all instrument periods since 1998 and in unstable conditions. Northerly wind brings 41 % of the daytime data and dominates the site average.</li>
           <li>Northerly air crosses the Davoser See (lake covers 49 % of the sector within 500 m and 94 % between 500 and 1000 m) and only about 250 m of forest. The lake stores much of the absorbed radiation in the water and releases little heat during the day.</li>
-          <li>The measured H and LE therefore partly come from the lake and the valley floor, while Rn and storage are measured over the forest. The two sides of the energy balance then describe different surfaces.</li>
+          <li>According to the ICOS footprint model, 90 % of the daytime flux comes from within about 190 m, so the lake contributes only about 3 % to the measured flux. Within the northern sector, closure does not change with this share. The lake therefore acts indirectly, not through the footprint.</li>
           <li>Cool lake air flowing over the warmer forest takes up forest heat below the sensors. This horizontal advection is not measured by a single EC system. The air also rises about 80 m up the slope, which adds vertical advection.</li>
+          <li>At the same u*, closure is poorest near neutral stability, the typical condition of strong along-valley wind, and best in strongly unstable conditions.</li>
           <li>The NNE sector has little lake but also closes poorly. Both N and NNE blow along the valley axis, so the along-valley flow matters beyond the lake. McGloin et al. (2018) found similar sector-dependent closure at a sloping forest and attributed it to advection.</li>
         </ul>
         <p class="refs">McGloin et al. 2018; Leuning et al. 2012; Foken 2008; Chu et al. 2026</p>
@@ -671,7 +682,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <div class="card-head"><div><h3>Tests</h3></div></div>
       <ul class="step-list">
         <li><span class="t">Daily closure by wind direction</span><span class="d">If days with northerly wind also have low closure in daily sums, the missing heat is carried away by advection and not stored.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
-        <li><span class="t">Lake, open ground and forest in the footprint</span><span class="d">Estimate for each half-hour how much of the flux comes from the lake, open ground and forest (the footprint), using the new canopy and lake maps. Then test whether closure decreases as the lake and open-ground share increases.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">terrain and lake maps</span><span class="tag">EddyPro full output</span></span></li>
+        <li><span class="t">Lake, open ground and forest in the footprint (done)</span><span class="d">With the ICOS footprint distances the lake contributes about 3 % and does not change closure within the northern sector. Next: 2D footprints with the crosswind spread (V_SIGMA in the ICOS data), and a footprint model that accounts for the slope.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">ICOS L2 fluxes</span></span></li>
         <li><span class="t">Lake surface temperature</span><span class="d">Compare lake and forest temperatures on days with northerly wind to estimate the heat taken up by lake air over the forest.</span><span class="tags"><span class="tag">lake temperature data</span></span></li>
         <li><span class="t">Tilt angles, mean vertical wind and σw/u* per sector</span><span class="d">Shows whether the flow at the sensor is tilted or distorted.</span><span class="tags"><span class="tag">EddyPro full output</span></span></li>
         <li><span class="t">Ogives and longer averaging periods per sector</span><span class="d">Estimates the flux carried by air motions slower than 30 minutes.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
@@ -704,7 +715,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
 </main>
 
 <footer>
-  <p><b>Data.</b> Network results: Nicolini, G., Papale, D. (2026), EBC_data, Zenodo, doi:10.5281/zenodo.19608436 (CC BY 4.0). CH-Dav: ICOS FLUXNET product 1997 to 2024, release v1.3_r1, ICOS Carbon Portal (CC BY 4.0). Site history summarised from the station fieldbook and the ICOS labelling report. Terrain, surface and lake data © swisstopo (swissALTI3D, swissSURFACE3D, swissTLM3D).</p>
+  <p><b>Data.</b> Network results: Nicolini, G., Papale, D. (2026), EBC_data, Zenodo, doi:10.5281/zenodo.19608436 (CC BY 4.0). CH-Dav: ICOS FLUXNET product 1997 to 2024, release v1.3_r1, ICOS Carbon Portal (CC BY 4.0). Site history summarised from the station fieldbook and the ICOS labelling report. Terrain, surface and lake data © swisstopo (swissALTI3D, swissSURFACE3D, swissTLM3D). Footprint distances: ICOS ETC L2 fluxes CH-Dav 2019 to 2024 (CC BY 4.0).</p>
   <p><b>Methods.</b> Network slopes are RMA slopes as in Nicolini et al. (2026). AE1 to AE6 follow their Table 2 (dataset codes NR, NR_G2, NR_G1, NR_G1_SH_SLE, NR_G1_SH_SLE_Spho, NR_G1_SH_SLE_Spho_Sbio). Turbulent fluxes are fully quality-filtered unless marked u*-filtered. CH-Dav analyses use measured (not gap-filled) Rn, G, H and LE, with OLS slopes and EBR = ΣTE / ΣAE. The imbalance column of the dataset corresponds to AE − TE.</p>
   <p id="gen"></p>
 </footer>
