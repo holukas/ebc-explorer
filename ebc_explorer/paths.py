@@ -61,3 +61,8 @@ SBIO_SPHO_NRCORR = EBC_2026 / "intermediate" / "Sbio_Spho_NRcorr.csv"
 STATIONS_ANCILLARY = EBC_2026 / "ancillary" / "EBC_stations_MD_ANCILLARY.txt"
 ICOS_RADIOMETER_SETUP = EBC_2026 / "ancillary" / "ICOS_stations_radiometer_setup.txt"
 ICOS_RAD_VS_FFP_FOV = EBC_2026 / "ancillary" / "ICOS_stations_RADvsFFP_fov.csv"
+
+# ICOS FLUXNET (ONEFlux) product for CH-Dav, 1997-2024, release v1.3_r1
+CH_DAV_FLUXNET = RAW / "ICOS_CH-Dav_FLUXNET_1997-2024_v1.3_r1"
+CH_DAV_FLUXMET_HH = CH_DAV_FLUXNET / "ICOS_CH-Dav_FLUXNET_FLUXMET_HH_1997-2024_v1.3_r1.csv"
+CH_DAV_FLUXMET_HH_PARQUET = INTERIM / CH_DAV_FLUXNET.name / "FLUXMET_HH.parquet"

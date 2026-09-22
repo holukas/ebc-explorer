@@ -42,4 +42,6 @@ Gotchas:
 
 ## Environment
 
-- Windows, Python 3.9.7, pandas 2.3.3. Keep code 3.9-compatible (no `X | None` type syntax).
+- Windows. Python 3.12 managed with **uv** (`.python-version`, `pyproject.toml`, `uv.lock`); venv in `.venv/` (git-ignored).
+- Run code with `uv run python ...`; add packages with `uv add <pkg>` (never pip, never the system Python 3.9).
+- `ebc_explorer` is installed editable in the venv, so `import ebc_explorer` works from anywhere (scripts, notebooks).
