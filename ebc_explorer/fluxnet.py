@@ -8,7 +8,8 @@ Format notes (see README.txt of the product):
 
 import pandas as pd
 
-from ebc_explorer.paths import CH_DAV_FLUXMET_HH, CH_DAV_FLUXMET_HH_PARQUET
+from ebc_explorer.paths import (CH_DAV_FLUXES_L2, CH_DAV_FLUXES_L2_PARQUET, CH_DAV_FLUXMET_HH,
+                                CH_DAV_FLUXMET_HH_PARQUET)
 
 
 def read_fluxnet_csv(path):
@@ -17,6 +18,17 @@ def read_fluxnet_csv(path):
     for col in ("TIMESTAMP_START", "TIMESTAMP_END"):
         df[col] = pd.to_datetime(df[col].astype("int64").astype(str), format="%Y%m%d%H%M")
     return df.set_index("TIMESTAMP_START")
+
+
+def load_ch_dav_fluxes_l2(rebuild=False):
+    """ICOS ETC L2 fluxes for CH-Dav 2019-2024 (same CSV conventions), incl. footprint
+    variables FETCH_* and FOOTPRINT_*; cached as Parquet in interim/."""
+    if rebuild or not CH_DAV_FLUXES_L2_PARQUET.is_file():
+        df = read_fluxnet_csv(CH_DAV_FLUXES_L2)
+        CH_DAV_FLUXES_L2_PARQUET.parent.mkdir(parents=True, exist_ok=True)
+        df.to_parquet(CH_DAV_FLUXES_L2_PARQUET)
+        return df
+    return pd.read_parquet(CH_DAV_FLUXES_L2_PARQUET)
 
 
 def load_ch_dav_hh(rebuild=False):
