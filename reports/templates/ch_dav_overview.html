@@ -192,6 +192,16 @@ tr.is-dav td { color: var(--dav); font-weight: 600; }
 .gloss td:nth-child(3) { color: var(--ink-2); min-width: 260px; }
 .gloss tr.grp td { font: 500 11px/1.3 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding-top: 16px; border-bottom: 1px solid var(--axis); }
 
+/* Map */
+.mapbox { position: relative; width: 100%; max-width: 680px; margin-inline: auto; }
+.mapbox img { display: block; width: 100%; height: auto; border-radius: 8px; }
+.mapbox svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; border-radius: 8px; }
+.maplabel { font-family: var(--f-mono); fill: #0f1c19; stroke: rgba(255, 255, 255, 0.85); stroke-width: 3px; paint-order: stroke; stroke-linejoin: round; }
+.ramp { display: flex; align-items: center; gap: 8px; font: 500 12px/1 var(--f-mono); color: var(--ink-2); }
+.ramp i { display: inline-block; width: 140px; height: 10px; border-radius: 3px; }
+.did { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; color: var(--ink-2); }
+tr.minor td { color: var(--muted); }
+
 /* Timeline list */
 .events { list-style: none; margin: 0; padding: 0; display: grid; }
 .events li { display: grid; grid-template-columns: 96px 92px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--hair); font-size: 13.5px; }
@@ -261,7 +271,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
   <div class="title-row">
     <div>
       <h1>Energy balance closure at CH-Dav</h1>
-      <p class="lede">At CH-Dav, the measured turbulent heat fluxes (H + LE) account for about half of the available energy. This is the case in every year since 1998 and with every instrument set-up. This report compares CH-Dav with 84 ICOS and NEON sites (Nicolini et al., 2026), summarises the 1997 to 2024 record and lists possible causes.</p>
+      <p class="lede">At CH-Dav, the measured turbulent heat fluxes (H + LE) account for about half of the available energy. This is the case in every year since 1998 and with every instrument set-up. The most frequent daytime wind crosses the Davoser See and the open valley floor before it reaches the forest and the tower. This report compares CH-Dav with 84 ICOS and NEON sites (Nicolini et al., 2026), summarises the 1997 to 2024 record and lists possible causes.</p>
     </div>
     <dl class="facts">
       <div><dt>Location</dt><dd>46.815° N, 9.856° E</dd></div>
@@ -270,6 +280,8 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <div><dt>EC height</dt><dd>35 m, boom points west</dd></div>
       <div><dt>Terrain</dt><dd>16° slope, facing WNW</dd></div>
       <div><dt>Record</dt><dd>1997 to 2024</dd></div>
+      <div><dt>Lake</dt><dd>Davoser See, 222 m NW</dd></div>
+      <div><dt>Valley floor</dt><dd>80 m below the tower</dd></div>
     </dl>
   </div>
 
@@ -291,6 +303,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <li><a href="#record">Yearly closure</a></li>
     <li><a href="#diurnal">Daily cycle</a></li>
     <li><a href="#wind">Wind direction</a></li>
+    <li><a href="#terrain">Terrain and lake</a></li>
     <li><a href="#instruments">Instruments</a></li>
     <li><a href="#explanations">Possible causes</a></li>
     <li><a href="#nextsteps">Next steps</a></li>
@@ -492,6 +505,51 @@ footer b { color: var(--ink-2); font-weight: 600; }
   </div>
 </section>
 
+<section class="block" id="terrain">
+  <div class="sec-head">
+    <div class="eyebrow">CH-Dav surroundings, swisstopo terrain, surface and landscape models</div>
+    <h2>Terrain, forest and lake around the tower</h2>
+    <p>The tower stands at the foot of a forested slope (15 to 18° within 500 m, facing west-northwest), about 80 m above the flat valley floor. The Davoser See lies 222 m northwest of the tower. For the most frequent daytime wind from the north, the air crosses the lake and the open valley floor, and then only about 250 m of forest, before it reaches the tower.</p>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><h3>What was done</h3></div></div>
+    <ul class="did">
+      <li>Downloaded the swisstopo terrain model swissALTI3D (2 m resolution, 8 × 8 km) and surface model swissSURFACE3D (0.5 m, 3 × 4 km) around the tower.</li>
+      <li>Calculated the canopy height as surface minus terrain. Ground with a canopy lower than 2 m counts as open (lake, meadow, road, clearing).</li>
+      <li>Took the outline of the Davoser See from the swisstopo landscape model swissTLM3D.</li>
+      <li>For each 30° wind sector, calculated the terrain profile, the mean canopy height, the share of open ground and the share of lake area, and compared them with the closure (EBR) of that sector.</li>
+    </ul>
+  </div>
+  <div class="grid-3-2">
+    <div class="card">
+      <div class="card-head">
+        <div><h3>Map of the surroundings</h3><p class="sub">Lines separate the 30° wind sectors; rings mark 0.5, 1 and 2 km. Labels show the EBR per sector. Hover over the map for sector details.</p></div>
+        <div class="seg" id="ctl-map">
+          <button type="button" data-v="valley" aria-pressed="true">Valley, 6 × 6 km</button>
+          <button type="button" data-v="canopy">Canopy height, 3 × 4 km</button>
+        </div>
+      </div>
+      <div class="legend" id="lg-map"></div>
+      <div class="chart" id="c-map"></div>
+      <p class="note">Map data © swisstopo (swissALTI3D, swissSURFACE3D 2020, swissTLM3D). Coordinates in LV95.</p>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div><h3>Terrain along the main wind directions</h3><p class="sub">Ground height relative to the tower base, from the tower towards where the wind comes from.</p></div>
+        <button class="tbl-btn" type="button" data-table="c-profiles" aria-pressed="false">Table</button>
+      </div>
+      <div class="legend" id="lg-profiles"></div>
+      <div class="chart" id="c-profiles"></div>
+      <p class="note">Northerly air crosses the lake at 1558 m and rises about 80 m over the last 500 m to the tower. Southerly air comes over the forested slope and from Davos.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><h3>Surface properties and closure per wind sector</h3><p class="sub">Open ground: canopy lower than 2 m. Sectors with less than 2 % of the daytime data are shown in grey.</p></div></div>
+    <div class="table-view" id="t-sectors" style="max-height:none"></div>
+    <p class="note">The lake covers half of the northern sector within 500 m and almost all of it between 500 and 1000 m. The NNE sector has hardly any lake but also closes poorly; like the northern wind, it blows along the valley axis (36°). The west to north-northwest sectors are also open or lake-covered and close better, but they contain less than 5 % of the data.</p>
+  </div>
+</section>
+
 <section class="block" id="instruments">
   <div class="sec-head">
     <div class="eyebrow">Site history from the fieldbook, metadata and ICOS labelling report</div>
@@ -524,15 +582,16 @@ footer b { color: var(--ink-2); font-weight: 600; }
   </div>
   <div class="expl">
     <article class="hyp">
-      <div><h3>Advection in the along-valley flow over sloping terrain</h3><span class="verdict lead"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1 11 10H1Z" fill="currentColor"/></svg>Most likely</span><div class="share">Possible share: most of the deficit for northerly wind</div></div>
+      <div><h3>Lake, valley floor and along-valley flow north of the tower</h3><span class="verdict lead"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1 11 10H1Z" fill="currentColor"/></svg>Most likely</span><div class="share">Possible share: most of the deficit for northerly wind</div></div>
       <div>
         <ul>
-          <li>At the same u*, the EBR is about 0.5 for northerly wind and 0.75 to 1.0 for southerly and westerly wind. This holds in all instrument periods since 1998 and in unstable conditions.</li>
-          <li>Northerly wind is the most frequent daytime wind (62 % of the data) and has the highest wind speeds. It therefore dominates the site average.</li>
-          <li>With a slope of 16°, CH-Dav is the steepest ICOS site in the dataset. McGloin et al. (2018) found a similar pattern at a sloping beech forest (EBR 0.48 to 0.55 in some wind sectors, 0.80 in others) and attributed it to advection.</li>
-          <li>Advection is heat carried horizontally or vertically past the tower. A single EC system does not measure it.</li>
+          <li>At the same u*, the EBR is about 0.5 for northerly wind and 0.75 to 1.0 for southerly and westerly wind. This holds in all instrument periods since 1998 and in unstable conditions. Northerly wind brings 41 % of the daytime data and dominates the site average.</li>
+          <li>Northerly air crosses the Davoser See (lake covers 49 % of the sector within 500 m and 94 % between 500 and 1000 m) and only about 250 m of forest. The lake stores much of the absorbed radiation in the water and releases little heat during the day.</li>
+          <li>The measured H and LE therefore partly come from the lake and the valley floor, while Rn and storage are measured over the forest. The two sides of the energy balance then describe different surfaces.</li>
+          <li>Cool lake air flowing over the warmer forest takes up forest heat below the sensors. This horizontal advection is not measured by a single EC system. The air also rises about 80 m up the slope, which adds vertical advection.</li>
+          <li>The NNE sector has little lake but also closes poorly. Both N and NNE blow along the valley axis, so the along-valley flow matters beyond the lake. McGloin et al. (2018) found similar sector-dependent closure at a sloping forest and attributed it to advection.</li>
         </ul>
-        <p class="refs">McGloin et al. 2018; Leuning et al. 2012; Foken 2008</p>
+        <p class="refs">McGloin et al. 2018; Leuning et al. 2012; Foken 2008; Chu et al. 2026</p>
       </div>
     </article>
     <article class="hyp">
@@ -541,6 +600,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
         <ul>
           <li>The EBR increases from 0.2 to 0.8 with u*. This is typical for heat carried by large, slow air motions that 30-minute averages do not capture.</li>
           <li>The model of Mauder et al. (2021) predicts about 8 % additional H for this measurement height, and at most about 19 %. Sloping terrain may increase this effect, but no model for slopes exists yet.</li>
+          <li>The contrast between the cold lake and the warm forest can drive local circulations of the same kind.</li>
           <li>Above a tall forest, 30-minute fluxes were incomplete in 22 % (H) to 47 % (LE) of the periods (Charuchittipan et al., 2014).</li>
         </ul>
         <p class="refs">Mauder et al. 2020, 2021, 2024; Wanner et al. 2022, 2024; Charuchittipan et al. 2014</p>
@@ -603,7 +663,8 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <div class="card-head"><div><h3>Tests</h3></div></div>
       <ul class="step-list">
         <li><span class="t">Daily closure by wind direction</span><span class="d">If days with northerly wind also have low closure in daily sums, the missing heat is carried away by advection and not stored.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
-        <li><span class="t">Footprint and land cover per wind sector</span><span class="d">Compare the area that contributes to the flux (the footprint) north of the tower with the 2006 clearing, the road and the forest edges.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">land-cover map</span></span></li>
+        <li><span class="t">Lake, open ground and forest in the footprint</span><span class="d">Estimate for each half-hour how much of the flux comes from the lake, open ground and forest (the footprint), using the new canopy and lake maps. Then test whether closure decreases as the lake and open-ground share increases.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">terrain and lake maps</span><span class="tag">EddyPro full output</span></span></li>
+        <li><span class="t">Lake surface temperature</span><span class="d">Compare lake and forest temperatures on days with northerly wind to estimate the heat taken up by lake air over the forest.</span><span class="tags"><span class="tag">lake temperature data</span></span></li>
         <li><span class="t">Tilt angles, mean vertical wind and σw/u* per sector</span><span class="d">Shows whether the flow at the sensor is tilted or distorted.</span><span class="tags"><span class="tag">EddyPro full output</span></span></li>
         <li><span class="t">Ogives and longer averaging periods per sector</span><span class="d">Estimates the flux carried by air motions slower than 30 minutes.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
         <li><span class="t">Second sonic on another side of the tower or at a second height</span><span class="d">Separates flow distortion from changes of the flux with height.</span><span class="tags"><span class="tag">field campaign</span></span></li>
@@ -616,7 +677,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
         <li><span class="t">Longer averaging or ogive correction</span><span class="d">Adds the flux of slow air motions; 5 to 10 % of the residual in the literature.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
         <li><span class="t">Model for secondary circulations</span><span class="d">Adds modelled flux (Mauder et al., 2021) using the boundary-layer height from ERA5. About +8 % of H for flat terrain.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">ERA5</span></span></li>
         <li><span class="t">Measured tree temperature for biomass storage</span><span class="d">Use stem and branch temperatures instead of air temperature.</span><span class="tags"><span class="tag">tree temperature sensors</span></span></li>
-        <li><span class="t">Flag wind sectors</span><span class="d">Flag easterly data (air passes the tower first) and report northerly data separately until the cause is known.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
+        <li><span class="t">Flag wind sectors</span><span class="d">Flag easterly data (air passes the tower first) and half-hours with a large lake share in the footprint, and report northerly data separately until the cause is known.</span><span class="tags"><span class="tag hh">half-hourly data</span></span></li>
       </ul>
     </div>
   </div>
@@ -635,7 +696,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
 </main>
 
 <footer>
-  <p><b>Data.</b> Network results: Nicolini, G., Papale, D. (2026), EBC_data, Zenodo, doi:10.5281/zenodo.19608436 (CC BY 4.0). CH-Dav: ICOS FLUXNET product 1997 to 2024, release v1.3_r1, ICOS Carbon Portal (CC BY 4.0). Site history summarised from the station fieldbook and the ICOS labelling report.</p>
+  <p><b>Data.</b> Network results: Nicolini, G., Papale, D. (2026), EBC_data, Zenodo, doi:10.5281/zenodo.19608436 (CC BY 4.0). CH-Dav: ICOS FLUXNET product 1997 to 2024, release v1.3_r1, ICOS Carbon Portal (CC BY 4.0). Site history summarised from the station fieldbook and the ICOS labelling report. Terrain, surface and lake data © swisstopo (swissALTI3D, swissSURFACE3D, swissTLM3D).</p>
   <p><b>Methods.</b> Network slopes are RMA slopes as in Nicolini et al. (2026). AE1 to AE6 follow their Table 2 (dataset codes NR, NR_G2, NR_G1, NR_G1_SH_SLE, NR_G1_SH_SLE_Spho, NR_G1_SH_SLE_Spho_Sbio). Turbulent fluxes are fully quality-filtered unless marked u*-filtered. CH-Dav analyses use measured (not gap-filled) Rn, G, H and LE, with OLS slopes and EBR = ΣTE / ΣAE. The imbalance column of the dataset corresponds to AE − TE.</p>
   <p id="gen"></p>
 </footer>
@@ -699,6 +760,10 @@ const GLOSS = [
     ["EP", "Enclosed-path gas analyser", "Analyser with a short, heated intake tube (LI-7200)."],
     ["ERA5", "ECMWF reanalysis, version 5", "Global weather data reconstructed from observations and a weather model."],
     ["FLUXNET", "Global flux network data format", "Standard format and processing (ONEFlux) for eddy covariance data."],
+    ["LV95", "Swiss coordinate system", "Swiss map coordinates in metres (east, north)."],
+    ["swissALTI3D", "swisstopo terrain model", "Height of the bare ground, without trees and buildings."],
+    ["swissSURFACE3D", "swisstopo surface model", "Height of the surface including trees and buildings, from airborne laser scanning."],
+    ["swissTLM3D", "swisstopo landscape model", "Map data set with objects such as lakes, roads and buildings."],
   ]],
 ];
 const GL = new Map();
@@ -885,7 +950,7 @@ const SITES = NET.sites;
 const DAVSITE = SITES.find(s => s.site === "CH-Dav");
 const CONTRAST = "IT-Ren";
 const FORESTS = new Set(["ENF", "DBF", "EBF", "MF"]);
-const state = { ae: "AE6u", net: "all", pft: "all", attr: "slope", strat: "atm_strat", season: "JJA" };
+const state = { ae: "AE6u", net: "all", pft: "all", attr: "slope", strat: "atm_strat", season: "JJA", map: "valley" };
 const AE_STEPS = ["AE1", "AE2", "AE3", "AE4", "AE5", "AE6", "AE6u"];
 const AE_LABEL = { AE1: "Rn", AE2: "−G", AE3: "−S soil", AE4: "−S air", AE5: "−S pho", AE6: "−S bio", AE6u: "u* filter" };
 const AE_LONG = {
@@ -1350,6 +1415,102 @@ function renderEvents() {
   glossify(node);
 }
 
+/* ---------- terrain and lake ---------- */
+const TER = DATA.terrain;
+const SECTOR_NAMES = { 0: "N", 30: "NNE", 60: "ENE", 90: "E", 120: "ESE", 150: "SSE", 180: "S", 210: "SSW", 240: "WSW", 270: "W", 300: "WNW", 330: "NNW" };
+const secRow = deg => TER.sectors.find(r => r.sector_centre_deg === deg);
+function renderMap(node) {
+  const view = state.map, M = TER.maps[view];
+  const [l, r, b, t] = M.extent, W = r - l, H = t - b;
+  node.innerHTML = `<div class="mapbox" style="aspect-ratio:${W}/${H}"><img alt="${view === "valley" ? "Shaded relief of the valley around the tower" : "Canopy height around the tower"}" src="${M.src}"></div>`;
+  const box = node.firstChild;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: "none", role: "img", "aria-label": "Wind sectors, distance rings and lake outline" }, box);
+  const k = W / Math.max(1, box.clientWidth || node.clientWidth);  // map metres per screen pixel
+  const X = e => e - l, Y = n => t - n;
+  const [te, tn] = TER.tower;
+  el("path", { d: "M" + TER.lake.outline.map(([e, n]) => `${X(e)},${Y(n)}`).join("L") + "Z",
+    fill: "#2a78d6", "fill-opacity": 0.42, stroke: "#1c5cab", "stroke-width": 1.5, "vector-effect": "non-scaling-stroke" }, svg);
+  for (const rr of [500, 1000, 2000]) el("circle", { cx: X(te), cy: Y(tn), r: rr, fill: "none", stroke: "#0f1c19", "stroke-opacity": 0.45, "stroke-width": 1, "stroke-dasharray": "3 3", "vector-effect": "non-scaling-stroke" }, svg);
+  for (let d = 15; d < 360; d += 30) {
+    const a = d * Math.PI / 180;
+    el("line", { x1: X(te), y1: Y(tn), x2: X(te + 5000 * Math.sin(a)), y2: Y(tn + 5000 * Math.cos(a)), stroke: "#0f1c19", "stroke-opacity": 0.35, "stroke-width": 1, "vector-effect": "non-scaling-stroke" }, svg);
+  }
+  const lr = view === "valley" ? 2500 : 1250;
+  for (const row of TER.sectors) {
+    const a = row.sector_centre_deg * Math.PI / 180;
+    const ex = te + lr * Math.sin(a), ny = tn + lr * Math.cos(a);
+    if (ex < l || ex > r || ny < b || ny > t) continue;
+    const major = row.share_pct >= 2;
+    const txt = text(svg, X(ex), Y(ny), `${SECTOR_NAMES[row.sector_centre_deg]} ${fmt(row.ebr_all)}`, { "text-anchor": "middle", class: "maplabel", "font-size": (major ? 12 : 10.5) * k, "font-weight": major ? 600 : 400 });
+    txt.style.strokeWidth = 3 * k + "px";
+  }
+  const s = 9 * k;
+  el("path", { d: `M${X(te)},${Y(tn) - s}L${X(te) + s * 0.9},${Y(tn) + s * 0.6}L${X(te) - s * 0.9},${Y(tn) + s * 0.6}Z`, fill: "#eb6834", stroke: "#0f1c19", "stroke-width": 1.2, "vector-effect": "non-scaling-stroke" }, svg);
+  const lakeLabel = text(svg, X(TER.lake.dims.centroid_E) - 60 * k, Y(TER.lake.dims.centroid_N), "Davoser See", { "text-anchor": "end", class: "maplabel", "font-size": 11 * k, "font-style": "italic" });
+  lakeLabel.style.strokeWidth = 3 * k + "px";
+  const items = [["tower", "#eb6834", "box"], ["Davoser See", "#2a78d6", "box"]];
+  let html = items.map(([lab, c, kind]) => `<span><i class="${kind}" style="background:${c}"></i>${lab}</span>`).join("");
+  if (view === "canopy") html += `<span class="ramp">0 m<i style="background:linear-gradient(90deg,${M.ramp.join(",")})"></i>${M.chm_max} m canopy height</span>`;
+  $("#lg-map").innerHTML = html;
+  svg.addEventListener("pointermove", ev => {
+    const rc = svg.getBoundingClientRect();
+    const e = l + (ev.clientX - rc.left) / rc.width * W, n = t - (ev.clientY - rc.top) / rc.height * H;
+    const dist = Math.hypot(e - te, n - tn);
+    if (dist < 40) return showTip(`<b>CH-Dav tower</b><br>EC system at 35 m, ground 1638 m`, ev);
+    const brg = (Math.atan2(e - te, n - tn) * 180 / Math.PI + 360) % 360;
+    const d = secRow((Math.round(brg / 30) % 12) * 30);
+    showTip(`<b>${SECTOR_NAMES[d.sector_centre_deg]} sector (${d.sector_centre_deg}° ± 15°)</b>`
+      + row("distance from tower", `${(dist / 1000).toFixed(2)} km`)
+      + row("share of daytime data", fmt(d.share_pct, 1) + " %") + row("EBR", fmt(d.ebr_all))
+      + row("lake, 0 to 500 m", fmt(d.lake_pct_0_500, 0) + " %") + row("lake, 500 to 1000 m", fmt(d.lake_pct_500_1000, 0) + " %")
+      + row("open ground, 250 to 500 m", fmt(d.open_pct_250_500, 0) + " %") + row("canopy height, 250 to 500 m", fmt(d.chm_mean_250_500, 1) + " m"), ev);
+  });
+  svg.addEventListener("pointerleave", hideTip);
+}
+const PROFILE_SERIES = [["0", "N", "var(--s1)"], ["30", "NNE", "var(--s2)"], ["180", "S", "var(--s3)"], ["210", "SSW", "var(--s4)"], ["270", "W", "var(--s5)"]];
+function renderProfiles(node) {
+  const dist = TER.profiles.distance, hts = TER.profiles.height;
+  const f = frame(node, 300, { l: 46, r: 16, t: 14, b: 34 });
+  const all = PROFILE_SERIES.flatMap(([k]) => hts[k]).filter(v => v != null);
+  const lo = Math.floor(Math.min(-100, ...all) / 50) * 50, hi = Math.ceil(Math.max(100, ...all) / 50) * 50;
+  const x = scale(0, 3000, f.m.l, f.w - f.m.r), y = scale(lo, hi, f.h - f.m.b, f.m.t);
+  yAxis(f, y, ticks(lo, hi, 6), v => String(v));
+  for (const tv of [0, 500, 1000, 1500, 2000, 2500, 3000]) text(f.svg, x(tv), f.h - f.m.b + 16, tv >= 1000 ? `${tv / 1000} km` : `${tv} m`, { "text-anchor": "middle" });
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(0), y2: y(0), class: "base-line" }, f.svg);
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(35), y2: y(35), stroke: "var(--ink-2)", "stroke-width": 1 }, f.svg);
+  text(f.svg, f.w - f.m.r, y(35) - 5, "EC height", { "text-anchor": "end", class: "lbl-strong" });
+  text(f.svg, f.m.l - 40, f.m.t + 4, "m", {});
+  for (const [k, , c] of PROFILE_SERIES) {
+    let d = "", pen = false;
+    hts[k].forEach((v, i) => { if (v == null) { pen = false; return; } d += `${pen ? "L" : "M"}${x(dist[i])},${y(v)}`; pen = true; });
+    el("path", { d, fill: "none", stroke: c, "stroke-width": 2, "stroke-linejoin": "round" }, f.svg);
+  }
+  legend("lg-profiles", PROFILE_SERIES.map(([k, n, c]) => [`${n} (EBR ${fmt(secRow(+k).ebr_all)})`, c]));
+  const guide = el("line", { y1: f.m.t, y2: f.h - f.m.b, stroke: "var(--axis)", visibility: "hidden" }, f.svg);
+  const hit = el("rect", { x: f.m.l, y: 0, width: f.iw, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const rc = f.svg.getBoundingClientRect(), sx = (ev.clientX - rc.left) * f.w / rc.width;
+    const i = Math.max(0, Math.min(dist.length - 1, Math.round(x.invert(sx) / (dist[1] - dist[0]))));
+    guide.setAttribute("x1", x(dist[i])); guide.setAttribute("x2", x(dist[i])); guide.setAttribute("visibility", "visible");
+    showTip(`<b>${dist[i]} m from the tower</b>` + PROFILE_SERIES.map(([k, n, c]) => row(n, `${fmt(hts[k][i], 0)} m`, cssVar(c.slice(4, -1)))).join(""), ev);
+  });
+  hit.addEventListener("pointerleave", () => { hideTip(); guide.setAttribute("visibility", "hidden"); });
+  setTable(node, [{ key: "d", label: "Distance (m)", n: 1, d: 0 }, ...PROFILE_SERIES.map(([k, n]) => ({ key: k, label: `${n} (m)`, n: 1, d: 0 }))],
+    dist.map((d, i) => Object.fromEntries([["d", d], ...PROFILE_SERIES.map(([k]) => [k, hts[k][i]])])));
+}
+function renderSectorTable() {
+  const rows = [...TER.sectors].sort((a, b) => b.share_pct - a.share_pct);
+  const cols = [["Sector", r => `${SECTOR_NAMES[r.sector_centre_deg]} (${r.sector_centre_deg}°)`], ["Share of daytime data (%)", r => fmt(r.share_pct, 1)],
+    ["Lake 0 to 500 m (%)", r => fmt(r.lake_pct_0_500, 0)], ["Lake 500 to 1000 m (%)", r => fmt(r.lake_pct_500_1000, 0)],
+    ["Open ground 250 to 500 m (%)", r => fmt(r.open_pct_250_500, 0)], ["Canopy height 250 to 500 m (m)", r => fmt(r.chm_mean_250_500, 1)],
+    ["Ground at 1 km (m)", r => fmt(r.height_at_1km_m, 0)], ["EBR", r => fmt(r.ebr_all)]];
+  const node = $("#t-sectors");
+  node.innerHTML = `<table><thead><tr>${cols.map(([h], i) => `<th class="${i ? "n" : ""}">${h}</th>`).join("")}</tr></thead><tbody>`
+    + rows.map(r => `<tr class="${r.share_pct < 2 ? "minor" : ""}">${cols.map(([, f], i) => `<td class="${i ? "n" : ""}">${f(r)}</td>`).join("")}</tr>`).join("")
+    + "</tbody></table>";
+  glossify(node);
+}
+
 /* ---------- wire up ---------- */
 renderGlossTable();
 glossify($("header.site"));
@@ -1374,6 +1535,9 @@ const renderHeats = () => {
 renderHeats();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderHeats);
 new MutationObserver(renderHeats).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+register("c-map", renderMap);
+register("c-profiles", renderProfiles);
+renderSectorTable();
 register("c-timeline", renderTimeline);
 renderPeriods(); renderEvents();
 $("#gen").textContent = `Generated on ${DATA.generated} from the ebc-explorer analyses.`;
@@ -1384,6 +1548,7 @@ $("#ctl-pft").addEventListener("change", e => { state.pft = e.target.value; rere
 $("#ctl-attr").addEventListener("change", e => { state.attr = e.target.value; rerender("c-scatter"); });
 segmented("ctl-strat", v => { state.strat = v; rerender("c-strat"); });
 segmented("ctl-season", v => { state.season = v; rerender("c-diurnal"); });
+segmented("ctl-map", v => { state.map = v; rerender("c-map"); });
 
 /* active section in the navigation */
 const navLinks = $$("nav.toc a");

@@ -4,6 +4,9 @@ Collects network results (Nicolini et al. 2026 dataset) and the CH-Dav
 analyses (analyses/ch_dav_01..07, outputs in processed/CH-Dav/) into one JSON
 payload and injects it into reports/templates/ch_dav_overview.html.
 
+Terrain maps and lake data come from analyses 08-10 (swisstopo data, see
+scripts/download_ch_dav_terrain.py).
+
 Run the analyses first, then:
     uv run python reports/build_ch_dav_overview.py [--fragment PATH]
 Output: reports/ch_dav_overview.html, a standalone, self-contained page (web
@@ -14,6 +17,7 @@ The page must not contain personal data: no person names from the fieldbook,
 no IP addresses. Fieldbook events are summarised by hand below.
 """
 
+import base64
 import json
 import re
 from datetime import date
@@ -22,9 +26,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from ebc_explorer.ch_dav import INSTRUMENT_PERIODS
-from ebc_explorer.paths import (CH_DAV_PROCESSED, EBC_RESULTS, EBC_RESULTS_GAPFILLED,
-                                STATIONS_ANCILLARY)
+from ebc_explorer.ch_dav import INSTRUMENT_PERIODS, TOWER_LV95
+from ebc_explorer.paths import (CH_DAV_PROCESSED, CH_DAV_SWISSTOPO, EBC_RESULTS,
+                                EBC_RESULTS_GAPFILLED, STATIONS_ANCILLARY)
 
 HERE = Path(__file__).parent
 TEMPLATE = HERE / "templates" / "ch_dav_overview.html"
@@ -205,6 +209,38 @@ STANDALONE_HEAD = """<!doctype html>
 """
 
 
+def terrain_payload():
+    """Maps (embedded JPEGs), lake outline and sector properties from analyses 08-10."""
+    p = CH_DAV_PROCESSED
+    meta = json.loads((p / "10_maps.json").read_text(encoding="utf-8"))
+    maps = {}
+    for key, m in meta.items():
+        img = base64.b64encode((p / m["file"]).read_bytes()).decode("ascii")
+        maps[key] = {"src": "data:image/jpeg;base64," + img, "extent": m["extent"],
+                     **{k: m[k] for k in ("chm_max", "ramp") if k in m}}
+
+    lake = json.loads((CH_DAV_SWISSTOPO / "davoser_see_swisstlm3d.geojson").read_text(encoding="utf-8"))
+    ring = np.array(max((poly[0] for poly in lake["geometry"]["coordinates"]), key=len))[:, :2]
+    ring = ring[:: max(1, len(ring) // 400)]
+    dims = pd.read_csv(p / "09_lake_dimensions.csv", index_col=0)["value"]
+
+    sectors = pd.read_csv(p / "08_sector_terrain_canopy.csv", index_col=0).join(
+        pd.read_csv(p / "09_lake_by_sector.csv", index_col=0).filter(like="lake_pct"))
+    profiles = pd.read_csv(p / "08_sector_profiles.csv", index_col=0)
+    profiles = profiles[profiles.index % 60 == 0]
+    local = pd.read_csv(p / "08_local_terrain.csv")
+    return {
+        "tower": list(TOWER_LV95),
+        "maps": maps,
+        "lake": {"outline": [[round(float(e), 1), round(float(n), 1)] for e, n in ring],
+                 "dims": {k: clean(v) for k, v in dims.items()}},
+        "sectors": records(sectors.reset_index()),
+        "profiles": {"distance": [int(d) for d in profiles.index],
+                     "height": {str(c): [clean(v) for v in profiles[c]] for c in profiles.columns}},
+        "local": records(local),
+    }
+
+
 def main(argv=None):
     import argparse
 
@@ -215,6 +251,7 @@ def main(argv=None):
         "generated": date.today().isoformat(),
         "network": network_payload(),
         "dav": dav_payload(),
+        "terrain": terrain_payload(),
     }
     text = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     for pattern in (r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",):  # no IP addresses in the page
