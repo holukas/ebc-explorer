@@ -33,34 +33,14 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import rasterio
-from rasterio.enums import Resampling
-from rasterio.merge import merge
 
 from ebc_explorer.paths import CH_DAV_FIGURES, CH_DAV_PROCESSED, CH_DAV_SWISSTOPO
+from ebc_explorer.terrain import grid_coords, hillshade, mosaic, sample
 
 TOWER = (2784453.0, 1187750.0)  # LV95
 SECTOR_WIDTH = 30
 BANDS = [(0, 250), (250, 500), (500, 1000), (1000, 1400)]
 OPEN_CHM = 2.0  # m, canopy height below which ground counts as open
-
-
-def mosaic(folder, res):
-    files = sorted(Path(folder).glob("*.tif"))
-    srcs = [rasterio.open(f) for f in files]
-    arr, transform = merge(srcs, res=res, resampling=Resampling.average, nodata=-9999)
-    for s in srcs:
-        s.close()
-    a = arr[0].astype("float64")
-    a[a == -9999] = np.nan
-    return a, transform
-
-
-def grid_coords(shape, transform):
-    rows, cols = np.indices(shape)
-    x = transform.c + (cols + 0.5) * transform.a
-    y = transform.f + (rows + 0.5) * transform.e
-    return x, y
 
 
 def polar(x, y):
@@ -69,23 +49,6 @@ def polar(x, y):
     az = (np.degrees(np.arctan2(dx, dy)) + 360) % 360  # 0 = north, clockwise
     sector = ((az + SECTOR_WIDTH / 2) // SECTOR_WIDTH % (360 // SECTOR_WIDTH) * SECTOR_WIDTH).astype(int)
     return dist, sector
-
-
-def sample(a, transform, x, y):
-    col = ((x - transform.c) / transform.a).astype(int)
-    row = ((y - transform.f) / transform.e).astype(int)
-    ok = (row >= 0) & (row < a.shape[0]) & (col >= 0) & (col < a.shape[1])
-    out = np.full(np.shape(x), np.nan)
-    out[ok] = a[row[ok], col[ok]]
-    return out
-
-
-def hillshade(z, res, az=315, alt=45):
-    gy, gx = np.gradient(z, res)
-    slope = np.arctan(np.hypot(gx, gy))
-    aspect = np.arctan2(-gx, gy)
-    a, b = np.radians(az), np.radians(alt)
-    return np.sin(b) * np.cos(slope) + np.cos(b) * np.sin(slope) * np.cos(a - aspect)
 
 
 def main():
