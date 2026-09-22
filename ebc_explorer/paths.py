@@ -52,6 +52,7 @@ INTERIM = DATA_DIR / "interim"  # regenerable caches
 PROCESSED = DATA_DIR / "processed"  # analysis outputs
 FIGURES = DATA_DIR / "figures"
 REFS = DATA_DIR / "refs"  # reference PDFs
+REFS_EBC = REFS / "EBC"  # Zotero export: EBC.rdf + files/<id>/<Author - Year - Title>.pdf
 
 # Nicolini & Papale (2026), https://doi.org/10.5281/zenodo.19608436
 EBC_2026 = RAW / "EBC_data_ICOS_NEON_2026" / "EBC_data"
