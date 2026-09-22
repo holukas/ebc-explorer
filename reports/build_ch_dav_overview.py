@@ -31,6 +31,8 @@ from ebc_explorer.paths import (CH_DAV_PROCESSED, CH_DAV_SWISSTOPO, EBC_RESULTS,
                                 EBC_RESULTS_GAPFILLED, STATIONS_ANCILLARY)
 
 AUTHOR = "Lukas Hörtnagl"  # report author, shown in the footer
+URL_3D_LOCAL = "ch_dav_3d.html"  # link target in the repo file
+URL_3D_PUBLISHED = "https://claude.ai/artifact/FjLpmhyvvmphCKn1ngo5Cp"  # link target in the published page
 HERE = Path(__file__).parent
 TEMPLATE = HERE / "templates" / "ch_dav_overview.html"
 OUTPUT = HERE / "ch_dav_overview.html"
@@ -259,10 +261,10 @@ def main(argv=None):
     for pattern in (r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",):  # no IP addresses in the page
         assert not re.search(pattern, text), f"payload matches forbidden pattern {pattern}"
     body = TEMPLATE.read_text(encoding="utf-8").replace("/*__DATA__*/null", text)
-    OUTPUT.write_text(STANDALONE_HEAD + body + "\n</body>\n</html>\n", encoding="utf-8")
+    OUTPUT.write_text(STANDALONE_HEAD + body.replace("__URL_3D__", URL_3D_LOCAL) + "\n</body>\n</html>\n", encoding="utf-8")
     print(f"wrote {OUTPUT} ({OUTPUT.stat().st_size / 1e3:.0f} kB)")
     if args.fragment:
-        args.fragment.write_text(body, encoding="utf-8")
+        args.fragment.write_text(body.replace("__URL_3D__", URL_3D_PUBLISHED), encoding="utf-8")
         print(f"wrote {args.fragment}")
 
 
