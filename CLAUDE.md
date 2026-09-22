@@ -89,6 +89,7 @@ N sector within 500 m and 94 % at 500–1000 m.
   lake and map images from the swisstopo data). Rebuild after re-running the analyses.
   Preview: `.claude/launch.json` entry "reports" serves `reports/` on http://localhost:8765.
   Never put personal data in reports: no person names from the fieldbook, no IP addresses.
+  Exception: the report author (`AUTHOR` in the build script) is shown in the footer.
 
 ## Environment
 
