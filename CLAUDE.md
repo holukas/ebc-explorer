@@ -81,6 +81,36 @@ G + soil storage ~20 W m-2 at summer midday (~7 % of the gap); all AE-term error
 Analysis 12: daytime 90 % fetch ~190-210 m; lake contributes ~3 % for N wind and has no effect on
 closure within the N sector; at equal u*, closure is poorest near neutral (FETCH ranks with z/L).
 
+## How H and LE are computed (CH-Dav)
+
+ICOS ETC processing (Sabbatini et al. 2018, EddyPro on 20 Hz raw data): 30 min block average, no
+detrending; time lag by covariance maximisation (RH-dependent for H2O); H with Schotanus/van Dijk
+humidity correction of sonic temperature; LE from LI-7200 dry mole fraction (no WPL needed); spectral
+corrections: block-average low-frequency transfer function, analytic high-frequency for H (Moncrieff
+1997), in-situ RH-dependent for H2O (Ibrom 2007, Fratini 2012); QC by Foken & Wichura steady-state/ITC,
+Mauder & Foken flags and Vitale 2020 cleaning. No angle-of-attack correction; no wind sector excluded
+(ECSYS_WIND_EXCL empty).
+- **Rotation: CH-Dav uses double rotation, NOT planar fit (yet)**, although sector-wise planar fit is
+  the ICOS default. On the 16 deg slope this is a candidate cause of the N/S closure contrast
+  (half-hourly pitch angle, cross-contamination at low wind, high-pass filtering with 30 min averaging,
+  Finnigan et al. 2003). Cannot be tested with FLUXNET/L2 data; needs raw 20 Hz data.
+- Our analyses use FLUXNET `H_F_MDS`/`LE_F_MDS` with `QC == 0` (measured, cleaned, no closure
+  correction); `H_CORR`/`LE_CORR` are not used.
+- L2 `FLUXES` diagnostics (daytime 2019-2024): spectral correction factors are small, median
+  `H_SCF_STAT` ~1.01 in all sectors, `LE_SCF_STAT` 1.10 in N (p90 1.41) vs 1.06 in S (p90 1.18), so
+  high-frequency loss does not explain the gap. QC removes 55-84 % of daytime half-hours per sector
+  (N 55 %, S 61 %). Closure with `*_UNCLEANED` fluxes is dominated by outliers and not meaningful.
+
+Possible next steps (not done yet):
+- With raw 20 Hz data (one summer, N- and S-dominated periods): reprocess with EddyPro, double
+  rotation vs sector-wise planar fit (12-16 sectors) and 30 vs 60/120/240 min averaging; ogives of
+  w'T' and w'q' by sector; pitch angle vs wind direction; angle-of-attack correction (Nakai & Shimoyama
+  2012) as sensitivity test.
+- With existing data (candidate analysis 14): does the residual scale with H/buoyancy flux or Bowen
+  ratio (Charuchittipan 2014, Mauder 2020); which conditions QC removes (by sector, u*, z/L);
+  flow distortion indicators (sigma_w/u*, sigma_v/u*) by sector vs flat-terrain similarity;
+  independent LE check (sap flow, soil water depletion).
+
 ## Terrain data: `raw/swisstopo_CH-Dav/`
 
 swisstopo tiles (1 × 1 km, LV95/EPSG:2056, credit "© swisstopo"), fetched with
