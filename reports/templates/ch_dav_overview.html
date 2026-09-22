@@ -199,6 +199,8 @@ tr.is-dav td { color: var(--dav); font-weight: 600; }
 .maplabel { font-family: var(--f-mono); fill: #0f1c19; stroke: rgba(255, 255, 255, 0.85); stroke-width: 3px; paint-order: stroke; stroke-linejoin: round; }
 .ramp { display: flex; align-items: center; gap: 8px; font: 500 12px/1 var(--f-mono); color: var(--ink-2); }
 .ramp i { display: inline-block; width: 140px; height: 10px; border-radius: 3px; }
+.chk { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--ink-2); cursor: pointer; }
+.chk input { accent-color: var(--brand); }
 .did { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; color: var(--ink-2); }
 tr.minor td { color: var(--muted); }
 
@@ -523,10 +525,13 @@ footer b { color: var(--ink-2); font-weight: 600; }
   <div class="grid-3-2">
     <div class="card">
       <div class="card-head">
-        <div><h3>Map of the surroundings</h3><p class="sub">Lines separate the 30° wind sectors; rings mark 0.5, 1 and 2 km. Labels show the EBR per sector. Hover over the map for sector details.</p></div>
-        <div class="seg" id="ctl-map">
-          <button type="button" data-v="valley" aria-pressed="true">Valley, 6 × 6 km</button>
-          <button type="button" data-v="canopy">Canopy height, 3 × 4 km</button>
+        <div><h3>Map of the surroundings</h3><p class="sub">Lines separate the 30° wind sectors; rings mark 0.5, 1 and 2 km. Labels show the EBR per sector. The footprint lines around the tower are small on the valley map; the canopy map shows them larger. Hover over the map for sector details.</p></div>
+        <div class="ctl">
+          <div class="seg" id="ctl-map">
+            <button type="button" data-v="valley" aria-pressed="true">Valley, 6 × 6 km</button>
+            <button type="button" data-v="canopy">Canopy height, 3 × 4 km</button>
+          </div>
+          <label class="chk"><input type="checkbox" id="ctl-fp" checked> Footprint</label>
         </div>
       </div>
       <div class="legend" id="lg-map"></div>
@@ -544,7 +549,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
     </div>
   </div>
   <div class="card">
-    <div class="card-head"><div><h3>Surface properties and closure per wind sector</h3><p class="sub">Open ground: canopy lower than 2 m. Sectors with less than 2 % of the daytime data are shown in grey.</p></div></div>
+    <div class="card-head"><div><h3>Surface properties and closure per wind sector</h3><p class="sub">Open ground: canopy lower than 2 m. Footprint: median distance along the wind direction at which 50, 80 and 90 % of the daytime flux is reached (ICOS L2, 2019 to 2024). Sectors with less than 2 % of the daytime data are shown in grey.</p></div></div>
     <div class="table-view" id="t-sectors" style="max-height:none"></div>
     <p class="note">The lake covers half of the northern sector within 500 m and almost all of it between 500 and 1000 m. The NNE sector has hardly any lake but also closes poorly; like the northern wind, it blows along the valley axis (36°). The west to north-northwest sectors are also open or lake-covered and close better, but they contain less than 5 % of the data.</p>
   </div>
@@ -961,7 +966,7 @@ const SITES = NET.sites;
 const DAVSITE = SITES.find(s => s.site === "CH-Dav");
 const CONTRAST = "IT-Ren";
 const FORESTS = new Set(["ENF", "DBF", "EBF", "MF"]);
-const state = { ae: "AE6u", net: "all", pft: "all", attr: "slope", strat: "atm_strat", season: "JJA", map: "valley" };
+const state = { ae: "AE6u", net: "all", pft: "all", attr: "slope", strat: "atm_strat", season: "JJA", map: "valley", fp: true };
 const AE_STEPS = ["AE1", "AE2", "AE3", "AE4", "AE5", "AE6", "AE6u"];
 const AE_LABEL = { AE1: "Rn", AE2: "−G", AE3: "−S soil", AE4: "−S air", AE5: "−S pho", AE6: "−S bio", AE6u: "u* filter" };
 const AE_LONG = {
@@ -1430,6 +1435,20 @@ function renderEvents() {
 const TER = DATA.terrain;
 const SECTOR_NAMES = { 0: "N", 30: "NNE", 60: "ENE", 90: "E", 120: "ESE", 150: "SSE", 180: "S", 210: "SSW", 240: "WSW", 270: "W", 300: "WNW", 330: "NNW" };
 const secRow = deg => TER.sectors.find(r => r.sector_centre_deg === deg);
+const fpRow = deg => TER.footprint.find(r => r.sector === deg);
+// footprint lines: median distance at which 50, 80 and 90 % of the flux is reached (same colours as the 3D page)
+const FP_LEVELS = [["fetch_50_median", "#0e3d22", "50 %"], ["fetch_80_median", "#eb6834", "80 %"], ["fetch_90_median", "#eda100", "90 %"]];
+function footprintCurve(key) {
+  const byDeg = Object.fromEntries(TER.footprint.filter(r => r[key] != null).map(r => [r.sector, r[key]]));
+  const pts = [];
+  for (let a = 0; a <= 360; a += 3) {  // linear between sector centres
+    const s0 = Math.floor(a / 30) * 30 % 360, s1 = (s0 + 30) % 360, f = (a % 30) / 30;
+    const v0 = byDeg[s0] ?? byDeg[s1], v1 = byDeg[s1] ?? byDeg[s0];
+    if (v0 == null) continue;
+    pts.push([a, v0 * (1 - f) + v1 * f]);
+  }
+  return pts;
+}
 function renderMap(node) {
   const view = state.map, M = TER.maps[view];
   const [l, r, b, t] = M.extent, W = r - l, H = t - b;
@@ -1455,12 +1474,23 @@ function renderMap(node) {
     const txt = text(svg, X(ex), Y(ny), `${SECTOR_NAMES[row.sector_centre_deg]} ${fmt(row.ebr_all)}`, { "text-anchor": "middle", class: "maplabel", "font-size": (major ? 12 : 10.5) * k, "font-weight": major ? 600 : 400 });
     txt.style.strokeWidth = 3 * k + "px";
   }
+  if (state.fp) {
+    for (const [key, color] of FP_LEVELS) {
+      const d = "M" + footprintCurve(key).map(([a, r]) => {
+        const rad = a * Math.PI / 180;
+        return `${X(te + r * Math.sin(rad))},${Y(tn + r * Math.cos(rad))}`;
+      }).join("L") + "Z";
+      el("path", { d, fill: "none", stroke: "#ffffff", "stroke-width": 4, "stroke-opacity": 0.85, "vector-effect": "non-scaling-stroke" }, svg);
+      el("path", { d, fill: "none", stroke: color, "stroke-width": 2, "vector-effect": "non-scaling-stroke" }, svg);
+    }
+  }
   const s = 9 * k;
   el("path", { d: `M${X(te)},${Y(tn) - s}L${X(te) + s * 0.9},${Y(tn) + s * 0.6}L${X(te) - s * 0.9},${Y(tn) + s * 0.6}Z`, fill: "#eb6834", stroke: "#0f1c19", "stroke-width": 1.2, "vector-effect": "non-scaling-stroke" }, svg);
   const lakeLabel = text(svg, X(TER.lake.dims.centroid_E) - 60 * k, Y(TER.lake.dims.centroid_N), "Davoser See", { "text-anchor": "end", class: "maplabel", "font-size": 11 * k, "font-style": "italic" });
   lakeLabel.style.strokeWidth = 3 * k + "px";
   const items = [["tower", "#eb6834", "box"], ["Davoser See", "#2a78d6", "box"]];
-  let html = items.map(([lab, c, kind]) => `<span><i class="${kind}" style="background:${c}"></i>${lab}</span>`).join("");
+  if (state.fp) items.push(...FP_LEVELS.map(([, c, lab]) => [`footprint ${lab}`, c, "line"]));
+  let html = items.map(([lab, c, kind]) => `<span><i class="${kind === "line" ? "" : kind}" style="background:${c}"></i>${lab}</span>`).join("");
   if (view === "canopy") html += `<span class="ramp">0 m<i style="background:linear-gradient(90deg,${M.ramp.join(",")})"></i>${M.chm_max} m canopy height</span>`;
   $("#lg-map").innerHTML = html;
   svg.addEventListener("pointermove", ev => {
@@ -1474,7 +1504,8 @@ function renderMap(node) {
       + row("distance from tower", `${(dist / 1000).toFixed(2)} km`)
       + row("share of daytime data", fmt(d.share_pct, 1) + " %") + row("EBR", fmt(d.ebr_all))
       + row("lake, 0 to 500 m", fmt(d.lake_pct_0_500, 0) + " %") + row("lake, 500 to 1000 m", fmt(d.lake_pct_500_1000, 0) + " %")
-      + row("open ground, 250 to 500 m", fmt(d.open_pct_250_500, 0) + " %") + row("canopy height, 250 to 500 m", fmt(d.chm_mean_250_500, 1) + " m"), ev);
+      + row("open ground, 250 to 500 m", fmt(d.open_pct_250_500, 0) + " %") + row("canopy height, 250 to 500 m", fmt(d.chm_mean_250_500, 1) + " m")
+      + (fpRow(d.sector_centre_deg) ? row("footprint 80 % / 90 %", `${fmt(fpRow(d.sector_centre_deg).fetch_80_median, 0)} / ${fmt(fpRow(d.sector_centre_deg).fetch_90_median, 0)} m`) : ""), ev);
   });
   svg.addEventListener("pointerleave", hideTip);
 }
@@ -1514,7 +1545,11 @@ function renderSectorTable() {
   const cols = [["Sector", r => `${SECTOR_NAMES[r.sector_centre_deg]} (${r.sector_centre_deg}°)`], ["Share of daytime data (%)", r => fmt(r.share_pct, 1)],
     ["Lake 0 to 500 m (%)", r => fmt(r.lake_pct_0_500, 0)], ["Lake 500 to 1000 m (%)", r => fmt(r.lake_pct_500_1000, 0)],
     ["Open ground 250 to 500 m (%)", r => fmt(r.open_pct_250_500, 0)], ["Canopy height 250 to 500 m (m)", r => fmt(r.chm_mean_250_500, 1)],
-    ["Ground at 1 km (m)", r => fmt(r.height_at_1km_m, 0)], ["EBR", r => fmt(r.ebr_all)]];
+    ["Ground at 1 km (m)", r => fmt(r.height_at_1km_m, 0)],
+    ["Footprint 50 % (m)", r => fmt(fpRow(r.sector_centre_deg)?.fetch_50_median, 0)],
+    ["Footprint 80 % (m)", r => fmt(fpRow(r.sector_centre_deg)?.fetch_80_median, 0)],
+    ["Footprint 90 % (m)", r => fmt(fpRow(r.sector_centre_deg)?.fetch_90_median, 0)],
+    ["EBR", r => fmt(r.ebr_all)]];
   const node = $("#t-sectors");
   node.innerHTML = `<table><thead><tr>${cols.map(([h], i) => `<th class="${i ? "n" : ""}">${h}</th>`).join("")}</tr></thead><tbody>`
     + rows.map(r => `<tr class="${r.share_pct < 2 ? "minor" : ""}">${cols.map(([, f], i) => `<td class="${i ? "n" : ""}">${f(r)}</td>`).join("")}</tr>`).join("")
@@ -1560,6 +1595,7 @@ $("#ctl-attr").addEventListener("change", e => { state.attr = e.target.value; re
 segmented("ctl-strat", v => { state.strat = v; rerender("c-strat"); });
 segmented("ctl-season", v => { state.season = v; rerender("c-diurnal"); });
 segmented("ctl-map", v => { state.map = v; rerender("c-map"); });
+$("#ctl-fp").addEventListener("change", e => { state.fp = e.target.checked; rerender("c-map"); });
 
 /* active section in the navigation */
 const navLinks = $$("nav.toc a");

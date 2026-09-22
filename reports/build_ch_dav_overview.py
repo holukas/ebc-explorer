@@ -5,7 +5,7 @@ analyses (analyses/ch_dav_01..07, outputs in processed/CH-Dav/) into one JSON
 payload and injects it into reports/templates/ch_dav_overview.html.
 
 Terrain maps and lake data come from analyses 08-10 (swisstopo data, see
-scripts/download_ch_dav_terrain.py).
+scripts/download_ch_dav_terrain.py); footprint distances from analysis 12.
 
 Run the analyses first, then:
     uv run python reports/build_ch_dav_overview.py [--fragment PATH]
@@ -232,6 +232,7 @@ def terrain_payload():
     profiles = pd.read_csv(p / "08_sector_profiles.csv", index_col=0)
     profiles = profiles[profiles.index % 60 == 0]
     local = pd.read_csv(p / "08_local_terrain.csv")
+    footprint = pd.read_csv(p / "12_footprint_by_sector.csv")  # ICOS L2 footprint distances per sector
     return {
         "tower": list(TOWER_LV95),
         "maps": maps,
@@ -241,6 +242,7 @@ def terrain_payload():
         "profiles": {"distance": [int(d) for d in profiles.index],
                      "height": {str(c): [clean(v) for v in profiles[c]] for c in profiles.columns}},
         "local": records(local),
+        "footprint": records(footprint),
     }
 
 
