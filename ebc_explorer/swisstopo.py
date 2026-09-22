@@ -13,6 +13,7 @@ from pathlib import Path
 STAC = "https://data.geo.admin.ch/api/stac/v0.9/collections/{collection}/items"
 ALTI3D = "ch.swisstopo.swissalti3d"  # bare-ground terrain model (DTM)
 SURFACE3D = "ch.swisstopo.swisssurface3d-raster"  # surface model incl. vegetation and buildings (DSM)
+SWISSIMAGE = "ch.swisstopo.swissimage-dop10"  # aerial orthophoto (RGB), 0.1 m and 2 m
 
 
 def wgs84_to_lv95(lat, lon):

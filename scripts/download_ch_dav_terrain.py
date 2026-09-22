@@ -4,6 +4,7 @@
 2. Footprint north of the tower: swissSURFACE3D Raster 0.5 m and swissALTI3D
    0.5 m (year 2019, closest to the 2020 surface model), 3 x 4 km,
    E 2783-2785, N 1186-1189.
+3. Aerial photo: SWISSIMAGE 2 m (latest year), same 8 x 8 km as 1.
 
 Tower: 46.81533 N, 9.85591 E = LV95 E 2784453, N 1187750 (tile 2784-1187).
 Files go to raw/swisstopo_CH-Dav/<product>/; a README records source and licence.
@@ -15,7 +16,7 @@ Re-running skips complete files.
 from datetime import date
 
 from ebc_explorer.paths import CH_DAV_SWISSTOPO
-from ebc_explorer.swisstopo import ALTI3D, SURFACE3D, download, list_tiles, pick
+from ebc_explorer.swisstopo import ALTI3D, SURFACE3D, SWISSIMAGE, download, list_tiles, pick
 
 BBOX_WGS84 = (9.78, 46.76, 9.93, 46.87)  # covers both areas with margin
 CONTEXT = {"e": range(2781, 2789), "n": range(1184, 1192)}
@@ -35,6 +36,7 @@ Tiles are 1 x 1 km GeoTIFFs named <product>_<year>_<E km>-<N km>_<resolution>_20
 - alti3d_0.5m/: swissALTI3D, bare-ground terrain, 0.5 m, E 2783-2785, N 1186-1189
 - surface3d_0.5m/: swissSURFACE3D Raster, surface incl. trees and buildings, 0.5 m, same tiles
   (canopy height = surface - terrain)
+- swissimage_2m/: SWISSIMAGE aerial photo (RGB), 2 m, latest year, E 2781-2788, N 1184-1191
 """
 
 
@@ -45,11 +47,13 @@ def in_area(key, area):
 def main():
     alti = list_tiles(ALTI3D, BBOX_WGS84)
     surf = list_tiles(SURFACE3D, BBOX_WGS84)
+    img = list_tiles(SWISSIMAGE, BBOX_WGS84)
     jobs = []
     jobs += [("alti3d_2m", h) for k, h in pick(alti, 2.0).items() if in_area(k, CONTEXT)]
     jobs += [("alti3d_0.5m", h) for k, h in pick(alti, 0.5, year=2019).items() if in_area(k, FOOTPRINT)]
     jobs += [("surface3d_0.5m", h) for k, h in pick(surf, 0.5).items() if in_area(k, FOOTPRINT)]
-    expected = len(CONTEXT["e"]) * len(CONTEXT["n"]) + 2 * len(FOOTPRINT["e"]) * len(FOOTPRINT["n"])
+    jobs += [("swissimage_2m", h) for k, h in pick(img, 2.0).items() if in_area(k, CONTEXT)]
+    expected = 2 * len(CONTEXT["e"]) * len(CONTEXT["n"]) + 2 * len(FOOTPRINT["e"]) * len(FOOTPRINT["n"])
     print(f"{len(jobs)} tiles to fetch (expected {expected})")
 
     total = 0
