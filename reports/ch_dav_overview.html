@@ -222,6 +222,9 @@ tr.minor td { color: var(--muted); }
 .expl { display: grid; gap: 14px; }
 .hyp { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); padding: 18px 20px; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 18px; }
 .hyp h3 { font-size: 18px; font-weight: 600; line-height: 1.25; }
+.interp { background: var(--brand-soft); border-left: 4px solid var(--brand); border-radius: 12px; padding: 16px 20px 6px; }
+.interp h3 { margin: 0 0 8px; color: var(--brand); }
+.interp p { margin: 0 0 10px; color: var(--ink); line-height: 1.55; }
 .verdict { display: inline-flex; align-items: center; gap: 7px; font: 500 12px/1 var(--f-mono); padding: 6px 9px; border-radius: 999px; margin-top: 10px; background: var(--surface-2); color: var(--ink-2); }
 .verdict svg { width: 12px; height: 12px; flex: none; }
 .verdict.lead { color: var(--critical-ink); }
@@ -556,6 +559,12 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <div class="table-view" id="t-water" style="max-height:none"></div>
     <p class="note">The gauge probably catches too little snow, and ERA5 is a grid-cell value. From 2019, measured LE is available for only about half of the half-hours, so yearly ET depends strongly on gap filling. ET from measured LE decreased from about 590 mm (1998 to 2018) to about 405 mm (2019 to 2024). Runoff of the catchment would turn this check into a quantitative limit.</p>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>The measured LE gives a plausible water balance: about 60 % of the precipitation evaporates and about 40 % runs off. With LE_CORR, all precipitation would evaporate. The missing energy is therefore not shared between H and LE in the same ratio as the measured fluxes, which is the assumption behind H_CORR and LE_CORR.</p>
+    <p>Averaged over the year, LE is about four times larger than H, so LE_CORR assigns about three quarters of the missing energy (26 of 36 W m⁻²) to latent heat. If the Budyko estimate is taken as the true ET, LE is about 120 mm per year, or 9 W m⁻², higher than measured. That is about a quarter of the missing energy. The remaining three quarters would have to be sensible heat, or AE is overestimated. The error budget above shows that AE errors can explain at most about half of the gap, so a large part of the missing energy is probably sensible heat.</p>
+    <p>This agrees with studies that relate the missing energy to the buoyancy flux, for example heat carried by large, slow air motions or by air flowing along the slope, both of which the tower does not capture. For CH-Dav, measured LE is a better estimate of evapotranspiration than LE_CORR, and H_CORR probably underestimates the sensible heat flux. The Budyko estimate is uncertain, because it depends on the Priestley-Taylor coefficient and on AE itself. Runoff data would give an independent limit.</p>
+  </aside>
 </section>
 
 <section class="block" id="wind">
