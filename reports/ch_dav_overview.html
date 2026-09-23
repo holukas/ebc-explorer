@@ -277,6 +277,22 @@ footer b { color: var(--ink-2); font-weight: 600; }
     </div>
   </div>
 </div>
+<nav class="toc" aria-label="Sections">
+  <ul>
+    <li><a href="#network">Network</a></li>
+    <li><a href="#timescales">Time scales</a></li>
+    <li><a href="#conditions">Conditions</a></li>
+    <li><a href="#record">Yearly closure</a></li>
+    <li><a href="#diurnal">Daily cycle</a></li>
+    <li><a href="#budget">Error budget</a></li>
+    <li><a href="#wind">Wind direction</a></li>
+    <li><a href="#terrain">Terrain and lake</a></li>
+    <li><a href="#instruments">Instruments</a></li>
+    <li><a href="#explanations">Possible causes</a></li>
+    <li><a href="#nextsteps">Next steps</a></li>
+    <li><a href="#glossary">Abbreviations</a></li>
+  </ul>
+</nav>
 <header class="site">
   <div class="title-row">
     <div>
@@ -305,22 +321,6 @@ footer b { color: var(--ink-2); font-weight: 600; }
   </div>
 </header>
 
-<nav class="toc" aria-label="Sections">
-  <ul>
-    <li><a href="#network">Network</a></li>
-    <li><a href="#timescales">Time scales</a></li>
-    <li><a href="#conditions">Conditions</a></li>
-    <li><a href="#record">Yearly closure</a></li>
-    <li><a href="#diurnal">Daily cycle</a></li>
-    <li><a href="#budget">Error budget</a></li>
-    <li><a href="#wind">Wind direction</a></li>
-    <li><a href="#terrain">Terrain and lake</a></li>
-    <li><a href="#instruments">Instruments</a></li>
-    <li><a href="#explanations">Possible causes</a></li>
-    <li><a href="#nextsteps">Next steps</a></li>
-    <li><a href="#glossary">Abbreviations</a></li>
-  </ul>
-</nav>
 
 <main>
 <section class="block" id="network">
@@ -446,7 +446,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
     </div>
     <div class="legend" id="lg-years"></div>
     <div class="chart" id="c-years"></div>
-    <p class="note">1997: flux calculation error that removed air motions slower than 10 s. 2012 and 2013: no measured soil heat flux. Daily slopes use only days with at least 40 measured half-hours for every term, so there are few such days after 2019.</p>
+    <p class="note">1997: flux calculation error that removed air motions slower than 10 s. 2012 and 2013: no measured soil heat flux (August 2011 to May 2014), so the energy balance cannot be computed. Daily slopes use only days with at least 40 measured half-hours for every term, so there are few such days after 2019.</p>
   </div>
 </section>
 
@@ -1289,6 +1289,7 @@ function renderYears(node) {
   yAxis(f, y, [0, 0.2, 0.4, 0.6, 0.8, 1.0], t => t.toFixed(1));
   el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(1), y2: y(1), class: "base-line" }, f.svg);
   for (const t of [2000, 2005, 2010, 2015, 2020]) text(f.svg, x(t), f.h - 10, String(t), { "text-anchor": "middle" });
+  text(f.svg, x(2012.5), y(0.12), "no G data", { "text-anchor": "middle" });
   const series = [["hh_slope", "slope, half-hourly data", "var(--s1)"], ["day_slope", "slope, daily means", "var(--s2)"], ["hh_ebr", "EBR, half-hourly data", "var(--s3)"]];
   const ok = (r, k) => r[k] != null && !(k === "day_slope" && (r.day_n ?? 0) < 10);
   for (const [k, , color] of series) {
