@@ -22,7 +22,7 @@ no IP addresses. Fieldbook events are summarised by hand below.
 import base64
 import json
 import re
-from datetime import date
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -289,6 +289,13 @@ def terrain_payload():
     }
 
 
+def build_time():
+    """Local build date and time, e.g. '23 September 2026, 14:05 (UTC+02:00)'."""
+    now = datetime.now().astimezone()
+    offset = now.strftime("%z")
+    return f"{now.day} {now:%B %Y}, {now:%H:%M} (UTC{offset[:3]}:{offset[3:]})"
+
+
 def main(argv=None):
     import argparse
 
@@ -296,7 +303,7 @@ def main(argv=None):
     parser.add_argument("--fragment", type=Path, help="also write the page without html/head wrapper")
     args = parser.parse_args(argv)
     payload = {
-        "generated": f"{date.today().day} {date.today():%B %Y}",
+        "generated": build_time(),
         "author": AUTHOR,
         "network": network_payload(),
         "dav": dav_payload(),
