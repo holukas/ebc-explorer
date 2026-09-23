@@ -95,7 +95,13 @@ Mauder & Foken flags and Vitale 2020 cleaning. No angle-of-attack correction; no
   (half-hourly pitch angle, cross-contamination at low wind, high-pass filtering with 30 min averaging,
   Finnigan et al. 2003). Cannot be tested with FLUXNET/L2 data; needs raw 20 Hz data.
 - Our analyses use FLUXNET `H_F_MDS`/`LE_F_MDS` with `QC == 0` (measured, cleaned, no closure
-  correction); `H_CORR`/`LE_CORR` are not used.
+  correction); `H_CORR`/`LE_CORR` are not used for closure (closure is 1 by construction with them).
+- `H_CORR`/`LE_CORR` = H and LE scaled by the same closure factor (Bowen ratio kept); at CH-Dav x2.0.
+  Analysis 14 (water balance, FLUXNET `P_F`, `P_ERA`): 1998-2024 ET from LE_CORR / P = 1.01 (no runoff
+  left; ET_corr > P in 16 of 27 years), ET from measured LE / P = 0.62, Budyko (Fu, PT from AE) 0.73.
+  Doubling LE is not supported; at most part of the gap can be LE. Measured-LE ET fell from ~590 mm
+  (1998-2018) to ~405 mm (2019-2024), with only ~50 % measured LE half-hours after 2019.
+  Caveats: gauge snow undercatch, no runoff data yet.
 - L2 `FLUXES` diagnostics (daytime 2019-2024): spectral correction factors are small, median
   `H_SCF_STAT` ~1.01 in all sectors, `LE_SCF_STAT` 1.10 in N (p90 1.41) vs 1.06 in S (p90 1.18), so
   high-frequency loss does not explain the gap. QC removes 55-84 % of daytime half-hours per sector
@@ -106,10 +112,10 @@ Possible next steps (not done yet):
   rotation vs sector-wise planar fit (12-16 sectors) and 30 vs 60/120/240 min averaging; ogives of
   w'T' and w'q' by sector; pitch angle vs wind direction; angle-of-attack correction (Nakai & Shimoyama
   2012) as sensitivity test.
-- With existing data (candidate analysis 14): does the residual scale with H/buoyancy flux or Bowen
+- With existing data (candidate analysis 15): does the residual scale with H/buoyancy flux or Bowen
   ratio (Charuchittipan 2014, Mauder 2020); which conditions QC removes (by sector, u*, z/L);
   flow distortion indicators (sigma_w/u*, sigma_v/u*) by sector vs flat-terrain similarity;
-  independent LE check (sap flow, soil water depletion).
+  independent LE check (sap flow, soil water depletion, catchment runoff for analysis 14).
 
 ## Terrain data: `raw/swisstopo_CH-Dav/`
 
@@ -130,7 +136,7 @@ N sector within 500 m and 94 % at 500–1000 m.
 - `analyses/ch_dav_NN_*.py`: numbered analysis scripts; each writes to
   `processed/CH-Dav/NN_*.csv` and `figures/CH-Dav/NN_*.png`. Run with `uv run python analyses/<script>.py`.
 - `reports/build_ch_dav_overview.py` + `reports/templates/ch_dav_overview.html` -> `reports/ch_dav_overview.html`
-  (interactive overview page; data and map images embedded). Needs analyses 01-10, 12 and 13 (08-10: terrain,
+  (interactive overview page; data and map images embedded). Needs analyses 01-10 and 12-14 (08-10: terrain,
   lake and map images from the swisstopo data). Rebuild after re-running the analyses.
   Preview: `.claude/launch.json` entry "reports" serves `reports/` on http://localhost:8765.
 - `reports/build_ch_dav_3d.py` + `reports/templates/ch_dav_3d.html` -> `reports/ch_dav_3d.html`
