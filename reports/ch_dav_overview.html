@@ -395,6 +395,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <div class="chart" id="c-steps"></div>
     </div>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>CH-Dav is an outlier in the network. Storage terms and photosynthesis raise its closure by 0.11, less than the network median (0.18). The gap is therefore not a storage term that other sites account for and CH-Dav does not.</p>
+    <p>Site characteristics alone do not predict the low closure: IT-Ren, also an alpine spruce forest on a slope, closes at 1.30. All sites of a network are processed with the same methods, so a general processing error would affect all of them. The remaining candidates are properties specific to CH-Dav: the position of the tower in the terrain, the flow at the site, and site-specific processing settings such as the coordinate rotation.</p>
+  </aside>
 </section>
 
 <section class="block" id="timescales">
@@ -411,6 +416,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <div class="legend" id="lg-compare-2"></div>
     <div class="chart" id="c-ts"></div>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>Random errors and timing differences between the terms cancel when fluxes are summed over longer periods. Because the EBR at CH-Dav stays at 0.43 to 0.47 from half-hours to years, the gap is neither random scatter nor heat that is stored during the day and released at night.</p>
+    <p>About half of the available energy either leaves the site in a way the EC system does not measure, or one of the terms has a systematic bias.</p>
+  </aside>
 </section>
 
 <section class="block" id="conditions">
@@ -435,6 +445,10 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <div class="legend" id="lg-compare-3"></div>
     <div class="chart" id="c-strat"></div>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>A process that occurs only in certain weather, such as weak turbulence at night, cannot explain the gap. The cause acts in almost all conditions, which points to a property of the site or of the measurement set-up that is always present. The wind direction analysis below narrows this down.</p>
+  </aside>
 </section>
 
 <section class="block" id="record">
@@ -452,6 +466,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <div class="chart" id="c-years"></div>
     <p class="note">1997: flux calculation error that removed air motions slower than 10 s. 2012 and 2013: no measured soil heat flux (August 2011 to May 2014), so the energy balance cannot be computed. Daily slopes use only days with at least 40 measured half-hours for every term, so there are few such days after 2019.</p>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>The gap has been present for 27 years, with every combination of sonic anemometer and gas analyser, and after the forest thinnings of 2006 and 2013. An instrument defect or a change in the forest is therefore unlikely as the main cause. The tower position, the measurement height, the boom direction and the surrounding terrain stayed the same over the whole record, which makes them the more likely candidates.</p>
+    <p>The EBR decrease in 2014 and 2015 comes with a drop of the intercept, from about 35 W m⁻² before 2014 to about 10 W m⁻² in 2015 to 2018 and close to 0 after 2019, while the slope stayed the same. It reflects a change of an offset, probably from the new soil heat flux plates or the new sonic, and not a change of the underlying gap.</p>
+  </aside>
 </section>
 
 <section class="block" id="diurnal">
@@ -483,6 +502,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <p class="note">The radiation data show no sign of overestimated net radiation. SW_IN agrees with a separate PAR sensor (ratio 0.47 to 0.51 over 25 years), and Rn equals the sum of its four components since 2019. The midday ratio Rn / SW_IN (0.83 to 0.87) is typical for a dark conifer canopy.</p>
     </div>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>The residual is about half of the available energy at every hour. A missing storage term would shift the timing, with a positive residual in the morning and a negative one in the evening, and this pattern is absent.</p>
+    <p>A gap that scales with the available energy points to a loss that grows with surface heating. Examples are fluxes that are underestimated by a constant fraction, or heat that is carried away horizontally or by slow air motions, both of which increase when the surface heats up.</p>
+  </aside>
 </section>
 
 <section class="block" id="budget">
@@ -537,6 +561,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <div class="table-view" id="t-gvariants" style="max-height:none"></div>
     <p class="note">Using the highest plot instead of the mean raises the slope only from 0.51 to 0.52. Adding air and biomass storage raises it to 0.55.</p>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>The available energy cannot explain the gap alone. The largest single uncertainties are the net radiation corrections and a possibly underestimated biomass storage, each up to about 18 % of the missing energy. Even the upper bound, with all errors in the same direction, leaves half of the gap.</p>
+    <p>At least half of the missing energy must therefore be missing from the measured turbulent fluxes. The water balance check below suggests that most of it is sensible heat.</p>
+  </aside>
 </section>
 
 <section class="block" id="water">
@@ -600,6 +629,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <div class="heat" id="h-period"></div>
     </div>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>The dependence on wind direction is the clearest clue so far. When the air comes from the forested slope to the south and west, the EBR (0.75 to 1.0) is close to typical values in the network. The low site average is caused mainly by the northerly wind along the valley, which brings most of the daytime data.</p>
+    <p>The pattern is present with every sonic and gas analyser since 1998, so a specific instrument is unlikely to cause it. Possible causes are the flow itself (horizontal advection, slow air motions of the along-valley wind) or a processing step that depends on wind direction, such as the coordinate rotation on the slope.</p>
+  </aside>
 </section>
 
 <section class="block" id="terrain">
@@ -658,6 +692,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <li>The model assumes flat, uniform terrain; on the 16° slope the real source area can differ. The 3D landscape shows the footprint on the terrain.</li>
     </ul>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>The footprint shows that the measured flux comes from the forest within about 200 m, not from the lake. The lake and the valley floor therefore act on the air that arrives at the forest, not on the source area. Northerly air crosses only about 250 m of forest and rises about 80 m before it reaches the tower. Over this short distance, the air layer that has adjusted to the forest may not yet reach the sensor at 35 m. Part of the heat from the forest then warms the incoming air below the sensor and is carried away horizontally.</p>
+    <p>The open west to north-northwest sectors close better, but they contain less than 5 % of the data. Together with the poor closure of the NNE sector, which has almost no lake, this suggests that the along-valley flow matters more than the lake itself. The footprint model assumes flat, uniform terrain, so the footprint distances are approximate on the slope.</p>
+  </aside>
 </section>
 
 <section class="block" id="instruments">
@@ -682,6 +721,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
       <ul class="events" id="events"></ul>
     </div>
   </div>
+  <aside class="interp" aria-label="Interpretation">
+    <h3>Interpretation</h3>
+    <p>The gap is present with every combination of sonic anemometer, gas analyser and radiometer, so an instrument fault is unlikely as the main cause.</p>
+    <p>The regression coefficients point in the same direction as the water balance: the coefficient for H is 1.3 to 1.6 in all periods, and the coefficient for LE is below 1. This suggests that H is underestimated more than LE, although the coefficients are uncertain because H and LE are correlated. Processing steps that were applied to the whole record, such as the coordinate rotation, are not tested by instrument changes and remain possible causes.</p>
+  </aside>
 </section>
 
 <section class="block" id="explanations">
@@ -690,6 +734,11 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <h2>Possible causes</h2>
     <p>The causes are ordered from most to least likely to explain most of the gap at CH-Dav. The assessment is based on the analyses above and on the literature, and it is provisional.</p>
   </div>
+  <aside class="interp" aria-label="Summary of the evidence">
+    <h3>Summary of the evidence</h3>
+    <p>The analyses describe a gap that is systematic, scales with the available energy, occurs in almost all conditions and with all instruments, and is largest for the northerly wind along the valley. Errors of the available energy explain at most half of it, and the water balance indicates that the missing turbulent energy is mostly sensible heat.</p>
+    <p>The most consistent explanation is sensible heat that the tower does not capture when air from the lake and the valley floor flows over a short stretch of forest and up the slope: horizontal and vertical advection, and heat carried by slow air motions. The coordinate rotation on the slope has not been tested yet and could add to the deficit. Reprocessing the raw data with a sector-wise planar fit and longer averaging periods is the most direct next test.</p>
+  </aside>
   <div class="expl">
     <article class="hyp">
       <div><h3>Lake, valley floor and along-valley flow north of the tower</h3><span class="verdict lead"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1 11 10H1Z" fill="currentColor"/></svg>Most likely</span><div class="share">Possible share: most of the deficit for northerly wind</div></div>
