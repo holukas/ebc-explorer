@@ -6,7 +6,8 @@ payload and injects it into reports/templates/ch_dav_overview.html.
 
 Terrain maps and lake data come from analyses 08-10 (swisstopo data, see
 scripts/download_ch_dav_terrain.py); footprint distances from analysis 12;
-error budget of the available-energy terms from analysis 13.
+error budget of the available-energy terms from analysis 13; water balance
+check of measured and closure-corrected LE from analysis 14.
 
 Run the analyses first, then:
     uv run python reports/build_ch_dav_overview.py [--fragment PATH]
@@ -245,6 +246,15 @@ def budget_payload():
     return {"rows": rows, "context": context, "closure": records(closure), "diurnal": records(diurnal)}
 
 
+def water_payload():
+    """Precipitation and evapotranspiration from measured and closure-corrected LE (analysis 14)."""
+    p = CH_DAV_PROCESSED
+    yearly = pd.read_csv(p / "14_water_balance_yearly.csv")
+    yearly = yearly[["year", "P_F", "P_ERA", "ET_meas", "ET_corr", "ET_budyko", "LE_measured_share"]]
+    periods = pd.read_csv(p / "14_water_balance_periods.csv")
+    return {"yearly": records(yearly), "periods": records(periods)}
+
+
 def terrain_payload():
     """Maps (embedded JPEGs), lake outline and sector properties from analyses 08-10."""
     p = CH_DAV_PROCESSED
@@ -292,6 +302,7 @@ def main(argv=None):
         "dav": dav_payload(),
         "terrain": terrain_payload(),
         "budget": budget_payload(),
+        "water": water_payload(),
     }
     text = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     for pattern in (r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",):  # no IP addresses in the page

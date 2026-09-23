@@ -277,6 +277,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <li><a href="#record">Yearly closure</a></li>
     <li><a href="#diurnal">Daily cycle</a></li>
     <li><a href="#budget">Error budget</a></li>
+    <li><a href="#water">Water balance</a></li>
     <li><a href="#wind">Wind direction</a></li>
     <li><a href="#terrain">Terrain and lake</a></li>
     <li><a href="#instruments">Instruments</a></li>
@@ -527,6 +528,28 @@ footer b { color: var(--ink-2); font-weight: 600; }
   </div>
 </section>
 
+<section class="block" id="water">
+  <div class="sec-head">
+    <div class="eyebrow">CH-Dav, 1998 to 2024, FLUXNET product</div>
+    <h2>Water balance check</h2>
+    <p>The FLUXNET product also contains H_CORR and LE_CORR: the measured H and LE multiplied by the same factor, AE divided by H + LE over a window of several days. The energy balance then closes and the ratio of H to LE stays the same. This report uses the measured fluxes, because closure computed with the corrected fluxes is 1 by definition and cannot show the cause of the gap. At CH-Dav the correction doubles both fluxes. For LE this can be checked with precipitation: over several years, evapotranspiration cannot exceed precipitation minus runoff.</p>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div><h3>Yearly precipitation and evapotranspiration</h3><p class="sub">ET from measured LE (gaps filled) and from LE_CORR. Precipitation from the site gauge and from ERA5.</p></div>
+      <button class="tbl-btn" type="button" data-table="c-water" aria-pressed="false">Table</button>
+    </div>
+    <div class="legend" id="lg-water"></div>
+    <div class="chart" id="c-water"></div>
+    <p class="note">From 1998 to 2024, ET from LE_CORR equals precipitation (ratio 1.01 with the gauge and with ERA5), which leaves no water for runoff. It exceeds precipitation in 16 of 27 years. ET from measured LE is 0.62 of precipitation, a runoff ratio of about 0.4. The Budyko curve, with potential ET from AE, gives 0.73. The water balance does not support doubling LE. At most part of the missing energy can be latent heat; the remainder must be sensible heat, or AE is overestimated.</p>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><h3>Mean yearly values per period</h3><p class="sub">Ratios from the sums over all years of the period.</p></div></div>
+    <div class="table-view" id="t-water" style="max-height:none"></div>
+    <p class="note">The gauge probably catches too little snow, and ERA5 is a grid-cell value. From 2019, measured LE is available for only about half of the half-hours, so yearly ET depends strongly on gap filling. ET from measured LE decreased from about 590 mm (1998 to 2018) to about 405 mm (2019 to 2024). Runoff of the catchment would turn this check into a quantitative limit.</p>
+  </div>
+</section>
+
 <section class="block" id="wind">
   <div class="sec-head">
     <div class="eyebrow">CH-Dav, daytime, 1998 to 2024</div>
@@ -739,6 +762,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
         <li><span class="t">Lake, open ground and forest in the footprint (done)</span><span class="d">With the ICOS footprint distances the lake contributes about 3 % and does not change closure within the northern sector. Next: 2D footprints with the crosswind spread (V_SIGMA in the ICOS data), and a footprint model that accounts for the slope.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">ICOS L2 fluxes</span></span></li>
         <li><span class="t">Canopy above the soil plots</span><span class="d">Check with the canopy height map whether plot 4 lies in a gap, and whether five plots represent the mix of closed canopy, gaps and stems in the footprint.</span><span class="tags"><span class="tag">plot coordinates</span><span class="tag">terrain and canopy maps</span></span></li>
         <li><span class="t">Lake surface temperature</span><span class="d">Compare lake and forest temperatures on days with northerly wind to estimate the heat taken up by lake air over the forest.</span><span class="tags"><span class="tag">lake temperature data</span></span></li>
+        <li><span class="t">Runoff of the catchment</span><span class="d">With precipitation and runoff, the long-term evapotranspiration is known independently of the eddy covariance data. This shows how much of the missing energy can be latent heat.</span><span class="tags"><span class="tag">runoff data</span></span></li>
         <li><span class="t">Tilt angles, mean vertical wind and σw/u* per sector</span><span class="d">Shows whether the flow at the sensor is tilted or distorted.</span><span class="tags"><span class="tag">EddyPro full output</span></span></li>
         <li><span class="t">Ogives and longer averaging periods per sector</span><span class="d">Estimates the flux carried by air motions slower than 30 minutes.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
         <li><span class="t">Second sonic on another side of the tower or at a second height</span><span class="d">Separates flow distortion from changes of the flux with height.</span><span class="tags"><span class="tag">field campaign</span></span></li>
@@ -747,7 +771,7 @@ footer b { color: var(--ink-2); font-weight: 600; }
     <div class="card">
       <div class="card-head"><div><h3>Corrections</h3></div></div>
       <ul class="step-list">
-        <li><span class="t">Sector-wise planar fit</span><span class="d">Coordinate rotation for each wind sector. Increased the slope by 0.03 to 0.05 at other sloping sites.</span><span class="tags"><span class="tag">EddyPro reprocessing</span></span></li>
+        <li><span class="t">Sector-wise planar fit</span><span class="d">Coordinate rotation for each wind sector. CH-Dav fluxes are currently processed with double rotation. Planar fit increased the slope by 0.03 to 0.05 at other sloping sites.</span><span class="tags"><span class="tag">EddyPro reprocessing</span></span></li>
         <li><span class="t">Longer averaging or ogive correction</span><span class="d">Adds the flux of slow air motions; 5 to 10 % of the residual in the literature.</span><span class="tags"><span class="tag">raw 20 Hz data</span></span></li>
         <li><span class="t">Model for secondary circulations</span><span class="d">Adds modelled flux (Mauder et al., 2021) using the boundary-layer height from ERA5. About +8 % of H for flat terrain.</span><span class="tags"><span class="tag hh">half-hourly data</span><span class="tag">ERA5</span></span></li>
         <li><span class="t">Measured tree temperature for biomass storage</span><span class="d">Use stem and branch temperatures instead of air temperature.</span><span class="tags"><span class="tag">tree temperature sensors</span></span></li>
@@ -790,6 +814,10 @@ const GLOSS = [
     ["TE", "Turbulent energy", "Heat carried away by air movement: H + LE."],
     ["H", "Sensible heat flux", "Heat that warms the air."],
     ["LE", "Latent heat flux", "Energy used to evaporate water from soil and leaves."],
+    ["H_CORR", "Corrected sensible heat flux", "H multiplied by a factor so that the energy balance closes (FLUXNET product)."],
+    ["LE_CORR", "Corrected latent heat flux", "LE multiplied by the same factor as H so that the energy balance closes (FLUXNET product)."],
+    ["ET", "Evapotranspiration", "Water evaporated from soil, leaves and snow, in mm. Calculated from LE."],
+    ["P", "Precipitation", "Rain and snow, in mm."],
     ["Rn", "Net radiation", "Incoming minus outgoing radiation from sun and sky."],
     ["G", "Soil heat flux", "Heat flowing into or out of the soil, measured with plates a few cm deep."],
     ["Ssoil", "Soil heat storage", "Heat stored in the soil layer above the soil heat flux plates.", "S soil"],
@@ -1342,6 +1370,48 @@ function renderStorageTable() {
   node.innerHTML = tableHTML({ cols: [{ key: "season", label: "Season" }, { key: "a", label: "Without storage", n: 1 }, { key: "b", label: "With storage", n: 1 }, { key: "d", label: "Difference", n: 1 }], rows });
 }
 
+/* ---------- water balance ---------- */
+const WAT = DATA.water;
+function renderWater(node) {
+  const rows = WAT.yearly;
+  const f = frame(node, 300, { l: 48, r: 16, t: 12, b: 30 });
+  const x = scale(1997.5, 2024.5, f.m.l, f.w - f.m.r), y = scale(0, 1400, f.h - f.m.b, f.m.t);
+  yAxis(f, y, [0, 200, 400, 600, 800, 1000, 1200, 1400], t => String(t));
+  el("line", { x1: f.m.l, x2: f.w - f.m.r, y1: y(0), y2: y(0), class: "base-line" }, f.svg);
+  for (const t of [2000, 2005, 2010, 2015, 2020]) text(f.svg, x(t), f.h - 10, String(t), { "text-anchor": "middle" });
+  text(f.svg, f.m.l + 4, f.m.t + 10, "mm per year");
+  const series = [["P_F", "P, site gauge", "--s1"], ["P_ERA", "P, ERA5", "--s5"], ["ET_corr", "ET from LE_CORR", "--s2"], ["ET_meas", "ET from measured LE", "--s3"]];
+  for (const [k, , v] of series) {
+    const color = `var(${v})`;
+    const d = rows.filter(r => r[k] != null).map((r, i) => `${i ? "L" : "M"}${x(r.year)},${y(r[k])}`).join("");
+    el("path", { d, fill: "none", stroke: color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-dasharray": k === "P_ERA" ? "5 4" : null }, f.svg);
+    rows.forEach(r => { if (r[k] != null) el("circle", { cx: x(r.year), cy: y(r[k]), r: 3, fill: color, stroke: "var(--surface)", "stroke-width": 1.5 }, f.svg); });
+  }
+  legend("lg-water", series.map(([, l, v]) => [l, `var(${v})`]));
+  const guide = el("line", { y1: f.m.t, y2: f.h - f.m.b, stroke: "var(--axis)", visibility: "hidden" }, f.svg);
+  const hit = el("rect", { x: f.m.l, y: 0, width: f.iw, height: f.h, fill: "transparent" }, f.svg);
+  hit.addEventListener("pointermove", ev => {
+    const r = f.svg.getBoundingClientRect(), sx = (ev.clientX - r.left) * f.w / r.width;
+    const yr = Math.max(1998, Math.min(2024, Math.round(x.invert(sx))));
+    const d = rows.find(q => q.year === yr); if (!d) return;
+    guide.setAttribute("x1", x(yr)); guide.setAttribute("x2", x(yr)); guide.setAttribute("visibility", "visible");
+    showTip(`<b>${yr}</b>` + series.map(([k, l, v]) => row(l, `${fmt(d[k], 0)} mm`, cssVar(v))).join("")
+      + row("measured LE", `${fmt(d.LE_measured_share * 100, 0)} % of half-hours`), ev);
+  });
+  hit.addEventListener("pointerleave", () => { hideTip(); guide.setAttribute("visibility", "hidden"); });
+  setTable(node, [{ key: "year", label: "Year" }, { key: "P_F", label: "P, gauge (mm)", n: 1, d: 0 }, { key: "P_ERA", label: "P, ERA5 (mm)", n: 1, d: 0 },
+    { key: "ET_meas", label: "ET, measured LE (mm)", n: 1, d: 0 }, { key: "ET_corr", label: "ET, LE_CORR (mm)", n: 1, d: 0 },
+    { key: "ET_budyko", label: "ET, Budyko (mm)", n: 1, d: 0 }], rows);
+}
+function renderWaterTable() {
+  const rows = WAT.periods.map(r => ({ ...r, share: r.LE_measured_share * 100 }));
+  $("#t-water").innerHTML = tableHTML({ cols: [{ key: "period", label: "Period" }, { key: "P_F_mean_mm", label: "P, gauge (mm)", n: 1, d: 0 },
+    { key: "ET_meas_mean_mm", label: "ET, measured LE (mm)", n: 1, d: 0 }, { key: "ET_corr_mean_mm", label: "ET, LE_CORR (mm)", n: 1, d: 0 },
+    { key: "ET_meas/P_F", label: "ET / P, measured LE", n: 1 }, { key: "ET_corr/P_F", label: "ET / P, LE_CORR", n: 1 },
+    { key: "ET_budyko/P_F", label: "ET / P, Budyko", n: 1 }, { key: "years_ET_corr_gt_P_F", label: "Years with ET from LE_CORR above P", n: 1, d: 0 },
+    { key: "share", label: "Measured LE (% of half-hours)", n: 1, d: 0 }], rows });
+}
+
 /* ---------- wind ---------- */
 function renderPolar(node) {
   const rows = DAV.sector_diag;
@@ -1719,6 +1789,7 @@ matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderHeat
 new MutationObserver(renderHeats).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 register("c-budget", renderBudget);
 register("c-plates", renderPlates);
+register("c-water", renderWater); renderWaterTable();
 renderGVariants();
 register("c-map", renderMap);
 register("c-profiles", renderProfiles);
